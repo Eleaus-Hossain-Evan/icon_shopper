@@ -75,7 +75,7 @@ class KElevatedButton extends HookConsumerWidget {
     this.foregroundColor,
     this.loading,
     this.child,
-    this.isSecondary = true,
+    this.isSecondary,
     this.textStyle,
     this.size,
     this.padding,
@@ -87,7 +87,7 @@ class KElevatedButton extends HookConsumerWidget {
   final VoidCallback? onPressed;
   final bool? loading;
   final Widget? child;
-  final bool isSecondary;
+  final bool? isSecondary;
   final TextStyle? textStyle;
   final Size? size;
   final EdgeInsetsGeometry? padding;
@@ -118,12 +118,16 @@ class KElevatedButton extends HookConsumerWidget {
             TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w600,
-              color:
-                  isSecondary ? AppColors.secondary200 : AppColors.primary300,
+              // color: isSecondary == null
+              //     ? AppColors.text200
+              //     : (isSecondary!
+              //         ? AppColors.secondary200
+              //         : AppColors.primary300),
             ),
-        foregroundColor: foregroundColor ??
-            (isSecondary ? AppColors.secondary200 : AppColors.primary300),
-        backgroundColor: backgroundColor,
+        foregroundColor: isSecondary == null
+            ? AppColors.text200
+            : (isSecondary! ? AppColors.secondary200 : AppColors.primary300),
+        backgroundColor: backgroundColor ?? AppColors.white,
         padding: padding,
         minimumSize: size,
       ),
@@ -134,9 +138,11 @@ class KElevatedButton extends HookConsumerWidget {
               width: 30.h,
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  isSecondary
-                      ? context.colors.onSecondaryContainer
-                      : context.colors.onPrimaryContainer,
+                  isSecondary == null
+                      ? AppColors.text200
+                      : (isSecondary!
+                          ? context.colors.onSecondaryContainer
+                          : context.colors.onPrimaryContainer),
                 ),
               ),
             )
@@ -402,6 +408,7 @@ class KTextButton extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.style,
     this.text,
+    this.isSecondary,
     this.foregroundColor,
   }) : super(key: key);
 
@@ -412,15 +419,24 @@ class KTextButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final ButtonStyle? style;
   final Color? foregroundColor;
+  final bool? isSecondary;
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        foregroundColor: foregroundColor,
+    return Theme(
+      data: ThemeData(),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          foregroundColor: isSecondary == null
+              ? foregroundColor
+              : (isSecondary!
+                  ? context.colors.secondary
+                  : context.colors.primary),
+        ),
+        onPressed: onPressed,
+        child: child ??
+            (text.isEmptyOrNull ? const SizedBox.shrink() : Text(text!)),
       ),
-      onPressed: onPressed,
-      child: child ?? Text(text ?? ""),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/auth/presentation/forgot_password_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
@@ -41,119 +42,89 @@ class LoginScreen extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: crossStart,
             children: [
-              Gap(80.h),
+              Gap(100.h),
               const AppLogoWidget(),
-              gap48,
-              Text(
-                AppStrings.login.toTitleCase(),
-                style: CustomTextStyles.sHeadlineLargeBold,
-              ),
-              gap8,
-              Text(
-                AppStrings.loginBelowText,
-                style: CustomTextStyles.sBodyRegular,
-              ),
-              gap24,
-              KTextFormField2(
-                containerPadding: padding0,
-                controller: phoneController,
-                focusNode: phoneFocus,
-                keyboardType: TextInputType.text,
-                hintText: AppStrings.phoneNumber,
-              ),
-              gap16,
-              KTextFormField2(
-                containerPadding: padding0,
-                controller: passwordController,
-                focusNode: passwordFocus,
-                keyboardType: TextInputType.text,
-                hintText: AppStrings.password,
-                isObscure: true,
-              ),
-
-              gap24,
-              KFilledButton(
-                onPressed: () async {
-                  ref.read(authProvider.notifier).login(
-                        phone: phoneController.text,
-                        password: passwordController.text,
-                      );
-                },
-                text: AppStrings.login,
-              ),
-              // FilledButton(
-              //   onPressed: () {},
-              //   child: Text('Login with Google'),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () {},
-              //   child: Text('Login with Facebook'),
-              // ),
-              // OutlinedButton(
-              //   onPressed: () {},
-              //   child: Text('Login with Apple'),
-              // ),
-              gap24,
-              Align(
-                alignment: Alignment.centerRight,
-                child: Row(
-                  mainAxisAlignment: mainSpaceBetween,
+              Gap(60.h),
+              ContainerBGWhiteSlideFromTop(
+                bgColor: AppColors.bg200,
+                child: Column(
                   children: [
-                    // InkWell(
-                    //   onTap: () => remember.value = !remember.value,
-                    //   child: Row(
-                    //     children: [
-                    //       Checkbox(
-                    //         value: remember.value,
-                    //         onChanged: (value) {
-                    //           remember.value = value!;
-                    //         },
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(4.r),
-                    //         ),
-                    //         side: BorderSide(
-                    //           color: ColorPalate.harrisonGrey1000,
-                    //           width: 1.5.w,
-                    //         ),
-                    //         visualDensity: VisualDensity.compact,
-                    //       ),
-                    //       Text(
-                    //         AppStrings.remember,
-                    //         style: CustomTextStyle.textStyle16w500HG900,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    Flexible(
-                      child: KInkWell(
-                        // style: ButtonStyle(
-                        //   padding: MaterialStateProperty.all(EdgeInsets.zero),
-                        // ),
-                        child: const Text(
-                          AppStrings.forgotPassword,
-                          // style: ,
-                        ),
-                        onTap: () {
-                          // context.push(ResetPasswordScreen.route);
-                        },
-                      ),
+                    Row(
+                      crossAxisAlignment: crossEnd,
+                      children: [
+                        AppStrings.login
+                            .toTitleCase()
+                            .text
+                            .textStyle(ContentTextStyle.headline1)
+                            .make(),
+                        gap8,
+                        AppStrings.toIconShopper.text
+                            .textStyle(CustomTextStyles.sBodyRegular)
+                            .make(),
+                      ],
+                    ),
+                    gap28,
+                    KTextFormField2(
+                      containerPadding: padding0,
+                      controller: phoneController,
+                      focusNode: phoneFocus,
+                      keyboardType: TextInputType.text,
+                      hintText: AppStrings.phoneNumber,
+                    ),
+                    gap16,
+                    KTextFormField2(
+                      containerPadding: padding0,
+                      controller: passwordController,
+                      focusNode: passwordFocus,
+                      keyboardType: TextInputType.text,
+                      hintText: AppStrings.password,
+                      isObscure: true,
+                    ),
+                    gap24,
+                    KFilledButton(
+                      onPressed: () async {
+                        // ref.read(authProvider.notifier).login(
+                        //       phone: phoneController.text,
+                        //       password: passwordController.text,
+                        //     );
+                      },
+                      text: AppStrings.login,
+                    ),
+                    gap8,
+                    KTextButton(
+                      padding: paddingH12,
+                      child: AppStrings.forgotPassword.text
+                          .textStyle(ContentTextStyle.bodyText1)
+                          .bold
+                          .base
+                          .colorTertiary(context)
+                          .make(),
+                      onPressed: () {
+                        context.push(ForgotPasswordScreen.route);
+                      },
                     ),
                   ],
                 ),
               ),
               gap24,
-              const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  AppStrings.dontHaveAccount,
-                ),
-              ),
-              gap16,
-              KElevatedButton(
-                onPressed: () {
-                  context.push(RegisterScreen.route);
-                },
-                text: AppStrings.createAccount,
+              Row(
+                mainAxisAlignment: mainCenter,
+                children: [
+                  const Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      AppStrings.dontHaveAccount,
+                    ),
+                  ),
+                  gap2,
+                  KTextButton(
+                    isSecondary: false,
+                    onPressed: () {
+                      context.push(RegisterScreen.route);
+                    },
+                    text: AppStrings.register,
+                  ),
+                ],
               ),
             ],
           ),

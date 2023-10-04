@@ -31,7 +31,7 @@ abstract class AppTheme {
       bottomSheetModalBackgroundColor: SchemeColor.surface,
       bottomSheetBackgroundColor: SchemeColor.surface,
       dialogBackgroundSchemeColor: SchemeColor.background,
-      buttonMinSize: const Size.fromHeight(kToolbarHeight),
+      buttonMinSize: const Size.fromHeight(48),
       outlinedButtonRadius: 8.r,
       // outlinedButtonTextStyle: MaterialStateProperty.all(
       //   TextStyle(
@@ -59,7 +59,7 @@ abstract class AppTheme {
       //     color: AppColors.bg300,
       //   ),
       // ),
-      elevatedButtonSchemeColor: SchemeColor.secondary,
+      elevatedButtonSchemeColor: SchemeColor.inverseSurface,
       outlinedButtonOutlineSchemeColor: SchemeColor.secondary,
       outlinedButtonSchemeColor: SchemeColor.secondary,
       adaptiveSplash: const FlexAdaptive.all(),

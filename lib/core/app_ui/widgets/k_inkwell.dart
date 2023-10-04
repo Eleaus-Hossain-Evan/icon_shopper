@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class KInkWell extends StatelessWidget {
@@ -24,11 +25,12 @@ class KInkWell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: backgroundColor,
-      borderRadius: borderRadius,
+      borderRadius: borderRadius ?? BorderRadius.circular(4.r),
       child: InkWell(
         onTap: onTap,
         customBorder: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.zero),
+          borderRadius: borderRadius ?? BorderRadius.circular(4.r),
+        ),
         // borderRadius: borderRadius ?? BorderRadius.zero,
         radius: radius,
         highlightColor: context.colors.secondary.withOpacity(.12),

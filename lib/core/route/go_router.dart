@@ -3,7 +3,9 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/auth/presentation/forgot_password_screen.dart';
 import 'package:icon_shopper/features/auth/presentation/login_screen.dart';
+import 'package:icon_shopper/features/auth/presentation/register_screen.dart';
 import 'package:icon_shopper/features/home/presentation/home_screen.dart';
 import 'package:icon_shopper/features/splash/splash_screen.dart';
 
@@ -73,6 +75,18 @@ class RouterNotifier extends ChangeNotifier {
         GoRoute(
           path: LoginScreen.route,
           builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: RegisterScreen.route,
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            child: const RegisterScreen(),
+          ),
+        ),
+        GoRoute(
+          path: ForgotPasswordScreen.route,
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            child: const ForgotPasswordScreen(),
+          ),
         ),
         GoRoute(
           path: HomeScreen.route,

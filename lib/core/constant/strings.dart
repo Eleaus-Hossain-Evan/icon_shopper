@@ -73,15 +73,13 @@ class AppStrings {
   static const String login = "Login";
   static const String signupBelowText =
       "Press the signup button for create a new account";
-  static const String loginBelowText =
-      "Press the login button for logged into the app";
+  static const String toIconShopper = "to Icon Shopper";
   static const String remember = "Remember Me";
   static const String forgotPassword = "Forgot Password";
   static const String forgotBelowText =
       "Enter you number to get OTP for resetting you password";
   static const String dontHaveAccount = "Don't have account yet?";
   static const String alreadyHaveAccount = "Already have an Account";
-  static const String createAccount = "Create Account";
   static const String orSignUpWith = "or Sign up with";
   static const String signUpPrivacyPolicy =
       "By clicking Sign Up, you agree to our Terms of Use and our Privacy Policy.";
