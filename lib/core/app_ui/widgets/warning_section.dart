@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core.dart';
+import 'animations/fade_animation.dart';
+import 'animations/slide_animation.dart';
 
 class WarningSection extends HookConsumerWidget {
   const WarningSection({

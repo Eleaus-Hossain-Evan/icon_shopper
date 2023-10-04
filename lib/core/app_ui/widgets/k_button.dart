@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core.dart';
+import 'k_inkwell.dart';
 
 class KIconElevatedButton extends HookConsumerWidget {
   const KIconElevatedButton({
@@ -334,7 +335,7 @@ class KFilledButton extends HookConsumerWidget {
         foregroundColor: foregroundColor ?? AppColors.bg200,
         backgroundColor: isSecondary ? AppColors.secondary : backgroundColor,
         // fixedSize: size ?? const Size.fromHeight(40),
-        minimumSize: size ?? const Size.fromHeight(40),
+        minimumSize: size,
         padding: padding,
       ),
       onPressed: onPressed,

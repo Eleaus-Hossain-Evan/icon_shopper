@@ -17,14 +17,7 @@ class AppLogoWidget extends StatelessWidget {
         tag: "app-logo",
         child: Column(
           children: [
-            Images.logo.assetImage(width: .6.sw).centered(),
-            "Merchant"
-                .text
-                .xl3
-                .bold
-                .colorPrimary(context)
-                .italic
-                .makeCentered(),
+            Images.logoSmall.assetImage(width: .6.sw).centered(),
             divider.w(.3.sw).centered(),
           ],
         ),

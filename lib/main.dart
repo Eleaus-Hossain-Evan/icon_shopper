@@ -95,8 +95,8 @@ class MyApp extends HookConsumerWidget {
                     ? ThemeMode.dark
                     : ThemeMode.light,
 
-            theme: MyTheme.lightTheme,
-            darkTheme: MyTheme.darkTheme,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
           ),
         );
       },

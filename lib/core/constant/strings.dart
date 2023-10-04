@@ -33,7 +33,7 @@ class AppStrings {
   static const String phoneNumber = "Phone Number";
   static const String address = "Address";
   static const String hubDetail = "Hub Detail";
-  static const String phoneNumberOrEmail = "Phone Number or Email";
+  static const String phone = "Phone Number";
   static const String contactUs = "Contact Us";
   static const String privacyPolicy = "Privacy & Policy";
   static const String bankDetail = "Bank Detail";
@@ -69,8 +69,8 @@ class AppStrings {
   static const String notifications = "Notifications";
 
   //#----------------  Auth ----------------
-  static const String signUp = "Sign Up";
-  static const String login = "Sign In";
+  static const String register = "Register";
+  static const String login = "Login";
   static const String signupBelowText =
       "Press the signup button for create a new account";
   static const String loginBelowText =

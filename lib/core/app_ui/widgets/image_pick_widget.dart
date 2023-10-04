@@ -9,6 +9,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core.dart';
+import 'k_button.dart';
+import 'k_inkwell.dart';
+import 'k_modal_bottom_sheet.dart';
 
 class ImagePickWidget extends HookConsumerWidget {
   const ImagePickWidget({

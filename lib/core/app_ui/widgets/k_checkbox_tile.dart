@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core.dart';
+import 'k_inkwell.dart';
 
 class KCheckBoxTile extends StatelessWidget {
   const KCheckBoxTile(

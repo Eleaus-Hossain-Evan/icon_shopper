@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core.dart';
+import 'container_bg_white.dart';
 
 class IndividualSection extends StatelessWidget {
   const IndividualSection({

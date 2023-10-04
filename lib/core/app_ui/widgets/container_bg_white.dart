@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core.dart';
+import 'animations/animations.dart';
 
 class ContainerBGWhiteSlideFromRight extends StatelessWidget {
   const ContainerBGWhiteSlideFromRight({

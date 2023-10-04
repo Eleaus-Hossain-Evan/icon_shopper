@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core.dart';
+import 'k_inkwell.dart';
 
 class KTextFormField extends HookConsumerWidget {
   const KTextFormField({
@@ -210,64 +211,57 @@ class KTextFormField2 extends HookConsumerWidget {
         width: 1,
       ),
     );
-    return AnimatedContainer(
-      duration: 400.milliseconds,
-      margin: containerPadding ??
-          (enabled
-              ? EdgeInsets.symmetric(horizontal: 20.w)
-              : EdgeInsets.symmetric(horizontal: 10.w)),
-      child: TextFormField(
-        obscureText: isObscure ? hideText.value : false,
-        controller: controller,
-        focusNode: focusNode,
-        readOnly: readOnly,
-        enabled: enabled,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        // style: CustomTextStyle.textStyle14w400B900,
-        textAlign: textAlign,
-        keyboardType: keyboardType,
-        maxLines: maxLines,
-        autofocus: autofocus,
-        decoration: InputDecoration(
-          hintText: isLabel ? null : hintText,
-          // hintStyle: hintTextStyle ?? CustomTextStyle.textStyle14w500B800,
-          labelText: isLabel ? hintText : null,
-          // labelStyle: enabled
-          //     ? CustomTextStyle.textStyle12w400B800
-          //     : CustomTextStyle.textStyle14w400B800,
-          contentPadding: contentPadding,
-          fillColor: fillColor,
-          border: border,
-          enabledBorder: border,
-          focusedBorder: border.copyWith(
-            borderSide: BorderSide(
-              color: borderColor,
-            ),
+    return TextFormField(
+      obscureText: isObscure ? hideText.value : false,
+      controller: controller,
+      focusNode: focusNode,
+      readOnly: readOnly,
+      enabled: enabled,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      // style: CustomTextStyle.textStyle14w400B900,
+      textAlign: textAlign,
+      keyboardType: keyboardType,
+      maxLines: maxLines,
+      autofocus: autofocus,
+      decoration: InputDecoration(
+        hintText: isLabel ? null : hintText,
+        // hintStyle: hintTextStyle ?? CustomTextStyle.textStyle14w500B800,
+        labelText: isLabel ? hintText : null,
+        // labelStyle: enabled
+        //     ? CustomTextStyle.textStyle12w400B800
+        //     : CustomTextStyle.textStyle14w400B800,
+        contentPadding: contentPadding,
+        fillColor: fillColor,
+        border: border,
+        enabledBorder: border,
+        focusedBorder: border.copyWith(
+          borderSide: BorderSide(
+            color: borderColor,
           ),
-          disabledBorder: border.copyWith(
-            borderSide: const BorderSide(
-              color: Colors.transparent,
-            ),
-          ),
-          filled: true,
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon ??
-              (isObscure
-                  ? KInkWell(
-                      borderRadius: radius24,
-                      onTap: () {
-                        hideText.value = !hideText.value;
-                      },
-                      child: hideText.value
-                          ? const Icon(EvaIcons.eye_off_2_outline)
-                          : const Icon(EvaIcons.eye),
-                    )
-                  : null),
         ),
-        onTap: onTap,
-        validator: validator,
-        onFieldSubmitted: onFieldSubmitted,
+        disabledBorder: border.copyWith(
+          borderSide: const BorderSide(
+            color: Colors.transparent,
+          ),
+        ),
+        filled: true,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon ??
+            (isObscure
+                ? KInkWell(
+                    borderRadius: radius24,
+                    onTap: () {
+                      hideText.value = !hideText.value;
+                    },
+                    child: hideText.value
+                        ? const Icon(EvaIcons.eye_off_2_outline)
+                        : const Icon(EvaIcons.eye),
+                  )
+                : null),
       ),
+      onTap: onTap,
+      validator: validator,
+      onFieldSubmitted: onFieldSubmitted,
     );
   }
 }

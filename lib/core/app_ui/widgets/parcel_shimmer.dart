@@ -4,6 +4,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core.dart';
+import 'k_divider.dart';
+import 'k_list_view_separated.dart';
 
 class RecentParcelShimmerWidget extends StatelessWidget {
   const RecentParcelShimmerWidget({

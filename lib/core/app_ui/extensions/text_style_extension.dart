@@ -1,9 +1,43 @@
 part of 'extensions.dart';
 
 extension TextStyleHelpers on TextStyle {
-  TextStyle get bold => copyWith(fontWeight: FontWeight.bold);
+  /// FontWeight value of `w900`
+  TextStyle get black => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontWeight value of `w800`
+  TextStyle get extraBold => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontWeight value of `w700`
+  TextStyle get bold => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontWeight value of `w600`
+  TextStyle get semiBold => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontWeight value of `w500`
+  TextStyle get medium => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontWeight value of `w400`
+  TextStyle get regular => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontWeight value of `w300`
+  TextStyle get light => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontWeight value of `w200`
+  TextStyle get extraLight => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontWeight value of `w100`
+  TextStyle get thin => copyWith(fontWeight: AppFontWeight.thin);
+
+  /// FontStyle value of `italic`
   TextStyle get italic => copyWith(fontStyle: FontStyle.italic);
+
   TextStyle letterSpace(double value) => copyWith(letterSpacing: value);
+
+  TextStyle font(double value) => copyWith(fontSize: value);
+  TextStyle color(Color value) => copyWith(color: value);
+  TextStyle colorPrimary() => copyWith(color: AppColors.primary);
+  TextStyle colorSecondary() => copyWith(color: AppColors.secondary);
+  TextStyle colorTertiary() => copyWith(color: AppColors.tertiary);
 }
 
 extension TextThemeStylesX on BuildContext {
