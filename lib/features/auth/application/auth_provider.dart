@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/auth/application/auth_state.dart';
+import 'package:icon_shopper/features/auth/domain/signup_body.dart';
 import 'package:icon_shopper/features/auth/infastructure/auth_repo.dart';
 
 import '../domain/model/user_model.dart';
@@ -16,6 +17,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> login({required String phone, required String password}) async {
     state = state.copyWith(loading: true);
+
     final result = await repo.login(
       phone: phone,
       password: password,
@@ -43,10 +45,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
     // _ref.read(loggedInProvider.notifier).isLoggedIn();
   }
 
-  Future<void> register() async {
+  Future<bool> register(SignUpBody body) async {
+    bool success = false;
     state = state.copyWith(loading: true);
-    await Future.delayed(const Duration(seconds: 2));
-    state = state.copyWith(loading: false);
+
+    final result = await repo.register(body);
+
+    state = result.fold((l) {
+      showErrorToast(l.error.message);
+      return state.copyWith(loading: false);
+    }, (r) {
+      showToast(r.message);
+      success = r.success;
+      return state.copyWith(loading: false);
+    });
+
+    return success;
   }
 
   Future<void> forgotPassword() async {
@@ -66,4 +80,24 @@ class AuthNotifier extends StateNotifier<AuthState> {
     await Future.delayed(const Duration(seconds: 2));
     state = state.copyWith(loading: false);
   }
+
+  Future<bool> verifyOtp(String otp) async {
+    bool success = false;
+    state = state.copyWith(loading: true);
+
+    final result = await repo.verifyOtp(otp);
+
+    state = result.fold((l) {
+      showErrorToast(l.error.message);
+      return state.copyWith(loading: false);
+    }, (r) {
+      showToast(r.message);
+      success = r.success;
+      return state.copyWith(loading: false);
+    });
+
+    return success;
+  }
+
+  void resetPassword(String text, String value) {}
 }

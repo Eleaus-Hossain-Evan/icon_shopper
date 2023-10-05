@@ -32,3 +32,4 @@ export 'animations/animations.dart';
 export 'warning_section.dart';
 export 'otp_check.dart';
 export 'app_logo_widget.dart';
+export 'k_dialog.dart';

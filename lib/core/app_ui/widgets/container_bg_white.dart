@@ -13,6 +13,7 @@ class ContainerBGWhiteSlideFromRight extends StatelessWidget {
     this.borderColor = AppColors.bg100,
     this.borderRadius,
     this.isBorder = false,
+    this.margin,
   }) : super(key: key);
 
   final Widget child;
@@ -20,6 +21,7 @@ class ContainerBGWhiteSlideFromRight extends StatelessWidget {
   final Color bgColor, borderColor;
   final BorderRadiusGeometry? borderRadius;
   final bool isBorder;
+  final EdgeInsets? margin;
   @override
   Widget build(BuildContext context) {
     final border = isBorder
@@ -37,7 +39,7 @@ class ContainerBGWhiteSlideFromRight extends StatelessWidget {
       child: Container(
         padding: padding ?? padding20,
         width: 1.sw,
-        // margin: EdgeInsets.only(bottom: 28.h),
+        margin: margin,
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: borderRadius ?? BorderRadius.circular(16.r),
@@ -119,10 +121,11 @@ class ContainerBGWhiteSlideFromTop extends StatelessWidget {
     this.padding,
     this.bgColor = AppColors.bg100,
     this.borderRadius,
+    this.margin,
   }) : super(key: key);
 
   final Widget child;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsets? padding, margin;
   final Color bgColor;
   final BorderRadiusGeometry? borderRadius;
   @override
@@ -133,7 +136,7 @@ class ContainerBGWhiteSlideFromTop extends StatelessWidget {
       child: Container(
         padding: padding ?? padding20,
         width: 1.sw,
-        // margin: EdgeInsets.only(bottom: 28.h),
+        margin: margin,
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: borderRadius ?? BorderRadius.circular(16.r),

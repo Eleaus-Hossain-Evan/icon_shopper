@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/features/auth/presentation/forgot_password_screen.dart';
+import 'package:icon_shopper/features/auth/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
@@ -18,7 +18,7 @@ class LoginScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useMemoized(GlobalKey.new);
-    final phoneController = useTextEditingController(text: "01956945283");
+    final phoneController = useTextEditingController(text: "01939418891");
     final passwordController = useTextEditingController(text: "123456");
     final phoneFocus = useFocusScopeNode();
     final passwordFocus = useFocusScopeNode();
@@ -42,9 +42,13 @@ class LoginScreen extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: crossStart,
             children: [
-              Gap(100.h),
+              Gap(120.h),
+
+              //. App Logo
               const AppLogoWidget(),
               Gap(60.h),
+
+              //. Login Form
               ContainerBGWhiteSlideFromTop(
                 bgColor: AppColors.bg200,
                 child: Column(
@@ -64,6 +68,8 @@ class LoginScreen extends HookConsumerWidget {
                       ],
                     ),
                     gap28,
+
+                    //. Phone Number
                     KTextFormField2(
                       containerPadding: padding0,
                       controller: phoneController,
@@ -72,6 +78,8 @@ class LoginScreen extends HookConsumerWidget {
                       hintText: AppStrings.phoneNumber,
                     ),
                     gap16,
+
+                    //. Password
                     KTextFormField2(
                       containerPadding: padding0,
                       controller: passwordController,
@@ -81,16 +89,21 @@ class LoginScreen extends HookConsumerWidget {
                       isObscure: true,
                     ),
                     gap24,
+
+                    //. Login Button
                     KFilledButton(
                       onPressed: () async {
-                        // ref.read(authProvider.notifier).login(
-                        //       phone: phoneController.text,
-                        //       password: passwordController.text,
-                        //     );
+                        FocusScope.of(context).unfocus();
+                        ref.read(authProvider.notifier).login(
+                              phone: phoneController.text,
+                              password: passwordController.text,
+                            );
                       },
                       text: AppStrings.login,
                     ),
                     gap8,
+
+                    //. going to forgot password page
                     KTextButton(
                       padding: paddingH12,
                       child: AppStrings.forgotPassword.text
@@ -107,6 +120,8 @@ class LoginScreen extends HookConsumerWidget {
                 ),
               ),
               gap24,
+
+              //. going to sign up page
               Row(
                 mainAxisAlignment: mainCenter,
                 children: [

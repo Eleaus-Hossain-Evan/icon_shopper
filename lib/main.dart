@@ -18,6 +18,7 @@ Future<void> main() async {
     true, // isEnable ，if production ，please false
     isShowFile: false, // In the IDE, whether the file name is displayed
     isShowTime: false, // In the IDE, whether the time is displayed
+    isShowNavigation: true,
     levelVerbose: 247,
     levelDebug: 15,
     levelInfo: 10,

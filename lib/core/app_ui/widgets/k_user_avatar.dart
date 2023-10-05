@@ -49,7 +49,7 @@ class KUserAvatar extends HookConsumerWidget {
                   bgColor ?? Theme.of(context).colorScheme.background,
               backgroundImage: !isEmptyUrl
                   ? CachedNetworkImageProvider(
-                      APIRoute.BASE_URL + url,
+                      url,
                       errorListener: (error) => error.toString().text.make(),
                     )
                   : null,

@@ -19,8 +19,8 @@ class OtpCheckWidget extends HookConsumerWidget {
     required this.onTapOtpCheck,
     this.controller,
     this.onFinishedTimer,
-    this.length = 6,
-    this.duration = 120,
+    this.length = 4,
+    this.duration = 5,
   });
 
   final void Function(String) onTapOtpCheck;
@@ -64,7 +64,7 @@ class OtpCheckWidget extends HookConsumerWidget {
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration!.copyWith(
         border: Border.all(color: AppColors.success),
-        color: context.colors.primaryContainer.withOpacity(.211),
+        color: context.colors.secondary.withOpacity(.211),
       ),
     );
 
@@ -74,7 +74,7 @@ class OtpCheckWidget extends HookConsumerWidget {
           color: context.colors.error.withOpacity(.4),
           width: 1.4,
         ),
-        color: context.colors.errorContainer.withOpacity(.2),
+        color: context.colors.error.withOpacity(.2),
         borderRadius: BorderRadius.circular(18.r),
       ),
     );
@@ -94,7 +94,11 @@ class OtpCheckWidget extends HookConsumerWidget {
         children: [
           const Text(
             "Enter OTP",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1.2,
+            ),
           ),
           gap16,
           Pinput(
@@ -138,7 +142,10 @@ class OtpCheckWidget extends HookConsumerWidget {
               onFinishedTimer?.call();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Time is over!'),
+                  content: Text(
+                    'Time is over!',
+                    style: TextStyle(fontWeight: AppFontWeight.medium),
+                  ),
                 ),
               );
             },

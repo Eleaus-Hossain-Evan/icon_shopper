@@ -11,7 +11,7 @@ class APIRoute {
 
   //#<<---------------- AUTH ------------------>>
   static const String SIGN_UP = "${API_V1}registration";
-  static const String VERIFY_SIGN_UP = "${API_V1}otp/verify";
+  static const String VERIFY_OTP = "${API_V1}otp/verify";
   static const String LOGIN = "${API_V1}login";
   static const String PROFILE_VIEW = "${API_V1}my-profile";
   static const String PROFILE_UPDATE = "${API_V1}update-profile";

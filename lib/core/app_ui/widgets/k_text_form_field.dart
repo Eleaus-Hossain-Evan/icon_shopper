@@ -213,6 +213,7 @@ class KTextFormField2 extends HookConsumerWidget {
     );
     return TextFormField(
       obscureText: isObscure ? hideText.value : false,
+      obscuringCharacter: '*',
       controller: controller,
       focusNode: focusNode,
       readOnly: readOnly,
@@ -246,6 +247,7 @@ class KTextFormField2 extends HookConsumerWidget {
         ),
         filled: true,
         prefixIcon: prefixIcon,
+
         suffixIcon: suffixIcon ??
             (isObscure
                 ? KInkWell(
