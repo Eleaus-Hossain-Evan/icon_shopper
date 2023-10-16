@@ -21,51 +21,46 @@ class ProfilePicWidget extends HookConsumerWidget {
 
     return KInkWell(
       onTap: onEditTap,
-      borderRadius: radius16,
-      child: Container(
-        padding: padding20,
-        decoration: BoxDecoration(
-          color: AppColors.bg100,
-          borderRadius: radius16,
-        ),
-        child: Row(
-          children: [
-            KUserAvatar(
-              imgUrl: state.user.avatar,
-              radius: 36.w,
-              enableBorder: true,
-            ),
-            gap16,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: crossStart,
-                children: [
-                  Text(
-                    state.user.name,
-                    style: CustomTextStyles.textStyle16w600,
-                  ),
-                  gap4,
-                  Text(
+      borderRadius: radius8,
+      child: Row(
+        children: [
+          KUserAvatar(
+            radius: 36.w,
+            enableBorder: true,
+            isHero: false,
+          ),
+          gap16,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: crossStart,
+              children: [
+                Text(
+                  state.user.name,
+                  style: CustomTextStyles.textStyle16w600,
+                ),
+                Visibility(
+                  visible: state.user.email.isNotEmpty,
+                  child: Text(
                     state.user.email,
                     textAlign: TextAlign.center,
                     style: CustomTextStyles.textStyle14w400B800,
-                  ),
-                  gap4,
-                  Text(
-                    state.user.phone,
-                    style: CustomTextStyles.textStyle14w400B800,
-                  ),
-                ],
-              ),
+                  ).pOnly(top: 4.h),
+                ),
+                gap4,
+                Text(
+                  state.user.phone,
+                  style: CustomTextStyles.textStyle14w400B800,
+                ),
+              ],
             ),
-            Icon(
-              Icons.chevron_right_rounded,
-              size: 28.sp,
-              color: AppColors.black,
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+          Icon(
+            Icons.chevron_right_rounded,
+            size: 28.sp,
+            color: AppColors.black,
+          ),
+        ],
+      ).p20(),
+    ).box.color(AppColors.bg100).shadowSm.roundedSM.make();
   }
 }

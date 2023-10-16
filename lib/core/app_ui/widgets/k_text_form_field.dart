@@ -226,7 +226,7 @@ class KTextFormField2 extends HookConsumerWidget {
       autofocus: autofocus,
       decoration: InputDecoration(
         hintText: isLabel ? null : hintText,
-        // hintStyle: hintTextStyle ?? CustomTextStyle.textStyle14w500B800,
+        hintStyle: hintTextStyle,
         labelText: isLabel ? hintText : null,
         // labelStyle: enabled
         //     ? CustomTextStyle.textStyle12w400B800

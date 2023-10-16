@@ -15,7 +15,10 @@ abstract class CustomTextStyles {
     color: AppColors.black900,
   );
 
-  static var textStyle14w400;
+  static var s14w = ContentTextStyle.bodyText2.copyWith(
+    fontWeight: AppFontWeight.medium,
+    letterSpacing: 1,
+  );
 
   static var textStyle14w500Red;
 

@@ -1,10 +1,17 @@
+import 'dart:io';
+
+// ignore: unused_import
+import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/auth/application/auth_state.dart';
 import 'package:icon_shopper/features/auth/domain/signup_body.dart';
 import 'package:icon_shopper/features/auth/infastructure/auth_repo.dart';
+import 'package:mime/mime.dart';
 
+import '../../profile/domain/change_password_body.dart';
 import '../domain/model/user_model.dart';
+import '../../profile/domain/profile_update_body.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier(ref, AuthRepo());
@@ -63,24 +70,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return success;
   }
 
-  Future<void> forgotPassword() async {
-    state = state.copyWith(loading: true);
-    await Future.delayed(const Duration(seconds: 2));
-    state = state.copyWith(loading: false);
-  }
-
-  Future<void> updateProfile() async {
-    state = state.copyWith(loading: true);
-    await Future.delayed(const Duration(seconds: 2));
-    state = state.copyWith(loading: false);
-  }
-
-  Future<void> updatePassword() async {
-    state = state.copyWith(loading: true);
-    await Future.delayed(const Duration(seconds: 2));
-    state = state.copyWith(loading: false);
-  }
-
   Future<bool> verifyOtp(String otp) async {
     bool success = false;
     state = state.copyWith(loading: true);
@@ -100,4 +89,73 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   void resetPassword(String text, String value) {}
+
+  Future<void> profileView() async {
+    state = state.copyWith(loading: true);
+
+    final result = await repo.profileView();
+
+    state = result.fold((l) {
+      showErrorToast(l.error.message);
+      return state.copyWith(loading: false);
+    }, (r) {
+      return state.copyWith(loading: false, user: r.user);
+    });
+  }
+
+  Future<bool> updateProfile({
+    required String name,
+    required String email,
+    required String phone,
+    required String information,
+    File? avatar,
+  }) async {
+    bool success = false;
+    state = state.copyWith(loading: true);
+
+    final imageString = Uri.dataFromBytes(
+      avatar?.readAsBytesSync() ?? [],
+      mimeType: lookupMimeType(avatar?.path ?? '') ?? '',
+    ).toString();
+
+    final body = ProfileUpdateBody(
+      name: name,
+      email: email,
+      phone: phone,
+      information: information,
+      avatar: avatar != null ? imageString : '',
+    );
+
+    // Logger.d('body: ${body.toJson()}', tag: 'updateProfile');
+
+    final result = await repo.updateProfile(body);
+
+    state = result.fold((l) {
+      showErrorToast(l.error.message);
+      return state.copyWith(loading: false);
+    }, (r) {
+      showToast("Profile Updated Successfully");
+      return state.copyWith(loading: false);
+    });
+
+    return success;
+  }
+
+  Future<bool> passwordUpdate(ChangePasswordBody passwordUpdateBody) async {
+    bool success = false;
+    state = state.copyWith(loading: true);
+
+    final result = await repo.passwordUpdate(passwordUpdateBody);
+
+    state = result.fold((l) {
+      showErrorToast(l.error.message);
+      return state.copyWith(loading: false);
+    }, (r) {
+      showToast(r.message);
+      success = r.success;
+      return state.copyWith(loading: false);
+    });
+
+    return success;
+  }
 }

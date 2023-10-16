@@ -44,7 +44,9 @@ class AuthResponse extends Equatable {
       success: map['success'] ?? false,
       message: map['message'] ?? '',
       token: map['token'] ?? '',
-      user: UserModel.fromMap(map['user']),
+      user: map['user'] != null
+          ? UserModel.fromMap(map['user'])
+          : UserModel.fromMap(map['data']),
     );
   }
 

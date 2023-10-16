@@ -6,32 +6,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../features/auth/application/auth_provider.dart';
 import '../../core.dart';
-import '../../utils/utils.dart';
 import 'widgets.dart';
 
 class KUserAvatar extends HookConsumerWidget {
   const KUserAvatar({
     Key? key,
-    this.imgUrl,
     this.radius = 20,
     this.onTap,
     this.icon,
     this.enableBorder = false,
     this.bgColor,
+    this.isHero = true,
   }) : super(key: key);
 
-  final String? imgUrl;
   final double radius;
-  final bool enableBorder;
+  final bool enableBorder, isHero;
   final VoidCallback? onTap;
   final Widget? icon;
   final Color? bgColor;
 
   @override
   Widget build(BuildContext context, ref) {
-    final isEmptyUrl =
-        imgUrl?.isEmpty ?? ref.watch(authProvider).user.avatar.isEmpty;
-    final url = imgUrl ?? ref.watch(authProvider).user.avatar;
+    final isEmptyUrl = ref.watch(authProvider).user.avatar.isEmpty;
+    final url = ref.watch(authProvider).user.avatar;
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius + 1),
       child: KInkWell(
@@ -39,7 +36,7 @@ class KUserAvatar extends HookConsumerWidget {
         borderRadius: BorderRadius.circular(20.w),
         padding: EdgeInsets.all(4.w),
         child: Hero(
-          tag: isEmptyUrl ? UniqueKey() : url,
+          tag: !isEmptyUrl && isHero ? url : UniqueKey(),
           child: CircleAvatar(
             radius: enableBorder ? radius + 1 : radius - 1,
             backgroundColor: bgColor ?? context.colors.primary,
@@ -47,13 +44,21 @@ class KUserAvatar extends HookConsumerWidget {
               radius: radius,
               backgroundColor:
                   bgColor ?? Theme.of(context).colorScheme.background,
-              backgroundImage: !isEmptyUrl
-                  ? CachedNetworkImageProvider(
-                      url,
-                      errorListener: (error) => error.toString().text.make(),
-                    )
-                  : null,
-              child: isEmptyUrl ? icon ?? const Icon(Icons.person) : null,
+              // backgroundImage: !isEmptyUrl
+              //     ? CachedNetworkImageProvider(
+              //         url,
+              //         errorListener: (error) => error.toString().text.make(),
+              //       )
+              //     : null,
+              child: isEmptyUrl
+                  ? icon ??
+                      Icon(
+                        Icons.person,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                  : KCachedNetworkImageNoBase(
+                      imageUrl: url,
+                      borderRadius: BorderRadius.circular(radius)),
             ),
           ),
         ),

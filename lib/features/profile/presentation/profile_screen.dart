@@ -9,8 +9,9 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../auth/application/auth_provider.dart';
-import '../../auth/presentation/login_screen.dart';
 import '../../common/presentation/html_text.dart';
+import 'change_password_screen.dart';
+import 'profile_detail_screen.dart';
 import 'widgets/picture_widget.dart';
 
 class ProfileScreen extends HookConsumerWidget {
@@ -19,37 +20,32 @@ class ProfileScreen extends HookConsumerWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(authProvider);
     // final homeState = ref.watch(homeProvider);
     // final localState = ref.watch(appLocalProvider);
     // final isLoggedIn = ref.watch(loggedInProvider).loggedIn;
 
-    final refreshController = useMemoized(
-        () => RefreshController(initialLoadStatus: LoadStatus.canLoading));
+    //. -- Refresh Controller --
+    final refreshController = useMemoized(() => RefreshController(
+        initialLoadStatus: LoadStatus.canLoading, initialRefresh: true));
 
     return Scaffold(
       appBar: const KAppBar(titleText: AppStrings.profile),
       body: SmartRefresher(
         controller: refreshController,
-        enablePullDown: true,
-        // onRefresh: () => ref
-        //     .refresh(authProvider.notifier)
-        //     .profileView()
-        //     .then((_) => refreshController.refreshCompleted()),
+        onRefresh: () => ref
+            .refresh(authProvider.notifier)
+            .profileView()
+            .then((_) => refreshController.refreshCompleted()),
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // isEditable.value.toString().text.make(),
-              //? Top Section
               gap18,
 
-              //?  --- profile section ---
+              //.  --- profile detail section ---
               ProfilePicWidget(
-                // onEditTap: () => context.push(ProfileDetailScreen.route),
-
-                onEditTap: () {},
+                onEditTap: () => context.push(ProfileDetailScreen.route),
               ),
               gap40,
               Container(
@@ -64,15 +60,15 @@ class ProfileScreen extends HookConsumerWidget {
                 ),
                 child: Column(
                   children: [
-                    //?  --- password change section ---
-                    const ProfileOptionsItem(
+                    //.  --- password change section ---
+                    ProfileOptionsItem(
                       leading: BoxIcons.bxs_lock,
                       title: AppStrings.changePassword,
-                      // onTap: () => context.push(ChangePasswordScreen.route),
+                      onTap: () => context.push(ChangePasswordScreen.route),
                     ),
                     KDivider(height: 36.h),
 
-                    //,  --- logout section ---
+                    //.  --- logout section ---
                     ProfileOptionsItem(
                       leading: EvaIcons.log_out,
                       title: AppStrings.logout,
@@ -114,12 +110,15 @@ class ProfileScreen extends HookConsumerWidget {
                 ),
                 child: Column(
                   children: [
+                    //.  --- contact us section ---
                     ProfileOptionsItem(
                       leading: Icons.help_center_outlined,
                       title: AppStrings.contactUs,
                       onTap: () => context.push(HtmlTextScreen.route),
                     ),
                     KDivider(height: 36.h),
+
+                    //.  --- privacy policy section ---
                     ProfileOptionsItem(
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.privacyPolicy,
@@ -173,7 +172,7 @@ class ProfileOptionsItem extends HookConsumerWidget {
             Expanded(
               child: Text(
                 title,
-                style: CustomTextStyles.textStyle14w400,
+                style: CustomTextStyles.s14w,
               ),
             ),
             trailing ??

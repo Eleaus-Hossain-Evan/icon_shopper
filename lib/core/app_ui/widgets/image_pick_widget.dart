@@ -80,30 +80,18 @@ class ImagePickWidget extends HookConsumerWidget {
                         imageFile.value != null
                             ? Image.file(imageFile.value!).image
                             : imagePath.isNotEmpty
-                                ? CachedNetworkImageProvider(
-                                    APIRoute.BASE_URL + imagePath)
+                                ? CachedNetworkImageProvider(imagePath)
                                 : null,
                         imageFile.value == null && imagePath.isEmpty
                             ? defaultWidget
                             : null,
                       )
-                    : CircleAvatar(
-                        radius: 49.r,
-                        backgroundColor: context.colors.primary,
-                        child: CircleAvatar(
-                          radius: 48.r,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.background,
-                          backgroundImage: imageFile.value != null
-                              ? Image.file(imageFile.value!).image
-                              : imagePath.isNotEmpty
-                                  ? CachedNetworkImageProvider(
-                                      APIRoute.BASE_URL + imagePath)
-                                  : null,
-                          child: imageFile.value == null && imagePath.isEmpty
-                              ? defaultWidget
-                              : null,
-                        ),
+                    : KUserAvatar(
+                        radius: 48.w,
+                        enableBorder: true,
+                        icon: imageFile.value == null && imagePath.isEmpty
+                            ? defaultWidget
+                            : null,
                       ),
                 Visibility(
                   visible: editIcon,

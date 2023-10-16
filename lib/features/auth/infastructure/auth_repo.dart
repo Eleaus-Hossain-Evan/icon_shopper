@@ -1,8 +1,10 @@
 import 'package:icon_shopper/features/auth/domain/auth_response.dart';
 import 'package:icon_shopper/features/auth/domain/signup_body.dart';
 import 'package:icon_shopper/features/common/domain/simple_response.dart';
+import 'package:icon_shopper/features/profile/domain/change_password_body.dart';
 
 import '../../../core/core.dart';
+import '../../profile/domain/profile_update_body.dart';
 
 class AuthRepo {
   final api = NetworkHandler.instance;
@@ -35,6 +37,42 @@ class AuthRepo {
       body: {"otp": otp},
       fromData: (json) => SimpleResponse.fromMap(json),
       endPoint: APIRoute.VERIFY_OTP,
+    );
+
+    return data;
+  }
+
+  Future<Either<CleanFailure, AuthResponse>> profileView() async {
+    final data = await api.get(
+      fromData: (json) => AuthResponse.fromMap(json),
+      endPoint: APIRoute.PROFILE_VIEW,
+      withToken: true,
+    );
+
+    return data;
+  }
+
+  Future<Either<CleanFailure, AuthResponse>> updateProfile(
+    ProfileUpdateBody body,
+  ) async {
+    final data = await api.post(
+      body: body.toMap(),
+      fromData: (json) => SimpleResponse.fromMap(json),
+      endPoint: APIRoute.PROFILE_UPDATE,
+      withToken: true,
+    );
+
+    return profileView();
+  }
+
+  Future<Either<CleanFailure, SimpleResponse>> passwordUpdate(
+    ChangePasswordBody body,
+  ) async {
+    final data = await api.post(
+      body: body.toMap(),
+      fromData: (json) => SimpleResponse.fromMap(json),
+      endPoint: APIRoute.PASSWORD_CHANGE,
+      withToken: true,
     );
 
     return data;

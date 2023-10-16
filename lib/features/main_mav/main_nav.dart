@@ -64,7 +64,7 @@ class MainNav extends HookConsumerWidget {
                   ? context.colors.primary
                   : AppColors.black600,
             ),
-            label: AppStrings.parcel,
+            label: "Category",
           ),
           NavigationDestination(
             icon: Icon(
@@ -73,7 +73,7 @@ class MainNav extends HookConsumerWidget {
                   ? context.colors.primary
                   : AppColors.black600,
             ),
-            label: AppStrings.returns,
+            label: "Order",
           ),
           NavigationDestination(
             icon: Icon(

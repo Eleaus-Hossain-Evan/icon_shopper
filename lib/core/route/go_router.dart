@@ -10,10 +10,12 @@ import 'package:icon_shopper/features/auth/presentation/forgot_password/forgot_p
 import 'package:icon_shopper/features/auth/presentation/login_screen.dart';
 import 'package:icon_shopper/features/auth/presentation/register_screen.dart';
 import 'package:icon_shopper/features/home/presentation/home_screen.dart';
+import 'package:icon_shopper/features/profile/presentation/profile_detail_screen.dart';
 import 'package:icon_shopper/features/splash/splash_screen.dart';
 
 import '../../features/common/presentation/html_text.dart';
 import '../../features/main_mav/main_nav.dart';
+import '../../features/profile/presentation/change_password_screen.dart';
 import '../core.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -117,6 +119,20 @@ class RouterNotifier extends Listenable {
         GoRoute(
           path: HomeScreen.route,
           builder: (context, state) => const HomeScreen(),
+        ),
+        GoRoute(
+          path: ProfileDetailScreen.route,
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            key: state.pageKey,
+            child: const ProfileDetailScreen(),
+          ),
+        ),
+        GoRoute(
+          path: ChangePasswordScreen.route,
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            key: state.pageKey,
+            child: const ChangePasswordScreen(),
+          ),
         ),
       ];
 
