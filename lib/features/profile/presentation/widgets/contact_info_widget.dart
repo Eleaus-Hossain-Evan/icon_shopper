@@ -32,7 +32,9 @@ class ContactInfoWidget extends HookConsumerWidget {
       }
     }
 
-    Future<void> launchFacebook(String url) async {
+    Future<void> launchFacebook({
+      String url = 'https://www.facebook.com/iconshopperbd',
+    }) async {
       try {
         bool launched =
             await launchUrl(Uri.parse(url)); // Launch the app if installed!
@@ -130,8 +132,7 @@ class ContactInfoWidget extends HookConsumerWidget {
               IconButton.outlined(
                 onPressed: () {
                   // launchFacebook("https://www.facebook.com/iconshopperbd");
-                  launchFacebook(
-                      'https://www.facebook.com/iconshopperbd'); // Facebook
+                  launchFacebook(); // Facebook
                 },
                 padding: padding14,
                 icon: Logo(Logos.facebook_logo, size: 22.sp),
