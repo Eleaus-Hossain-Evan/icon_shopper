@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -17,6 +19,7 @@ class KUserAvatar extends HookConsumerWidget {
     this.enableBorder = false,
     this.bgColor,
     this.isHero = true,
+    this.imageFile,
   }) : super(key: key);
 
   final double radius;
@@ -24,6 +27,7 @@ class KUserAvatar extends HookConsumerWidget {
   final VoidCallback? onTap;
   final Widget? icon;
   final Color? bgColor;
+  final File? imageFile;
 
   @override
   Widget build(BuildContext context, ref) {
@@ -39,26 +43,24 @@ class KUserAvatar extends HookConsumerWidget {
           tag: !isEmptyUrl && isHero ? url : UniqueKey(),
           child: CircleAvatar(
             radius: enableBorder ? radius + 1 : radius - 1,
-            backgroundColor: bgColor ?? context.colors.primary,
+            backgroundColor: bgColor ?? context.colors.secondary,
             child: CircleAvatar(
               radius: radius,
               backgroundColor:
                   bgColor ?? Theme.of(context).colorScheme.background,
-              // backgroundImage: !isEmptyUrl
-              //     ? CachedNetworkImageProvider(
-              //         url,
-              //         errorListener: (error) => error.toString().text.make(),
-              //       )
-              //     : null,
-              child: isEmptyUrl
-                  ? icon ??
-                      Icon(
-                        Icons.person,
-                        color: Theme.of(context).colorScheme.primary,
-                      )
-                  : KCachedNetworkImageNoBase(
-                      imageUrl: url,
-                      borderRadius: BorderRadius.circular(radius)),
+              backgroundImage: imageFile != null ? FileImage(imageFile!) : null,
+              child: imageFile == null
+                  ? isEmptyUrl
+                      ? icon ??
+                          Icon(
+                            Icons.person,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                      : KCachedNetworkImageNoBase(
+                          imageUrl: url,
+                          borderRadius: BorderRadius.circular(radius),
+                        )
+                  : null,
             ),
           ),
         ),

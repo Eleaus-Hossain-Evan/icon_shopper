@@ -19,5 +19,11 @@ class APIRoute {
 
   //#<<---------------- IconShopper ------------------>>
 
-  static const String HOME = "${API_V1}setting/home";
+  static const String CONTACT_INFO = "${API_V1}contact-info";
+  static const String TERMS_CONDITION = "${API_V1}terms-condition";
+  static const String PRIVACY_POLICY = "${API_V1}privacy-policy";
+  static const String REFUND_POLICY = "${API_V1}refund-policy";
+  static const String RETURN_POLICY = "${API_V1}return-policy";
+
+  static const String HOME = "${API_V1}get-categories";
 }

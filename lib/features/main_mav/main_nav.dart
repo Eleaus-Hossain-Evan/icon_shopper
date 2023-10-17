@@ -7,6 +7,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
+import '../auth/application/auth_provider.dart';
 import '../home/presentation/home_screen.dart';
 
 final bottomNavigatorKey = GlobalKey();
@@ -27,7 +28,7 @@ class MainNav extends HookConsumerWidget {
 
     useEffect(() {
       Future.wait([
-        // Future.microtask(() => ref.read(authProvider.notifier).profileView()),
+        Future.microtask(() => ref.read(authProvider.notifier).profileView()),
         // Future.microtask(() => ref.read(homeProvider.notifier)),
         // Future.microtask(
         //     () => ref.read(homeProvider.notifier).getRecentParcelList()),
@@ -46,41 +47,49 @@ class MainNav extends HookConsumerWidget {
         onDestinationSelected: (index) {
           navIndex.value = index;
         },
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        animationDuration: 600.milliseconds,
         destinations: [
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.home_outlined,
-              color: navIndex.value == 0
-                  ? context.colors.primary
-                  : AppColors.black600,
+              color: AppColors.black600,
+            ),
+            selectedIcon: Icon(
+              Icons.home,
+              color: context.colors.primary,
             ),
             label: AppStrings.home,
           ),
           NavigationDestination(
-            icon: Icon(
-              LineAwesome.boxes_solid,
-              color: navIndex.value == 1
-                  ? context.colors.primary
-                  : AppColors.black600,
+            icon: const Icon(
+              BoxIcons.bx_category,
+              color: AppColors.black600,
+            ),
+            selectedIcon: Icon(
+              BoxIcons.bxs_category,
+              color: context.colors.primary,
             ),
             label: "Category",
           ),
           NavigationDestination(
-            icon: Icon(
-              LineAwesome.box_open_solid,
-              color: navIndex.value == 2
-                  ? context.colors.primary
-                  : AppColors.black600,
+            icon: const Icon(
+              BoxIcons.bx_cart_alt,
+              color: AppColors.black600,
             ),
-            label: "Order",
+            selectedIcon: Icon(
+              BoxIcons.bxs_cart_alt,
+              color: context.colors.primary,
+            ),
+            label: "Cart",
           ),
           NavigationDestination(
-            icon: Icon(
-              Icons.account_box_outlined,
-              color: navIndex.value == 3
-                  ? context.colors.primary
-                  : AppColors.black600,
+            icon: const Icon(
+              BoxIcons.bx_user,
+              color: AppColors.black600,
+            ),
+            selectedIcon: Icon(
+              BoxIcons.bxs_user,
+              color: context.colors.primary,
             ),
             label: AppStrings.profile,
           ),

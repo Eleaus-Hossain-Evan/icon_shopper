@@ -18,16 +18,17 @@ class ImagePickWidget extends HookConsumerWidget {
     super.key,
     required this.imageFile,
     required this.imagePath,
-    required this.defaultWidget,
-    this.editIcon = false,
+    this.defaultWidget,
+    this.editIcon = true,
+    this.deleteIcon = true,
     this.builder,
     this.onTapUploadImage,
   });
 
   final ValueNotifier<File?> imageFile;
   final String imagePath;
-  final Widget defaultWidget;
-  final bool editIcon;
+  final Widget? defaultWidget;
+  final bool editIcon, deleteIcon;
   final Widget Function(ImageProvider<Object>?, Widget?)? builder;
   final Function(File)? onTapUploadImage;
 
@@ -49,30 +50,31 @@ class ImagePickWidget extends HookConsumerWidget {
       }
     }
 
+    void pickingImage() => kShowBottomSheet(
+          context: context,
+          child: ImagePickOptionWidget(
+            onCameraTap: () {
+              chooseImage("camera");
+
+              Navigator.pop(context);
+            },
+            onGalleryTap: () {
+              chooseImage("gallery");
+
+              Navigator.pop(context);
+              Logger.v("gallery");
+            },
+          ),
+        );
+
     return Align(
       alignment: Alignment.center,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           KInkWell(
-            onTap: () {
-              kShowBottomSheet(
-                context: context,
-                child: ImagePickOptionWidget(
-                  onCameraTap: () {
-                    chooseImage("camera");
-
-                    Navigator.pop(context);
-                  },
-                  onGalleryTap: () {
-                    chooseImage("gallery");
-
-                    Navigator.pop(context);
-                    Logger.v("gallery");
-                  },
-                ),
-              );
-            },
+            onTap: pickingImage,
+            borderRadius: BorderRadius.circular(72.w),
             child: Stack(
               children: [
                 builder != null
@@ -83,30 +85,70 @@ class ImagePickWidget extends HookConsumerWidget {
                                 ? CachedNetworkImageProvider(imagePath)
                                 : null,
                         imageFile.value == null && imagePath.isEmpty
-                            ? defaultWidget
+                            ? defaultWidget ??
+                                Icon(
+                                  Icons.person,
+                                  size: 68.sp,
+                                  color: context.colors.secondaryContainer,
+                                )
                             : null,
                       )
-                    : KUserAvatar(
-                        radius: 48.w,
-                        enableBorder: true,
-                        icon: imageFile.value == null && imagePath.isEmpty
-                            ? defaultWidget
-                            : null,
-                      ),
+                    : imageFile.value == null && imagePath.isEmpty
+                        ? defaultWidget ??
+                            Icon(
+                              Icons.person,
+                              size: 68.sp,
+                              color: context.colors.secondaryContainer,
+                            )
+                        : KUserAvatar(
+                            radius: 64.w,
+                            enableBorder: true,
+                            imageFile: imageFile.value,
+                          ),
                 Visibility(
                   visible: editIcon,
                   child: PositionedDirectional(
                     bottom: 0,
                     end: 0,
-                    child: CircleAvatar(
-                      radius: 18.r,
-                      backgroundColor: AppColors.white,
-                      child: CircleAvatar(
+                    child: IconButton(
+                      onPressed: pickingImage,
+                      padding: EdgeInsets.zero,
+                      icon: CircleAvatar(
                         radius: 16.r,
-                        child: const Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                          size: 16,
+                        backgroundColor: AppColors.white,
+                        child: CircleAvatar(
+                          radius: 14.r,
+                          backgroundColor: AppColors.secondary,
+                          child: const Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: deleteIcon && imageFile.value != null,
+                  child: PositionedDirectional(
+                    bottom: 0,
+                    start: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        imageFile.value = null;
+                      },
+                      padding: EdgeInsets.zero,
+                      icon: CircleAvatar(
+                        radius: 16.r,
+                        backgroundColor: AppColors.white,
+                        child: CircleAvatar(
+                          radius: 14.r,
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 16,
+                          ),
                         ),
                       ),
                     ),

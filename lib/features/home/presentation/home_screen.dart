@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../core/core.dart';
@@ -9,13 +10,16 @@ class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(
+    return Scaffold(
       appBar: KAppBar(
-        titleText: 'Home',
+        title: Images.logoSmall.assetImage(height: kToolbarHeight - 36.h),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [],
+        padding: padding16,
+        child: const Column(
+          children: [
+            
+          ],
         ),
       ),
     );

@@ -67,11 +67,11 @@ class ForgotPasswordScreen extends HookConsumerWidget {
               crossFadeState: CrossFadeState.showSecond,
               firstChild: Text(
                 AppStrings.forgotBelowText1,
-                style: CustomTextStyles.sf16Black900,
+                style: CustomTextStyles.s16Black900,
               ),
               secondChild: Text(
                 AppStrings.forgotBelowText1,
-                style: CustomTextStyles.sf16Black900,
+                style: CustomTextStyles.s16Black900,
               ),
             ),
           ),

@@ -9,9 +9,9 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../auth/application/auth_provider.dart';
-import '../../common/presentation/html_text.dart';
+import '../../common/presentation/html_text_screen.dart';
 import 'change_password_screen.dart';
-import 'profile_detail_screen.dart';
+import 'widgets/contact_info_widget.dart';
 import 'widgets/picture_widget.dart';
 
 class ProfileScreen extends HookConsumerWidget {
@@ -25,8 +25,8 @@ class ProfileScreen extends HookConsumerWidget {
     // final isLoggedIn = ref.watch(loggedInProvider).loggedIn;
 
     //. -- Refresh Controller --
-    final refreshController = useMemoized(() => RefreshController(
-        initialLoadStatus: LoadStatus.canLoading, initialRefresh: true));
+    final refreshController = useMemoized(
+        () => RefreshController(initialLoadStatus: LoadStatus.canLoading));
 
     return Scaffold(
       appBar: const KAppBar(titleText: AppStrings.profile),
@@ -44,9 +44,7 @@ class ProfileScreen extends HookConsumerWidget {
               gap18,
 
               //.  --- profile detail section ---
-              ProfilePicWidget(
-                onEditTap: () => context.push(ProfileDetailScreen.route),
-              ),
+              const ProfilePicWidget(),
               gap40,
               Container(
                 padding: padding20,
@@ -93,7 +91,7 @@ class ProfileScreen extends HookConsumerWidget {
                   padding: paddingLeft10,
                   child: Text(
                     AppStrings.support,
-                    style: CustomTextStyles.textStyle16w500Black900,
+                    style: CustomTextStyles.s16w600Black900,
                   ),
                 ),
               ),
@@ -110,11 +108,13 @@ class ProfileScreen extends HookConsumerWidget {
                 ),
                 child: Column(
                   children: [
-                    //.  --- contact us section ---
+                    //.  --- term and condition ---
+
                     ProfileOptionsItem(
-                      leading: Icons.help_center_outlined,
-                      title: AppStrings.contactUs,
-                      onTap: () => context.push(HtmlTextScreen.route),
+                      leading: Icons.privacy_tip_outlined,
+                      title: AppStrings.termCondition,
+                      onTap: () => context.push(
+                          "${HtmlTextScreen.route}?title=${AppStrings.termCondition}&url=${APIRoute.TERMS_CONDITION}"),
                     ),
                     KDivider(height: 36.h),
 
@@ -122,11 +122,35 @@ class ProfileScreen extends HookConsumerWidget {
                     ProfileOptionsItem(
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.privacyPolicy,
-                      onTap: () {},
+                      onTap: () => context.push(
+                          "${HtmlTextScreen.route}?title=${AppStrings.privacyPolicy}&url=${APIRoute.PRIVACY_POLICY}"),
+                    ),
+                    KDivider(height: 36.h),
+
+                    //.  --- refund-policy ---
+                    ProfileOptionsItem(
+                      leading: Icons.privacy_tip_outlined,
+                      title: AppStrings.refundPolicy,
+                      onTap: () => context.push(
+                          "${HtmlTextScreen.route}?title=${AppStrings.refundPolicy}&url=${APIRoute.REFUND_POLICY}"),
+                    ),
+                    KDivider(height: 36.h),
+
+                    //.  --- return-policy ---
+                    ProfileOptionsItem(
+                      leading: Icons.privacy_tip_outlined,
+                      title: AppStrings.returnPolicy,
+                      onTap: () => context.push(
+                          "${HtmlTextScreen.route}?title=${AppStrings.returnPolicy}&url=${APIRoute.RETURN_POLICY}"),
                     ),
                   ],
                 ),
               ),
+
+              gap28,
+
+              //.  --- contact info section ---
+              const ContactInfoWidget(),
             ],
           ),
         ),
@@ -158,7 +182,7 @@ class ProfileOptionsItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Visibility(
       visible: visible,
-      child: InkWell(
+      child: KInkWell(
         onTap: onTap,
         borderRadius: radius10,
         child: Row(
@@ -181,7 +205,7 @@ class ProfileOptionsItem extends HookConsumerWidget {
                         ? const SizedBox.shrink()
                         : Text(
                             trailingText ?? "",
-                            style: CustomTextStyles.textStyle14w500Red,
+                            style: CustomTextStyles.s14w500Red,
                           ))),
             gap12,
             trailing == null

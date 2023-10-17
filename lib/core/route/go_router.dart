@@ -13,7 +13,7 @@ import 'package:icon_shopper/features/home/presentation/home_screen.dart';
 import 'package:icon_shopper/features/profile/presentation/profile_detail_screen.dart';
 import 'package:icon_shopper/features/splash/splash_screen.dart';
 
-import '../../features/common/presentation/html_text.dart';
+import '../../features/common/presentation/html_text_screen.dart';
 import '../../features/main_mav/main_nav.dart';
 import '../../features/profile/presentation/change_password_screen.dart';
 import '../core.dart';
@@ -103,9 +103,9 @@ class RouterNotifier extends Listenable {
           path: HtmlTextScreen.route,
           pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
             key: state.pageKey,
-            child: const HtmlTextScreen(
-              details: '',
-              title: '',
+            child: HtmlTextScreen(
+              url: state.uri.queryParameters['url'] ?? '',
+              title: state.uri.queryParameters['title'] ?? '',
             ),
           ),
         ),

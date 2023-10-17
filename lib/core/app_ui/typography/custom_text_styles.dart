@@ -11,7 +11,7 @@ abstract class CustomTextStyles {
   static TextStyle sf30w700 = ContentTextStyle.headline2.copyWith(
     fontWeight: AppFontWeight.bold,
   );
-  static var sf16Black900 = ContentTextStyle.subtitle1.copyWith(
+  static var s16Black900 = ContentTextStyle.subtitle1.copyWith(
     color: AppColors.black900,
   );
 
@@ -20,11 +20,26 @@ abstract class CustomTextStyles {
     letterSpacing: 1,
   );
 
-  static var textStyle14w500Red;
+  static var s14w500Red = ContentTextStyle.bodyText2.copyWith(
+    fontWeight: AppFontWeight.medium,
+    letterSpacing: 1,
+    color: AppColors.red,
+  );
 
-  static var textStyle16w500Black900;
+  static var s16w600Black900 = ContentTextStyle.subtitle1.copyWith(
+    fontWeight: AppFontWeight.bold,
+    letterSpacing: 1,
+    color: AppColors.black900,
+  );
 
-  static var textStyle16w600;
+  static var s16w600 = ContentTextStyle.subtitle1.copyWith(
+    fontWeight: AppFontWeight.bold,
+    letterSpacing: 1,
+  );
 
-  static var textStyle14w400B800;
+  static var s14w400Black800 = ContentTextStyle.bodyText2.copyWith(
+    fontWeight: AppFontWeight.regular,
+    letterSpacing: 1,
+    color: AppColors.black800,
+  );
 }

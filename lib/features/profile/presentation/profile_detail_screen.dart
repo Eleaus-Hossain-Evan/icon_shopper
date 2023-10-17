@@ -60,12 +60,6 @@ class ProfileDetailScreen extends HookConsumerWidget {
                       ImagePickWidget(
                         imageFile: imageFile,
                         imagePath: state.user.avatar,
-                        defaultWidget: Icon(
-                          Icons.person,
-                          size: 68.sp,
-                          color: context.colors.secondaryContainer,
-                        ),
-                        editIcon: true,
                       ),
                       gap24,
                       //. Name
