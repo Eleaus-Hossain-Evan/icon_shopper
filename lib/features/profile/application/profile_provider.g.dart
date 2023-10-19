@@ -6,6 +6,20 @@ part of 'profile_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$profileHash() => r'488a33d3496babc42ba54440b6f48fe09594dedb';
+
+/// See also [Profile].
+@ProviderFor(Profile)
+final profileProvider = AutoDisposeNotifierProvider<Profile, void>.internal(
+  Profile.new,
+  name: r'profileProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$profileHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Profile = AutoDisposeNotifier<void>;
 String _$contactInfoHash() => r'41b64b18ed9e61d2c6322d8caf311160e73739f5';
 
 /// See also [ContactInfo].

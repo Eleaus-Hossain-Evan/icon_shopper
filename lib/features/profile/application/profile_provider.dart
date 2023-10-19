@@ -9,6 +9,34 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'profile_provider.g.dart';
 
 @riverpod
+class Profile extends _$Profile {
+  @override
+  void build() {
+    return;
+  }
+
+  void lunchMap(String address) async {
+    await ProfileRepo().lunchMap(address);
+  }
+
+  void lunchWhatApp(String number) async {
+    await ProfileRepo().lunchWhatApp(number);
+  }
+
+  void launchFacebook() async {
+    await ProfileRepo().launchFacebook();
+  }
+
+  Future<void> lunchEmail(String email) async {
+    await ProfileRepo().urlLaunch(Uri.parse("mailto:$email"));
+  }
+
+  Future<void> lunchPhone(String phone) async {
+    await ProfileRepo().urlLaunch(Uri.parse("tel:+88$phone"));
+  }
+}
+
+@riverpod
 class ContactInfo extends _$ContactInfo {
   @override
   FutureOr<ContactInfoModel> build() async {
@@ -26,11 +54,11 @@ class ContactInfo extends _$ContactInfo {
 @riverpod
 class GetPolicy extends _$GetPolicy {
   @override
-  FutureOr<PolicyModel> build({required String url})async {
-    final result =await ProfileRepo().getPolicy(url);
+  FutureOr<PolicyModel> build({required String url}) async {
+    final result = await ProfileRepo().getPolicy(url);
     return result.fold((l) {
       showErrorToast(l.error.message);
       return PolicyModel.init();
-    }, (r) => r.data) ;
+    }, (r) => r.data);
   }
 }
