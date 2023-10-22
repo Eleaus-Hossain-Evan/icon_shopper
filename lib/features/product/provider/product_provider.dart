@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/product/domain/model/product_model.dart';
 import 'package:icon_shopper/features/product/infrastructure/product_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 
 part 'product_provider.g.dart';
 
@@ -18,7 +18,10 @@ Future<List<ProductModel>> categoryWiseProduct(
     page: page,
   );
   return data.fold(
-    (l) => [],
+    (l) {
+      showErrorToast(l.error.message);
+      return [];
+    },
     (r) => r.data.data,
   );
 }

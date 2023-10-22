@@ -12,7 +12,7 @@ class ProfileRepo {
   Future<Either<CleanFailure, ContactInfoResponse>> getContactInfo() async {
     final data = await api.get(
       fromData: (json) => ContactInfoResponse.fromMap(json),
-      endPoint: APIRoute.CONTACT_INFO,
+      endPoint: APIRouteEndpoint.CONTACT_INFO,
       withToken: true,
     );
 

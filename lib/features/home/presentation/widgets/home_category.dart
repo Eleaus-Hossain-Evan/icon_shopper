@@ -29,43 +29,41 @@ class HomeCategoryWidget extends HookConsumerWidget {
           final item = ref
               .watch(homeDataProvider)
               .whenData((value) => value.categories.first.subCategories[index]);
-          return KInkWell(
-            onTap: () {
-              log("message");
-              context.push(
-                  "${CategoryWiseProductScreen.route}/${item.asData?.value.slug}");
-            },
-            child: SizedBox(
-              child: item.when(
-                data: (data) => Stack(
-                  children: [
-                    Positioned.fill(
-                      child: KCachedNetworkImageWdLoading(
-                        imageUrl: data.image,
-                      ),
+          return item.when(
+            data: (data) => KInkWell(
+              onTap: () {
+                log("message");
+                context.push(
+                    "${CategoryWiseProductScreen.route}/${item.asData?.value.slug}");
+              },
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: KCachedNetworkImageWdLoading(
+                      imageUrl: data.image,
                     ),
-                    Positioned.fill(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.25),
-                        ),
-                        child: data
-                            .name.text.bold.underline.heightLoose.white.wide
-                            .size(14.sp)
-                            .textStyle(
-                                const TextStyle(decorationColor: Colors.white))
-                            .makeCentered(),
+                  ),
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.25),
                       ),
+                      child: data
+                          .name.text.bold.underline.heightLoose.white.wide
+                          .size(14.sp)
+                          .textStyle(
+                              const TextStyle(decorationColor: Colors.white))
+                          .makeCentered(),
                     ),
-                  ],
-                ),
-                error: (error, stackTrace) {
-                  log(error.toString(), stackTrace: stackTrace);
-                  return Text(error.toString());
-                },
-                loading: () => const KShimmerWidget(),
+                  ),
+                ],
               ),
             ),
+            error: (error, stackTrace) {
+              log(error.toString(), stackTrace: stackTrace);
+              return Text(error.toString());
+            },
+            loading: () => const KShimmerWidget(),
           );
         },
         itemCount: ref

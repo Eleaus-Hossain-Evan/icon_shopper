@@ -114,7 +114,7 @@ class ProfileScreen extends HookConsumerWidget {
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.termCondition,
                       onTap: () => context.push(
-                          "${HtmlTextScreen.route}?title=${AppStrings.termCondition}&url=${APIRoute.TERMS_CONDITION}"),
+                          "${HtmlTextScreen.route}?title=${AppStrings.termCondition}&url=${APIRouteEndpoint.TERMS_CONDITION}"),
                     ),
                     KDivider(height: 36.h),
 
@@ -123,7 +123,7 @@ class ProfileScreen extends HookConsumerWidget {
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.privacyPolicy,
                       onTap: () => context.push(
-                          "${HtmlTextScreen.route}?title=${AppStrings.privacyPolicy}&url=${APIRoute.PRIVACY_POLICY}"),
+                          "${HtmlTextScreen.route}?title=${AppStrings.privacyPolicy}&url=${APIRouteEndpoint.PRIVACY_POLICY}"),
                     ),
                     KDivider(height: 36.h),
 
@@ -132,7 +132,7 @@ class ProfileScreen extends HookConsumerWidget {
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.refundPolicy,
                       onTap: () => context.push(
-                          "${HtmlTextScreen.route}?title=${AppStrings.refundPolicy}&url=${APIRoute.REFUND_POLICY}"),
+                          "${HtmlTextScreen.route}?title=${AppStrings.refundPolicy}&url=${APIRouteEndpoint.REFUND_POLICY}"),
                     ),
                     KDivider(height: 36.h),
 
@@ -141,7 +141,7 @@ class ProfileScreen extends HookConsumerWidget {
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.returnPolicy,
                       onTap: () => context.push(
-                          "${HtmlTextScreen.route}?title=${AppStrings.returnPolicy}&url=${APIRoute.RETURN_POLICY}"),
+                          "${HtmlTextScreen.route}?title=${AppStrings.returnPolicy}&url=${APIRouteEndpoint.RETURN_POLICY}"),
                     ),
                   ],
                 ),

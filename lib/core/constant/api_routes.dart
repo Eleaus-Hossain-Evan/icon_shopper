@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-class APIRoute {
+class APIRouteEndpoint {
   static const String DUMMY_PERSON = 'https://i.pravatar.cc/300';
   static const String WEB_URL = "";
 
@@ -29,4 +29,5 @@ class APIRoute {
 
   static const String HOME = "${API_V1}get-categories";
   static const String CATEGORY_WISE_PRODUCT = "${API_V1}category-wise-product/";
+  static const String SEARCH = "${API_V1}search/";
 }

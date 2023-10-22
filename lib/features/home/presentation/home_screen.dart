@@ -8,6 +8,8 @@ import 'package:icon_shopper/features/home/presentation/widgets/home_slider.dart
 
 import '../../../core/core.dart';
 import '../application/home_provider.dart';
+import 'widgets/home_latest_product.dart';
+import 'widgets/home_search.dart';
 
 class HomeScreen extends HookConsumerWidget {
   static const route = '/home';
@@ -15,10 +17,18 @@ class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(homeDataProvider);
     return Scaffold(
       appBar: KAppBar(
         title: Images.logoSmall.assetImage(height: kToolbarHeight - 36.h),
+        actions: [
+          IconButton(
+            onPressed: () => showSearch(
+              context: context,
+              delegate: HomeSearch(ref),
+            ),
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: padding0,
@@ -28,14 +38,8 @@ class HomeScreen extends HookConsumerWidget {
             gap36,
             const HomeCategoryWidget(),
             gap36,
-            state.when(
-              data: (data) => Text(data.toString()),
-              error: (error, stackTrace) {
-                log(error.toString(), stackTrace: stackTrace);
-                return Text(error.toString());
-              },
-              loading: () => const CircularProgressIndicator(),
-            )
+            const HomeLatestProductWidget(),
+            Images.home.assetImage(),
           ],
         ),
       ),

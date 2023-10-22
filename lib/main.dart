@@ -38,7 +38,7 @@ Future<void> main() async {
   final String token = box.get(AppStrings.token, defaultValue: '');
 
   NetworkHandler.instance
-    ..setup(baseUrl: APIRoute.BASE_URL, showLogs: false)
+    ..setup(baseUrl: APIRouteEndpoint.BASE_URL, showLogs: false)
     ..setToken(token);
 
   Logger.d('token: $token');

@@ -1,5 +1,6 @@
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/home/domain/home_response.dart';
+import 'package:icon_shopper/features/home/domain/paginated_product_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../infrastructure/home_repo.dart';
@@ -14,6 +15,18 @@ class HomeData extends _$HomeData {
     return result.fold((l) {
       showErrorToast(l.error.message);
       return HomeResponse.init();
+    }, (r) => r);
+  }
+}
+
+@riverpod
+class SearchProduct extends _$SearchProduct {
+  @override
+  FutureOr<PaginatedProductResponse> build(String query) async {
+    final result = await HomeRepo().searchProduct(query);
+    return result.fold((l) {
+      showErrorToast(l.error.message);
+      return PaginatedProductResponse.init();
     }, (r) => r);
   }
 }

@@ -97,7 +97,8 @@ class KCachedNetworkImageWdLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: APIRoute.BASE_URL + APIRoute.PRODUCT_IMAGE + imageUrl,
+      imageUrl:
+          APIRouteEndpoint.BASE_URL + APIRouteEndpoint.PRODUCT_IMAGE + imageUrl,
       fit: fit,
       imageBuilder: (context, imageProvider) {
         return Hero(
@@ -160,7 +161,7 @@ class KCachedNetworkImage extends StatelessWidget {
     return imageUrl.isEmpty
         ? const SizedBox.expand()
         : CachedNetworkImage(
-            imageUrl: "${APIRoute.BASE_URL}$imageUrl",
+            imageUrl: "${APIRouteEndpoint.BASE_URL}$imageUrl",
             fit: fit,
             height: height,
             width: width,

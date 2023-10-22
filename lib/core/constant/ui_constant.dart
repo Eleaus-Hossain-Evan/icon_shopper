@@ -125,6 +125,7 @@ EdgeInsets paddingRight24 = EdgeInsets.only(right: 24.w);
 EdgeInsets paddingRight30 = EdgeInsets.only(right: 30.w);
 
 BorderRadius radius0 = BorderRadius.circular(0.r);
+BorderRadius radius2 = BorderRadius.circular(2.r);
 BorderRadius radius4 = BorderRadius.circular(4.r);
 BorderRadius radius6 = BorderRadius.circular(6.r);
 BorderRadius radius8 = BorderRadius.circular(8.r);

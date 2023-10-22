@@ -28,6 +28,7 @@ abstract class AppTheme {
       defaultRadius: 8.r,
       adaptiveRadius: const FlexAdaptive.all(),
       defaultRadiusAdaptive: 8.r,
+      appBarBackgroundSchemeColor: SchemeColor.secondary,
       bottomSheetModalBackgroundColor: SchemeColor.surface,
       bottomSheetBackgroundColor: SchemeColor.surface,
       dialogBackgroundSchemeColor: SchemeColor.onTertiary,
