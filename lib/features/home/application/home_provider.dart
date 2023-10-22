@@ -22,8 +22,11 @@ class HomeData extends _$HomeData {
 @riverpod
 class SearchProduct extends _$SearchProduct {
   @override
-  FutureOr<PaginatedProductResponse> build(String query) async {
-    final result = await HomeRepo().searchProduct(query);
+  FutureOr<PaginatedProductResponse> build(
+    String query, {
+    int page = 1,
+  }) async {
+    final result = await HomeRepo().searchProduct(query, page: page);
     return result.fold((l) {
       showErrorToast(l.error.message);
       return PaginatedProductResponse.init();

@@ -16,10 +16,12 @@ class HomeRepo {
   }
 
   Future<Either<CleanFailure, PaginatedProductResponse>> searchProduct(
-      String query) async {
+    String query, {
+    int page = 1,
+  }) async {
     final data = await api.get(
       fromData: (json) => PaginatedProductResponse.fromMap(json),
-      endPoint: APIRouteEndpoint.SEARCH + query,
+      endPoint: "${APIRouteEndpoint.SEARCH}$query?page=$page",
       withToken: true,
     );
 

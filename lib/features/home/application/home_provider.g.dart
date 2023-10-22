@@ -21,7 +21,7 @@ final homeDataProvider =
 );
 
 typedef _$HomeData = AutoDisposeAsyncNotifier<HomeResponse>;
-String _$searchProductHash() => r'fcf6fa7b81df8dc764e90e00ddd733defa0ddbd9';
+String _$searchProductHash() => r'2a43d5e25556f2b5b6861fd4d336b7d9235ebad6';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -47,10 +47,12 @@ class _SystemHash {
 abstract class _$SearchProduct
     extends BuildlessAutoDisposeAsyncNotifier<PaginatedProductResponse> {
   late final String query;
+  late final int page;
 
   FutureOr<PaginatedProductResponse> build(
-    String query,
-  );
+    String query, {
+    int page = 1,
+  });
 }
 
 /// See also [SearchProduct].
@@ -64,10 +66,12 @@ class SearchProductFamily extends Family<AsyncValue<PaginatedProductResponse>> {
 
   /// See also [SearchProduct].
   SearchProductProvider call(
-    String query,
-  ) {
+    String query, {
+    int page = 1,
+  }) {
     return SearchProductProvider(
       query,
+      page: page,
     );
   }
 
@@ -77,6 +81,7 @@ class SearchProductFamily extends Family<AsyncValue<PaginatedProductResponse>> {
   ) {
     return call(
       provider.query,
+      page: provider.page,
     );
   }
 
@@ -100,9 +105,12 @@ class SearchProductProvider extends AutoDisposeAsyncNotifierProviderImpl<
     SearchProduct, PaginatedProductResponse> {
   /// See also [SearchProduct].
   SearchProductProvider(
-    String query,
-  ) : this._internal(
-          () => SearchProduct()..query = query,
+    String query, {
+    int page = 1,
+  }) : this._internal(
+          () => SearchProduct()
+            ..query = query
+            ..page = page,
           from: searchProductProvider,
           name: r'searchProductProvider',
           debugGetCreateSourceHash:
@@ -113,6 +121,7 @@ class SearchProductProvider extends AutoDisposeAsyncNotifierProviderImpl<
           allTransitiveDependencies:
               SearchProductFamily._allTransitiveDependencies,
           query: query,
+          page: page,
         );
 
   SearchProductProvider._internal(
@@ -123,9 +132,11 @@ class SearchProductProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.query,
+    required this.page,
   }) : super.internal();
 
   final String query;
+  final int page;
 
   @override
   FutureOr<PaginatedProductResponse> runNotifierBuild(
@@ -133,6 +144,7 @@ class SearchProductProvider extends AutoDisposeAsyncNotifierProviderImpl<
   ) {
     return notifier.build(
       query,
+      page: page,
     );
   }
 
@@ -141,13 +153,16 @@ class SearchProductProvider extends AutoDisposeAsyncNotifierProviderImpl<
     return ProviderOverride(
       origin: this,
       override: SearchProductProvider._internal(
-        () => create()..query = query,
+        () => create()
+          ..query = query
+          ..page = page,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         query: query,
+        page: page,
       ),
     );
   }
@@ -160,13 +175,16 @@ class SearchProductProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   bool operator ==(Object other) {
-    return other is SearchProductProvider && other.query == query;
+    return other is SearchProductProvider &&
+        other.query == query &&
+        other.page == page;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, query.hashCode);
+    hash = _SystemHash.combine(hash, page.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -176,6 +194,9 @@ mixin SearchProductRef
     on AutoDisposeAsyncNotifierProviderRef<PaginatedProductResponse> {
   /// The parameter `query` of this provider.
   String get query;
+
+  /// The parameter `page` of this provider.
+  int get page;
 }
 
 class _SearchProductProviderElement
@@ -185,6 +206,8 @@ class _SearchProductProviderElement
 
   @override
   String get query => (origin as SearchProductProvider).query;
+  @override
+  int get page => (origin as SearchProductProvider).page;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
