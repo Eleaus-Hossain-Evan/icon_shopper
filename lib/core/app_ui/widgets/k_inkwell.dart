@@ -14,7 +14,7 @@ class KInkWell extends StatelessWidget {
     this.backgroundColor = Colors.transparent,
   }) : super(key: key);
 
-  final VoidCallback? onTap;
+  final void Function()? onTap;
   final Widget child;
   final BorderRadius? borderRadius;
   final double? radius;

@@ -88,7 +88,8 @@ class ProductVariantModel extends Equatable {
       'variantId': variantId,
       'attributeId': attributeId,
       'colorId': colorId,
-      'attributesWithoutColor': attributesWithoutColor.map((x) => x.toMap()).toList(),
+      'attributesWithoutColor':
+          attributesWithoutColor.map((x) => x.toMap()).toList(),
       'color': color.map((x) => x.toMap()).toList(),
     };
   }
@@ -96,20 +97,24 @@ class ProductVariantModel extends Equatable {
   factory ProductVariantModel.fromMap(Map<String, dynamic> map) {
     return ProductVariantModel(
       id: map['id']?.toInt() ?? 0,
-      productId: map['productId']?.toInt() ?? 0,
-      productCode: map['productCode'] ?? '',
-      productVariantName: map['productVariantName'] ?? '',
-      regularPrice: map['regularPrice']?.toInt() ?? 0,
+      productId: map['product_id']?.toInt() ?? 0,
+      productCode: map['product_code'] ?? '',
+      productVariantName: map['product_variant_name'] ?? '',
+      regularPrice: map['regular_price']?.toInt() ?? 0,
       discount: map['discount']?.toInt() ?? 0,
-      discountType: map['discountType'] ?? '',
-      salePrice: map['salePrice']?.toInt() ?? 0,
-      wholeSalePrice: map['wholeSalePrice']?.toInt() ?? 0,
+      discountType: map['discount_type'] ?? '',
+      salePrice: map['sale_price']?.toInt() ?? 0,
+      wholeSalePrice: map['whole_sale_price']?.toInt() ?? 0,
       qty: map['qty']?.toInt() ?? 0,
-      variantId: List<String>.from(map['variantId'] ?? const []),
-      attributeId: map['attributeId'] ?? '',
-      colorId: map['colorId']?.toInt() ?? 0,
-      attributesWithoutColor: List<AttributesWithoutColor>.from(map['attributesWithoutColor']?.map((x) => AttributesWithoutColor.fromMap(x)) ?? const []),
-      color: List<ColorModel>.from(map['color']?.map((x) => ColorModel.fromMap(x)) ?? const []),
+      variantId: List<String>.from(map['variant_id'] ?? const []),
+      attributeId: map['attribute_id'] ?? '',
+      colorId: map['color_id']?.toInt() ?? 0,
+      attributesWithoutColor: List<AttributesWithoutColor>.from(
+          map['attributes_without_color']
+                  ?.map((x) => AttributesWithoutColor.fromMap(x)) ??
+              const []),
+      color: List<ColorModel>.from(
+          map['color']?.map((x) => ColorModel.fromMap(x)) ?? const []),
     );
   }
 
@@ -236,7 +241,8 @@ class ColorModel extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory ColorModel.fromJson(String source) => ColorModel.fromMap(json.decode(source));
+  factory ColorModel.fromJson(String source) =>
+      ColorModel.fromMap(json.decode(source));
 
   @override
   String toString() => 'Color(id: $id, name: $name, code: $code)';

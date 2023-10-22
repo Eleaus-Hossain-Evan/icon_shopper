@@ -9,7 +9,7 @@ import 'new_arrival_response.dart';
 class HomeResponse extends Equatable {
   final bool success;
   final List<CategoryModel> categories;
-  final NewArrivalResponse newArrival;
+  final PaginationResponse newArrival;
   final List<SliderModel> slider;
   final String alternativeSlider;
 
@@ -21,10 +21,20 @@ class HomeResponse extends Equatable {
     required this.alternativeSlider,
   });
 
+  factory HomeResponse.init() {
+    return HomeResponse(
+      success: false,
+      categories: const [],
+      newArrival: PaginationResponse.init(),
+      slider: const [],
+      alternativeSlider: '',
+    );
+  }
+
   HomeResponse copyWith({
     bool? success,
     List<CategoryModel>? data,
-    NewArrivalResponse? newArrival,
+    PaginationResponse? newArrival,
     List<SliderModel>? slider,
     String? alternativeSlider,
   }) {
@@ -52,7 +62,9 @@ class HomeResponse extends Equatable {
       success: map['success'] ?? false,
       categories: List<CategoryModel>.from(
           map['data']?.map((x) => CategoryModel.fromMap(x)) ?? const []),
-      newArrival: NewArrivalResponse.fromMap(map['new_arrival']),
+      newArrival: map['new_arrival'] != null
+          ? PaginationResponse.fromMap(map['new_arrival'])
+          : PaginationResponse.init(),
       slider: List<SliderModel>.from(
           map['slider']?.map((x) => SliderModel.fromMap(x)) ?? const []),
       alternativeSlider: map['alternative_slider'] ?? '',

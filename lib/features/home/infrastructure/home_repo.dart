@@ -1,5 +1,5 @@
 import '../../../core/core.dart';
-import '../domain/home_reponse.dart';
+import '../domain/home_response.dart';
 
 class HomeRepo {
   final api = NetworkHandler.instance;
@@ -13,4 +13,6 @@ class HomeRepo {
 
     return data;
   }
+
+  
 }

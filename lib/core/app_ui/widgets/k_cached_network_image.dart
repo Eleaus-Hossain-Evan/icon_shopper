@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core.dart';
 
-
 class KCachedNetworkImageNoBase extends StatelessWidget {
   const KCachedNetworkImageNoBase(
       {Key? key,
@@ -98,7 +97,7 @@ class KCachedNetworkImageWdLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: APIRoute.BASE_URL + imageUrl,
+      imageUrl: APIRoute.BASE_URL + APIRoute.PRODUCT_IMAGE + imageUrl,
       fit: fit,
       imageBuilder: (context, imageProvider) {
         return Hero(

@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'sub_sub_category_model.dart';
-
-class SubCategory extends Equatable {
+class SubSubCategory extends Equatable {
   final int id;
   final int parentId;
   final int level;
@@ -13,8 +11,7 @@ class SubCategory extends Equatable {
   final String name;
   final String image;
   final int type;
-  final List<SubSubCategory> subSubCategory;
-  const SubCategory({
+  const SubSubCategory({
     required this.id,
     required this.parentId,
     required this.level,
@@ -23,10 +20,9 @@ class SubCategory extends Equatable {
     required this.name,
     required this.image,
     required this.type,
-    required this.subSubCategory,
   });
 
-  SubCategory copyWith({
+  SubSubCategory copyWith({
     int? id,
     int? parentId,
     int? level,
@@ -35,9 +31,8 @@ class SubCategory extends Equatable {
     String? name,
     String? image,
     int? type,
-    List<SubSubCategory>? subSubCategory,
   }) {
-    return SubCategory(
+    return SubSubCategory(
       id: id ?? this.id,
       parentId: parentId ?? this.parentId,
       level: level ?? this.level,
@@ -46,7 +41,6 @@ class SubCategory extends Equatable {
       name: name ?? this.name,
       image: image ?? this.image,
       type: type ?? this.type,
-      subSubCategory: subSubCategory ?? this.subSubCategory,
     );
   }
 
@@ -60,12 +54,11 @@ class SubCategory extends Equatable {
       'name': name,
       'image': image,
       'type': type,
-      'subsubcategory': subSubCategory.map((x) => x.toMap()).toList(),
     };
   }
 
-  factory SubCategory.fromMap(Map<String, dynamic> map) {
-    return SubCategory(
+  factory SubSubCategory.fromMap(Map<String, dynamic> map) {
+    return SubSubCategory(
       id: map['id']?.toInt() ?? 0,
       parentId: map['parent_id']?.toInt() ?? 0,
       level: map['level']?.toInt() ?? 0,
@@ -74,20 +67,17 @@ class SubCategory extends Equatable {
       name: map['name'] ?? '',
       image: map['image'] ?? '',
       type: map['type']?.toInt() ?? 0,
-      subSubCategory: List<SubSubCategory>.from(
-          map['subsubcategory']?.map((x) => SubSubCategory.fromMap(x)) ??
-              const []),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SubCategory.fromJson(String source) =>
-      SubCategory.fromMap(json.decode(source));
+  factory SubSubCategory.fromJson(String source) =>
+      SubSubCategory.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'SubCategory(id: $id, parent_id: $parentId, level: $level, cat_code: $catCode, slug: $slug, name: $name, image: $image, type: $type, subsubcategory: $subSubCategory)';
+    return 'SubSubCategory(id: $id, parent_id: $parentId, level: $level, cat_code: $catCode, slug: $slug, name: $name, image: $image, type: $type)';
   }
 
   @override
@@ -101,7 +91,6 @@ class SubCategory extends Equatable {
       name,
       image,
       type,
-      subSubCategory,
     ];
   }
 }

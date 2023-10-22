@@ -4,10 +4,12 @@ class APIRoute {
   static const String DUMMY_PERSON = 'https://i.pravatar.cc/300';
   static const String WEB_URL = "";
 
-  static const String BASE_URL = "https://iconshopper.demoff.xyz/";
+  static const String BASE_URL = "https://server.imglane.com/";
   // static const String BASE_URL = "https://api.senaiyah.com/";
   // static const String BASE_URL_LOCAL = "http://192.168.68.118:3697/";
   static const String API_V1 = "api/";
+  static const String IMAGE_SUBSTRING = "storage/";
+  static const String PRODUCT_IMAGE = "${IMAGE_SUBSTRING}product/";
 
   //#<<---------------- AUTH ------------------>>
   static const String SIGN_UP = "${API_V1}registration";
@@ -26,4 +28,5 @@ class APIRoute {
   static const String RETURN_POLICY = "${API_V1}return-policy";
 
   static const String HOME = "${API_V1}get-categories";
+  static const String CATEGORY_WISE_PRODUCT = "${API_V1}category-wise-product/";
 }

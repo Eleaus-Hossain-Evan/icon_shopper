@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
@@ -11,7 +10,7 @@ class CategoryModel extends Equatable {
   final String name;
   final String image;
   final int type;
-  final List<SubCategoryModel> subCategories;
+  final List<SubCategory> subCategories;
   const CategoryModel({
     required this.id,
     required this.slug,
@@ -27,7 +26,7 @@ class CategoryModel extends Equatable {
     String? name,
     String? image,
     int? type,
-    List<SubCategoryModel>? subCategories,
+    List<SubCategory>? subCategories,
   }) {
     return CategoryModel(
       id: id ?? this.id,
@@ -57,19 +56,20 @@ class CategoryModel extends Equatable {
       name: map['name'] ?? '',
       image: map['image'] ?? '',
       type: map['type']?.toInt() ?? 0,
-      subCategories: List<SubCategoryModel>.from(
-          map['sub_categories']?.map((x) => SubCategoryModel.fromMap(x)) ??
+      subCategories: List<SubCategory>.from(
+          map['sub_categories']?.map((x) => SubCategory.fromMap(x)) ??
               const []),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory CategoryModel.fromJson(String source) => CategoryModel.fromMap(json.decode(source));
+  factory CategoryModel.fromJson(String source) =>
+      CategoryModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Data(id: $id, slug: $slug, name: $name, image: $image, type: $type, sub_categories: $subCategories)';
+    return 'CategoryModel(id: $id, slug: $slug, name: $name, image: $image, type: $type, sub_categories: $subCategories)';
   }
 
   @override
