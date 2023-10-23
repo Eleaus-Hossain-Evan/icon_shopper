@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../product/domain/model/product_model.dart';
+import '../../product/presentation/product_detail_screen.dart';
 
 class ProductGridTile extends StatelessWidget {
   const ProductGridTile({
@@ -20,8 +22,7 @@ class ProductGridTile extends StatelessWidget {
     return KInkWell(
       onTap: () {
         log("message");
-        // context.push(
-        //     "${CategoryWiseProductScreen.route}/${item.asData?.value.slug}");
+        context.push("${ProductDetailScreen.route}/${data.slug}");
       },
       child: Column(
         children: [
@@ -30,8 +31,11 @@ class ProductGridTile extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: KCachedNetworkImageWdLoading(
-                    imageUrl: data.image.first,
+                  child: Ink(
+                    color: Colors.transparent,
+                    child: KCachedNetworkImageWdLoading(
+                      imageUrl: data.image.first,
+                    ),
                   ),
                 ),
                 Positioned(

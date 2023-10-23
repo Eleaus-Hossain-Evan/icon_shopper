@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/home/application/home_provider.dart';
-import 'package:icon_shopper/features/home/presentation/category_wise_product.dart';
+import 'package:icon_shopper/features/product/presentation/category_wise_product.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HomeCategoryWidget extends HookConsumerWidget {

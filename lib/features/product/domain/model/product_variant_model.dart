@@ -76,19 +76,19 @@ class ProductVariantModel extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'productId': productId,
-      'productCode': productCode,
-      'productVariantName': productVariantName,
-      'regularPrice': regularPrice,
+      'product_id': productId,
+      'product_code': productCode,
+      'product_variant_name': productVariantName,
+      'regular_price': regularPrice,
       'discount': discount,
-      'discountType': discountType,
-      'salePrice': salePrice,
-      'wholeSalePrice': wholeSalePrice,
+      'discount_type': discountType,
+      'sale_price': salePrice,
+      'whole_sale_price': wholeSalePrice,
       'qty': qty,
-      'variantId': variantId,
-      'attributeId': attributeId,
-      'colorId': colorId,
-      'attributesWithoutColor':
+      'variant_id': variantId,
+      'attribute_id': attributeId,
+      'color_id': colorId,
+      'attributes_without_color':
           attributesWithoutColor.map((x) => x.toMap()).toList(),
       'color': color.map((x) => x.toMap()).toList(),
     };
@@ -205,11 +205,14 @@ class ColorModel extends Equatable {
   final int id;
   final String name;
   final String code;
+
   const ColorModel({
     required this.id,
     required this.name,
     required this.code,
   });
+
+  factory ColorModel.init() => const ColorModel(id: 0, name: '', code: '');
 
   ColorModel copyWith({
     int? id,

@@ -5,7 +5,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../common/presentation/product_list_tile.dart';
-import '../../product/provider/product_provider.dart';
+import '../application/product_provider.dart';
 
 class CategoryWiseProductScreen extends HookConsumerWidget {
   static const route = '/category-wise-product';

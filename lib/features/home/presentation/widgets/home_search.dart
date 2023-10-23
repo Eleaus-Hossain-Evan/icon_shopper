@@ -19,6 +19,7 @@ class HomeSearch extends SearchDelegate {
   List<Widget>? buildActions(BuildContext context) => [
         IconButton(
           icon: const Icon(Icons.clear),
+          color: Colors.black,
           onPressed: () {
             if (query.isEmpty) {
               close(context, null);
@@ -33,6 +34,7 @@ class HomeSearch extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
         icon: const Icon(Icons.arrow_back),
+        color: Colors.black,
         onPressed: () => close(context, null),
       );
 
@@ -41,6 +43,7 @@ class HomeSearch extends SearchDelegate {
     return HookConsumer(
       builder: (context, ref, child) {
         bool noDataMessageDisplayed = false;
+        const pageSize = 15;
         return ListView.custom(
           padding: padding16,
           // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -51,8 +54,6 @@ class HomeSearch extends SearchDelegate {
           // ),
           childrenDelegate: SliverChildBuilderDelegate(
             (context, index) {
-              const pageSize = 15;
-
               final page = index ~/ pageSize + 1;
               final indexInPage = index % pageSize;
               final packageList =

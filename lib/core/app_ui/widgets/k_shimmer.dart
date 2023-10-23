@@ -9,27 +9,31 @@ import '../../core.dart';
 class KShimmerWidget extends HookConsumerWidget {
   const KShimmerWidget({
     super.key,
-    this.baseColor,
-    this.highlightColor,
+    this.baseColor = AppColors.bg200,
+    this.highlightColor = AppColors.pastelGrey,
     this.height,
     this.width,
     this.borderRadius,
   });
 
-  final Color? baseColor;
-  final Color? highlightColor;
+  final Color baseColor;
+  final Color highlightColor;
   final double? height;
   final double? width;
   final BorderRadiusGeometry? borderRadius;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final radius = borderRadius ?? BorderRadius.circular(6.r);
     return Shimmer.fromColors(
-      baseColor: baseColor ?? AppColors.bg200,
-      highlightColor: highlightColor ?? AppColors.pastelGrey,
-      child: KSkeletonWidget(
-        height: height,
-        width: width,
-        borderRadius: borderRadius,
+      baseColor: baseColor,
+      highlightColor: highlightColor,
+      child: Container(
+        height: height ?? DefaultTextStyle.of(context).style.fontSize! * 1,
+        width: width ?? double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: radius,
+        ),
       ),
     );
   }
@@ -64,19 +68,25 @@ class KSkeletonWidget extends HookConsumerWidget {
     this.height,
     this.width,
     this.borderRadius,
+    this.baseColor = AppColors.bg200,
+    this.highlightColor = AppColors.pastelGrey,
   });
 
   final double? height;
   final double? width;
   final BorderRadiusGeometry? borderRadius;
+  final Color baseColor;
+  final Color highlightColor;
 
   @override
   Widget build(BuildContext context, ref) {
     final radius = borderRadius ?? BorderRadius.circular(6.r);
     return VxSkeleton(
-      height: height,
-      width: width,
+      height: height ?? 32.h,
+      width: width ?? 1.sw,
       borderRadius: radius,
+      color: baseColor,
+      shimmerColor: highlightColor,
     );
   }
 }

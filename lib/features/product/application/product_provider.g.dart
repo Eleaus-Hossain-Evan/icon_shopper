@@ -176,5 +176,150 @@ class _CategoryWiseProductProviderElement
   @override
   String get slug => (origin as CategoryWiseProductProvider).slug;
 }
+
+String _$productDetailsHash() => r'c5b6e365e55f7688c265ece6750ddcaba391cb47';
+
+abstract class _$ProductDetails
+    extends BuildlessAutoDisposeAsyncNotifier<ProductResponse> {
+  late final String slug;
+
+  FutureOr<ProductResponse> build(
+    String slug,
+  );
+}
+
+/// See also [ProductDetails].
+@ProviderFor(ProductDetails)
+const productDetailsProvider = ProductDetailsFamily();
+
+/// See also [ProductDetails].
+class ProductDetailsFamily extends Family<AsyncValue<ProductResponse>> {
+  /// See also [ProductDetails].
+  const ProductDetailsFamily();
+
+  /// See also [ProductDetails].
+  ProductDetailsProvider call(
+    String slug,
+  ) {
+    return ProductDetailsProvider(
+      slug,
+    );
+  }
+
+  @override
+  ProductDetailsProvider getProviderOverride(
+    covariant ProductDetailsProvider provider,
+  ) {
+    return call(
+      provider.slug,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'productDetailsProvider';
+}
+
+/// See also [ProductDetails].
+class ProductDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    ProductDetails, ProductResponse> {
+  /// See also [ProductDetails].
+  ProductDetailsProvider(
+    String slug,
+  ) : this._internal(
+          () => ProductDetails()..slug = slug,
+          from: productDetailsProvider,
+          name: r'productDetailsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$productDetailsHash,
+          dependencies: ProductDetailsFamily._dependencies,
+          allTransitiveDependencies:
+              ProductDetailsFamily._allTransitiveDependencies,
+          slug: slug,
+        );
+
+  ProductDetailsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.slug,
+  }) : super.internal();
+
+  final String slug;
+
+  @override
+  FutureOr<ProductResponse> runNotifierBuild(
+    covariant ProductDetails notifier,
+  ) {
+    return notifier.build(
+      slug,
+    );
+  }
+
+  @override
+  Override overrideWith(ProductDetails Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ProductDetailsProvider._internal(
+        () => create()..slug = slug,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        slug: slug,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ProductDetails, ProductResponse>
+      createElement() {
+    return _ProductDetailsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProductDetailsProvider && other.slug == slug;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, slug.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ProductDetailsRef
+    on AutoDisposeAsyncNotifierProviderRef<ProductResponse> {
+  /// The parameter `slug` of this provider.
+  String get slug;
+}
+
+class _ProductDetailsProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ProductDetails,
+        ProductResponse> with ProductDetailsRef {
+  _ProductDetailsProviderElement(super.provider);
+
+  @override
+  String get slug => (origin as ProductDetailsProvider).slug;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

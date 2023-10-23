@@ -9,13 +9,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/auth/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:icon_shopper/features/auth/presentation/login_screen.dart';
 import 'package:icon_shopper/features/auth/presentation/register_screen.dart';
-import 'package:icon_shopper/features/home/presentation/category_wise_product.dart';
+import 'package:icon_shopper/features/product/presentation/category_wise_product.dart';
 import 'package:icon_shopper/features/home/presentation/home_screen.dart';
 import 'package:icon_shopper/features/profile/presentation/profile_detail_screen.dart';
 import 'package:icon_shopper/features/splash/splash_screen.dart';
 
 import '../../features/common/presentation/html_text_screen.dart';
 import '../../features/main_mav/main_nav.dart';
+import '../../features/product/presentation/product_detail_screen.dart';
 import '../../features/profile/presentation/change_password_screen.dart';
 import '../core.dart';
 
@@ -140,6 +141,15 @@ class RouterNotifier extends Listenable {
           pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
             key: state.pageKey,
             child: CategoryWiseProductScreen(
+              slug: state.pathParameters['slug'] ?? '',
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '${ProductDetailScreen.route}/:slug',
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            key: state.pageKey,
+            child: ProductDetailScreen(
               slug: state.pathParameters['slug'] ?? '',
             ),
           ),

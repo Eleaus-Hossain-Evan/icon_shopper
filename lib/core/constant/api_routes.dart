@@ -28,6 +28,8 @@ class APIRouteEndpoint {
   static const String RETURN_POLICY = "${API_V1}return-policy";
 
   static const String HOME = "${API_V1}get-categories";
-  static const String CATEGORY_WISE_PRODUCT = "${API_V1}category-wise-product/";
   static const String SEARCH = "${API_V1}search/";
+  //#<<---------------- Product ------------------>>
+  static const String PRODUCT_DETAILS = "${API_V1}get-product-details/";
+  static const String CATEGORY_WISE_PRODUCT = "${API_V1}category-wise-product/";
 }

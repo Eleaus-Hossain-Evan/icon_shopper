@@ -1,4 +1,5 @@
 import 'package:icon_shopper/features/product/domain/category_wise_product_list.dart';
+import 'package:icon_shopper/features/product/domain/product_response.dart';
 
 import '../../../core/core.dart';
 
@@ -13,6 +14,18 @@ class ProductRepo {
     final data = await api.get(
       fromData: (json) => CategoryWiseProductResponse.fromMap(json),
       endPoint: "${APIRouteEndpoint.CATEGORY_WISE_PRODUCT}$slug?page=$page",
+      withToken: true,
+    );
+
+    return data;
+  }
+
+  Future<Either<CleanFailure, ProductResponse>> getProductDetails(
+    String slug,
+  ) async {
+    final data = await api.get(
+      fromData: (json) => ProductResponse.fromMap(json),
+      endPoint: APIRouteEndpoint.PRODUCT_DETAILS + slug,
       withToken: true,
     );
 
