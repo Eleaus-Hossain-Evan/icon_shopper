@@ -29,7 +29,7 @@ Future<List<ProductModel>> categoryWiseProduct(
 }
 
 @riverpod
-class ProductDetails extends _$ProductDetails {
+class GetProductDetails extends _$GetProductDetails {
   @override
   FutureOr<ProductResponse> build(String slug) async {
     final result = await ProductRepo().getProductDetails(slug);
@@ -39,16 +39,14 @@ class ProductDetails extends _$ProductDetails {
   }
 }
 
-final productProvider =
-    NotifierProviderFamily<ProductNotifier, Future<ProductResponse>, String>(
-        ProductNotifier.new);
-
-class ProductNotifier extends FamilyNotifier<Future<ProductResponse>, String> {
+@riverpod
+class CurrentProduct extends _$CurrentProduct {
   @override
-  Future<ProductResponse> build(String slug) async {
-    final result = await ProductRepo().getProductDetails(slug);
-    return result.fold((l) {
-      return showErrorToast(l.error.message);
-    }, (r) => r);
+  ProductModel build() {
+    return ProductModel.init();
+  }
+
+  void setState(ProductModel model) {
+    state = model;
   }
 }

@@ -177,9 +177,9 @@ class _CategoryWiseProductProviderElement
   String get slug => (origin as CategoryWiseProductProvider).slug;
 }
 
-String _$productDetailsHash() => r'c5b6e365e55f7688c265ece6750ddcaba391cb47';
+String _$getProductDetailsHash() => r'18497571f6279b30b96f44db43aa3b7a6013b2c3';
 
-abstract class _$ProductDetails
+abstract class _$GetProductDetails
     extends BuildlessAutoDisposeAsyncNotifier<ProductResponse> {
   late final String slug;
 
@@ -188,27 +188,27 @@ abstract class _$ProductDetails
   );
 }
 
-/// See also [ProductDetails].
-@ProviderFor(ProductDetails)
-const productDetailsProvider = ProductDetailsFamily();
+/// See also [GetProductDetails].
+@ProviderFor(GetProductDetails)
+const getProductDetailsProvider = GetProductDetailsFamily();
 
-/// See also [ProductDetails].
-class ProductDetailsFamily extends Family<AsyncValue<ProductResponse>> {
-  /// See also [ProductDetails].
-  const ProductDetailsFamily();
+/// See also [GetProductDetails].
+class GetProductDetailsFamily extends Family<AsyncValue<ProductResponse>> {
+  /// See also [GetProductDetails].
+  const GetProductDetailsFamily();
 
-  /// See also [ProductDetails].
-  ProductDetailsProvider call(
+  /// See also [GetProductDetails].
+  GetProductDetailsProvider call(
     String slug,
   ) {
-    return ProductDetailsProvider(
+    return GetProductDetailsProvider(
       slug,
     );
   }
 
   @override
-  ProductDetailsProvider getProviderOverride(
-    covariant ProductDetailsProvider provider,
+  GetProductDetailsProvider getProviderOverride(
+    covariant GetProductDetailsProvider provider,
   ) {
     return call(
       provider.slug,
@@ -227,30 +227,30 @@ class ProductDetailsFamily extends Family<AsyncValue<ProductResponse>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'productDetailsProvider';
+  String? get name => r'getProductDetailsProvider';
 }
 
-/// See also [ProductDetails].
-class ProductDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    ProductDetails, ProductResponse> {
-  /// See also [ProductDetails].
-  ProductDetailsProvider(
+/// See also [GetProductDetails].
+class GetProductDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    GetProductDetails, ProductResponse> {
+  /// See also [GetProductDetails].
+  GetProductDetailsProvider(
     String slug,
   ) : this._internal(
-          () => ProductDetails()..slug = slug,
-          from: productDetailsProvider,
-          name: r'productDetailsProvider',
+          () => GetProductDetails()..slug = slug,
+          from: getProductDetailsProvider,
+          name: r'getProductDetailsProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$productDetailsHash,
-          dependencies: ProductDetailsFamily._dependencies,
+                  : _$getProductDetailsHash,
+          dependencies: GetProductDetailsFamily._dependencies,
           allTransitiveDependencies:
-              ProductDetailsFamily._allTransitiveDependencies,
+              GetProductDetailsFamily._allTransitiveDependencies,
           slug: slug,
         );
 
-  ProductDetailsProvider._internal(
+  GetProductDetailsProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -264,7 +264,7 @@ class ProductDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   FutureOr<ProductResponse> runNotifierBuild(
-    covariant ProductDetails notifier,
+    covariant GetProductDetails notifier,
   ) {
     return notifier.build(
       slug,
@@ -272,10 +272,10 @@ class ProductDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  Override overrideWith(ProductDetails Function() create) {
+  Override overrideWith(GetProductDetails Function() create) {
     return ProviderOverride(
       origin: this,
-      override: ProductDetailsProvider._internal(
+      override: GetProductDetailsProvider._internal(
         () => create()..slug = slug,
         from: from,
         name: null,
@@ -288,14 +288,14 @@ class ProductDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<ProductDetails, ProductResponse>
+  AutoDisposeAsyncNotifierProviderElement<GetProductDetails, ProductResponse>
       createElement() {
-    return _ProductDetailsProviderElement(this);
+    return _GetProductDetailsProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ProductDetailsProvider && other.slug == slug;
+    return other is GetProductDetailsProvider && other.slug == slug;
   }
 
   @override
@@ -307,19 +307,36 @@ class ProductDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
-mixin ProductDetailsRef
+mixin GetProductDetailsRef
     on AutoDisposeAsyncNotifierProviderRef<ProductResponse> {
   /// The parameter `slug` of this provider.
   String get slug;
 }
 
-class _ProductDetailsProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<ProductDetails,
-        ProductResponse> with ProductDetailsRef {
-  _ProductDetailsProviderElement(super.provider);
+class _GetProductDetailsProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<GetProductDetails,
+        ProductResponse> with GetProductDetailsRef {
+  _GetProductDetailsProviderElement(super.provider);
 
   @override
-  String get slug => (origin as ProductDetailsProvider).slug;
+  String get slug => (origin as GetProductDetailsProvider).slug;
 }
+
+String _$currentProductHash() => r'a0675242c06d1baa726e2cbf2f71e96f0af6c56b';
+
+/// See also [CurrentProduct].
+@ProviderFor(CurrentProduct)
+final currentProductProvider =
+    AutoDisposeNotifierProvider<CurrentProduct, ProductModel>.internal(
+  CurrentProduct.new,
+  name: r'currentProductProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentProductHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$CurrentProduct = AutoDisposeNotifier<ProductModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

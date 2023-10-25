@@ -36,6 +36,24 @@ class ProductVariantModel extends Equatable {
     required this.color,
   });
 
+  factory ProductVariantModel.init() => const ProductVariantModel(
+        id: 0,
+        productId: 0,
+        productCode: '',
+        productVariantName: '',
+        regularPrice: 0,
+        discount: 0,
+        discountType: '',
+        salePrice: 0,
+        wholeSalePrice: 0,
+        qty: 0,
+        variantId: [],
+        attributeId: '',
+        colorId: 0,
+        attributesWithoutColor: [],
+        color: [],
+      );
+
   ProductVariantModel copyWith({
     int? id,
     int? productId,

@@ -75,27 +75,32 @@ class KCachedNetworkImageWdLoading extends StatelessWidget {
   const KCachedNetworkImageWdLoading({
     Key? key,
     required this.imageUrl,
-    this.borderRadius = const BorderRadius.all(Radius.zero),
-    this.height = 200,
-    this.width = double.infinity,
+    this.borderRadius,
+    this.height,
+    this.width,
     this.borderWidth,
     this.fit = BoxFit.cover,
     this.child,
     this.padding,
     this.margin,
     this.borderColor,
+    this.isBox = false,
   }) : super(key: key);
 
   final String imageUrl;
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
   final BoxFit? fit;
   final double? height, width, borderWidth;
   final Widget? child;
   final EdgeInsetsGeometry? padding, margin;
   final Color? borderColor;
+  final bool isBox;
 
   @override
   Widget build(BuildContext context) {
+    var isContainer = isBox
+        ? (borderWidth != null && borderColor != null && borderRadius != null)
+        : false;
     return CachedNetworkImage(
       imageUrl:
           APIRouteEndpoint.BASE_URL + APIRouteEndpoint.PRODUCT_IMAGE + imageUrl,
@@ -104,8 +109,8 @@ class KCachedNetworkImageWdLoading extends StatelessWidget {
         return Hero(
           tag: imageUrl,
           child: Container(
-            width: width ?? double.infinity,
-            height: height ?? double.infinity,
+            width: width,
+            height: height,
             padding: padding,
             margin: margin,
             clipBehavior: Clip.hardEdge,
@@ -127,12 +132,15 @@ class KCachedNetworkImageWdLoading extends StatelessWidget {
       height: height,
       width: width,
       progressIndicatorBuilder: (context, url, progress) => Center(
-        child: SizedBox(
-          height: 30.h,
-          width: 30.h,
-          child: CircularProgressIndicator(
-            value: progress.progress,
-            strokeWidth: .8.w,
+        child: Padding(
+          padding: EdgeInsets.all(10.w),
+          child: SizedBox(
+            height: 30.h,
+            width: 30.h,
+            child: CircularProgressIndicator(
+              value: progress.progress,
+              strokeWidth: .8.w,
+            ),
           ),
         ),
       ),
@@ -146,27 +154,40 @@ class KCachedNetworkImage extends StatelessWidget {
   const KCachedNetworkImage({
     Key? key,
     required this.imageUrl,
-    this.height = 200,
-    this.width = double.infinity,
+    this.height,
+    this.width,
     this.fit = BoxFit.cover,
   }) : super(key: key);
 
   final String imageUrl;
-
   final BoxFit? fit;
   final double? height, width;
 
   @override
   Widget build(BuildContext context) {
-    return imageUrl.isEmpty
-        ? const SizedBox.expand()
-        : CachedNetworkImage(
-            imageUrl: "${APIRouteEndpoint.BASE_URL}$imageUrl",
-            fit: fit,
-            height: height,
-            width: width,
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-            // placeholder: (context, url) => const Icon(Icons.error),
-          );
+    return Hero(
+      tag: ValueKey(imageUrl),
+      child: CachedNetworkImage(
+        imageUrl:
+            "${APIRouteEndpoint.BASE_URL}${APIRouteEndpoint.PRODUCT_IMAGE}$imageUrl",
+        fit: fit,
+        height: height,
+        width: width,
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+        progressIndicatorBuilder: (context, url, progress) => Center(
+          child: Padding(
+            padding: EdgeInsets.all(10.w),
+            child: SizedBox(
+              height: 30.h,
+              width: 30.h,
+              child: CircularProgressIndicator(
+                value: progress.progress,
+                strokeWidth: .8.w,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -16,7 +16,7 @@ import 'package:icon_shopper/features/splash/splash_screen.dart';
 
 import '../../features/common/presentation/html_text_screen.dart';
 import '../../features/main_mav/main_nav.dart';
-import '../../features/product/presentation/product_detail_screen.dart';
+import '../../features/product/presentation/product_detail/product_detail_screen.dart';
 import '../../features/profile/presentation/change_password_screen.dart';
 import '../core.dart';
 

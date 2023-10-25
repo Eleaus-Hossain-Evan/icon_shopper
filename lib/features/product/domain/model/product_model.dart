@@ -64,6 +64,7 @@ class ProductModel extends Equatable {
   final List<AvailableAttribute> availableAttributes;
   final List<AttributesType> attributesTypes;
   final List<ProductVariantModel> productVariants;
+  final int selectedVariantsIndex;
   final String slug;
   const ProductModel({
     required this.id,
@@ -123,8 +124,71 @@ class ProductModel extends Equatable {
     required this.availableAttributes,
     required this.attributesTypes,
     required this.productVariants,
+    required this.selectedVariantsIndex,
     required this.slug,
   });
+
+  factory ProductModel.init() => const ProductModel(
+        id: 0,
+        productVariationStatus: 0,
+        productName: '',
+        productCode: '',
+        variantCode: '',
+        categoryId: [],
+        brandId: [],
+        unitId: 0,
+        minimumPurchaseQty: 0,
+        barcodeSymbol: '',
+        unitPrice: 0,
+        discount: 0,
+        discountType: '',
+        shippingType: '',
+        qty: 0,
+        sku: '',
+        tags: '',
+        refundable: '',
+        image: [],
+        colors: [],
+        attributes: [],
+        description: '',
+        sizeChart: '',
+        guideline: '',
+        pdfFile: '',
+        metaTag: '',
+        metaDescription: '',
+        metaImage: '',
+        freeShipping: '',
+        flatRate: '',
+        shippingCost: 0,
+        lowStockQuantity: 0,
+        stockVisibilityState: 0,
+        cashOnDelivery: 0,
+        newArrivalStatus: 0,
+        featuredStatus: 0,
+        hotProductStatus: 0,
+        landingProduct: 0,
+        estimateShippingTime: '',
+        taxId: 0,
+        taxMethod: 0,
+        showroomId: [],
+        wholeSellProductStatus: 0,
+        status: 0,
+        createdBy: '',
+        modifiedBy: '',
+        createdAt: '',
+        updatedAt: '',
+        regularPrice: 0,
+        salePrice: 0,
+        wholeSalePrice: 0,
+        categories: [],
+        brands: [],
+        colorList: [],
+        availableAttributes: [],
+        attributesTypes: [],
+        productVariants: [],
+        selectedVariantsIndex: 0,
+        slug: '',
+      );
 
   ProductModel copyWith({
     int? id,
@@ -184,6 +248,7 @@ class ProductModel extends Equatable {
     List<AvailableAttribute>? availableAttributes,
     List<AttributesType>? attributesTypes,
     List<ProductVariantModel>? productVariants,
+    int? selectedVariants,
     String? slug,
   }) {
     return ProductModel(
@@ -246,6 +311,7 @@ class ProductModel extends Equatable {
       availableAttributes: availableAttributes ?? this.availableAttributes,
       attributesTypes: attributesTypes ?? this.attributesTypes,
       productVariants: productVariants ?? this.productVariants,
+      selectedVariantsIndex: selectedVariants ?? selectedVariantsIndex,
       slug: slug ?? this.slug,
     );
   }
@@ -382,6 +448,7 @@ class ProductModel extends Equatable {
       productVariants: List<ProductVariantModel>.from(
           map['product_variants']?.map((x) => ProductVariantModel.fromMap(x)) ??
               const []),
+      selectedVariantsIndex: 0,
       slug: map['slug'] ?? '',
     );
   }
@@ -393,7 +460,7 @@ class ProductModel extends Equatable {
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, productVariationStatus: $productVariationStatus, productName: $productName, productCode: $productCode, variantCode: $variantCode, categoryId: $categoryId, brandId: $brandId, unitId: $unitId, minimumPurchaseQty: $minimumPurchaseQty, barcodeSymbol: $barcodeSymbol, unitPrice: $unitPrice, discount: $discount, discountType: $discountType, shippingType: $shippingType, qty: $qty, sku: $sku, tags: $tags, refundable: $refundable, image: $image, colors: $colors, attributes: $attributes, description: $description, sizeChart: $sizeChart, guideline: $guideline, pdfFile: $pdfFile, metaTag: $metaTag, metaDescription: $metaDescription, metaImage: $metaImage, freeShipping: $freeShipping, flatRate: $flatRate, shippingCost: $shippingCost, lowStockQuantity: $lowStockQuantity, stockVisibilityState: $stockVisibilityState, cashOnDelivery: $cashOnDelivery, newArrivalStatus: $newArrivalStatus, featuredStatus: $featuredStatus, hotProductStatus: $hotProductStatus, landingProduct: $landingProduct, estimateShippingTime: $estimateShippingTime, taxId: $taxId, taxMethod: $taxMethod, showroomId: $showroomId, wholeSellProductStatus: $wholeSellProductStatus, status: $status, createdBy: $createdBy, modifiedBy: $modifiedBy, createdAt: $createdAt, updatedAt: $updatedAt, regularPrice: $regularPrice, salePrice: $salePrice, wholeSalePrice: $wholeSalePrice, categories: $categories, brands: $brands, colorList: $colorList, availableAttributes: $availableAttributes, attributesTypes: $attributesTypes, productVariants: $productVariants, slug: $slug)';
+    return 'ProductModel(id: $id, productVariationStatus: $productVariationStatus, productName: $productName, productCode: $productCode, variantCode: $variantCode, categoryId: $categoryId, brandId: $brandId, unitId: $unitId, minimumPurchaseQty: $minimumPurchaseQty, barcodeSymbol: $barcodeSymbol, unitPrice: $unitPrice, discount: $discount, discountType: $discountType, shippingType: $shippingType, qty: $qty, sku: $sku, tags: $tags, refundable: $refundable, image: $image, colors: $colors, attributes: $attributes, description: $description, sizeChart: $sizeChart, guideline: $guideline, pdfFile: $pdfFile, metaTag: $metaTag, metaDescription: $metaDescription, metaImage: $metaImage, freeShipping: $freeShipping, flatRate: $flatRate, shippingCost: $shippingCost, lowStockQuantity: $lowStockQuantity, stockVisibilityState: $stockVisibilityState, cashOnDelivery: $cashOnDelivery, newArrivalStatus: $newArrivalStatus, featuredStatus: $featuredStatus, hotProductStatus: $hotProductStatus, landingProduct: $landingProduct, estimateShippingTime: $estimateShippingTime, taxId: $taxId, taxMethod: $taxMethod, showroomId: $showroomId, wholeSellProductStatus: $wholeSellProductStatus, status: $status, createdBy: $createdBy, modifiedBy: $modifiedBy, createdAt: $createdAt, updatedAt: $updatedAt, regularPrice: $regularPrice, salePrice: $salePrice, wholeSalePrice: $wholeSalePrice, categories: $categories, brands: $brands, colorList: $colorList, availableAttributes: $availableAttributes, attributesTypes: $attributesTypes, productVariants: $productVariants, selectedVariants: $selectedVariantsIndex slug: $slug)';
   }
 
   @override
@@ -456,6 +523,7 @@ class ProductModel extends Equatable {
       availableAttributes,
       attributesTypes,
       productVariants,
+      selectedVariantsIndex,
       slug,
     ];
   }
