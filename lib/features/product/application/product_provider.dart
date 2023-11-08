@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter_easylogger/flutter_logger.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/product/domain/model/product_model.dart';
+import 'package:icon_shopper/features/product/domain/model/product_variant_model.dart';
 import 'package:icon_shopper/features/product/domain/product_response.dart';
 import 'package:icon_shopper/features/product/infrastructure/product_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,7 +37,8 @@ class GetProductDetails extends _$GetProductDetails {
   FutureOr<ProductResponse> build(String slug) async {
     final result = await ProductRepo().getProductDetails(slug);
     return result.fold((l) {
-      return showErrorToast(l.error.message);
+      showErrorToast(l.error.message);
+      return ProductResponse.init();
     }, (r) => r);
   }
 }
@@ -46,7 +50,35 @@ class CurrentProduct extends _$CurrentProduct {
     return ProductModel.init();
   }
 
-  void setState(ProductModel model) {
+  void setState(ProductModel model) async {
+    state = model;
+    ref.read(productVariantProvider.notifier).update((v) {
+      if (model.productVariationStatus == 1) {
+        return model.productVariants.first;
+      }
+      return v;
+    });
+  }
+
+  void setVariant(ProductVariantModel item) {
+    final model = state.copyWith(selectedVariant: item);
+
+    Logger.i(model);
     state = model;
   }
+
+  // void setVariation(ProductVariantModel model) {
+  //   ref.read(productVariantProvider.notifier).update((v) => model);
+  // }
 }
+
+final productVariantProvider =
+    StateProvider.autoDispose<ProductVariantModel>((ref) {
+  final state = ref.watch(currentProductProvider);
+
+  final variant = state.productVariants.isNotEmpty
+      ? state.productVariants[0]
+      : ProductVariantModel.init();
+
+  return variant;
+}, name: 'productVariantProvider');

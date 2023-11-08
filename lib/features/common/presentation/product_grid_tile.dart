@@ -72,18 +72,63 @@ class ProductGridTile extends StatelessWidget {
               .isIntrinsic
               .make(),
           // gap10,
-          Text.rich(
-            TextSpan(
-              children: [
-                '৳ '.textSpan.semiBold.size(16.sp).make(),
-                data.productVariants.first.regularPrice
-                    .toString()
-                    .textSpan
-                    .semiBold
-                    .size(16.sp)
-                    .make()
-              ],
-            ),
+
+          // Row(
+          //   children: [
+          //     Row(
+          //       children: [
+          //         "TK".text.xl.bold.gray400.lineThrough.make(),
+          //         gap2,
+          //         variant.regularPrice.text.xl.bold.gray400.lineThrough.make(),
+          //         gap8,
+          //       ],
+          //     ).hide(isVisible: variant.discount > 0),
+          //     "TK".text.xl2.colorPrimary(context).bold.make(),
+          //     gap2,
+          //     (variant.salePrice).text.xl2.bold.colorPrimary(context).make(),
+          //   ],
+          // ),
+          Row(
+            mainAxisAlignment: mainCenter,
+            children: [
+              Text.rich(
+                TextSpan(
+                  children: [
+                    '৳ '
+                        .textSpan
+                        .semiBold
+                        .size(12.sp)
+                        .lineThrough
+                        .color(AppColors.primary200)
+                        .make(),
+                    data.productVariants.first.regularPrice
+                        .toString()
+                        .textSpan
+                        .semiBold
+                        .size(12.sp)
+                        .lineThrough
+                        .color(AppColors.primary200)
+                        .make(),
+                  ],
+                ),
+              ).hide(isVisible: data.productVariants.first.discount > 0),
+              SizedBox(
+                width: 4.w,
+              ).hide(isVisible: data.productVariants.first.discount > 0),
+              Text.rich(
+                TextSpan(
+                  children: [
+                    '৳ '.textSpan.semiBold.size(16.sp).make(),
+                    data.productVariants.first.salePrice
+                        .toString()
+                        .textSpan
+                        .semiBold
+                        .size(16.sp)
+                        .make()
+                  ],
+                ),
+              ),
+            ],
           ),
           // product.toString().text.make(),
         ],

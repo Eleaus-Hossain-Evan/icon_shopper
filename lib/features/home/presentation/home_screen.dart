@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,7 +5,6 @@ import 'package:icon_shopper/features/home/presentation/widgets/home_category.da
 import 'package:icon_shopper/features/home/presentation/widgets/home_slider.dart';
 
 import '../../../core/core.dart';
-import '../application/home_provider.dart';
 import 'widgets/home_latest_product.dart';
 import 'widgets/home_search.dart';
 

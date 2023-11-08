@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html_table/flutter_html_table.dart';
 
 class HtmlTextWidget extends StatelessWidget {
   const HtmlTextWidget({
@@ -20,6 +24,14 @@ class HtmlTextWidget extends StatelessWidget {
           // context.push("${WebViewScreen.route}?url=$url");
         }
       },
+      onCssParseError: (css, errors) {
+        Logger.e(css);
+        Logger.e(errors);
+        return null;
+      },
+      extensions: const [
+        TableHtmlExtension(),
+      ],
     );
   }
 }

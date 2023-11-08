@@ -85,6 +85,7 @@ class KCachedNetworkImageWdLoading extends StatelessWidget {
     this.margin,
     this.borderColor,
     this.isBox = false,
+    this.isHero = false,
   }) : super(key: key);
 
   final String imageUrl;
@@ -94,58 +95,61 @@ class KCachedNetworkImageWdLoading extends StatelessWidget {
   final Widget? child;
   final EdgeInsetsGeometry? padding, margin;
   final Color? borderColor;
-  final bool isBox;
+  final bool isBox, isHero;
 
   @override
   Widget build(BuildContext context) {
     var isContainer = isBox
         ? (borderWidth != null && borderColor != null && borderRadius != null)
         : false;
-    return CachedNetworkImage(
-      imageUrl:
-          APIRouteEndpoint.BASE_URL + APIRouteEndpoint.PRODUCT_IMAGE + imageUrl,
-      fit: fit,
-      imageBuilder: (context, imageProvider) {
-        return Hero(
-          tag: imageUrl,
-          child: Container(
-            width: width,
-            height: height,
-            padding: padding,
-            margin: margin,
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              borderRadius: borderRadius,
-              border: Border.all(
-                color: borderColor ?? Colors.transparent,
-                width: borderWidth ?? 1.w,
+    return Hero(
+      tag: isHero ? ValueKey(imageUrl) : UniqueKey(),
+      child: CachedNetworkImage(
+        imageUrl: APIRouteEndpoint.IMAGE_BASE_URL +
+            APIRouteEndpoint.PRODUCT_IMAGE +
+            imageUrl,
+        fit: fit,
+        imageBuilder: isContainer
+            ? (context, imageProvider) {
+                return Container(
+                  width: width,
+                  height: height,
+                  padding: padding,
+                  margin: margin,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius,
+                    border: Border.all(
+                      color: borderColor ?? Colors.transparent,
+                      width: borderWidth ?? 1.w,
+                    ),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: child,
+                );
+              }
+            : null,
+        height: height,
+        width: width,
+        progressIndicatorBuilder: (context, url, progress) => Center(
+          child: Padding(
+            padding: EdgeInsets.all(10.w),
+            child: SizedBox(
+              height: 30.h,
+              width: 30.h,
+              child: CircularProgressIndicator(
+                value: progress.progress,
+                strokeWidth: .8.w,
               ),
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: child,
-          ),
-        );
-      },
-      height: height,
-      width: width,
-      progressIndicatorBuilder: (context, url, progress) => Center(
-        child: Padding(
-          padding: EdgeInsets.all(10.w),
-          child: SizedBox(
-            height: 30.h,
-            width: 30.h,
-            child: CircularProgressIndicator(
-              value: progress.progress,
-              strokeWidth: .8.w,
             ),
           ),
         ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+        // placeholder: (context, url) => const Icon(Icons.error),
       ),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
-      // placeholder: (context, url) => const Icon(Icons.error),
     );
   }
 }

@@ -9,7 +9,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../../core/core.dart';
 import '../../../application/product_provider.dart';
-import '../../../domain/product_response.dart';
+import '../../../domain/model/product_variant_model.dart';
 
 class ProductImageSection extends HookConsumerWidget {
   const ProductImageSection({super.key});
@@ -20,6 +20,13 @@ class ProductImageSection extends HookConsumerWidget {
 
     final controller = useMemoized(SwiperController.new);
 
+    final currentVariation = useMemoized(
+        () => state.selectedVariant,
+        [state.productVariants, state.selectedVariant]);
+
+    final percent = 100 *
+        (currentVariation.regularPrice - currentVariation.salePrice) /
+        currentVariation.regularPrice;
     void openGallery(String source) {
       Navigator.of(context).push(
         HeroDialogRoute<void>(
@@ -32,15 +39,16 @@ class ProductImageSection extends HookConsumerWidget {
                 behavior: HitTestBehavior.opaque,
                 onTap: () => Navigator.of(context).pop(),
                 child: Center(
-                  child: KCachedNetworkImage(
-                    imageUrl: state.image[index],
+                  child: state.image[index].networkImageBaseUrl(
                     fit: BoxFit.contain,
+                    height: null,
+                    width: 1.sw,
                   ),
                 ),
               );
             },
             onPageChanged: (int pageIndex) {
-              print("nell-pageIndex:$pageIndex");
+              debugPrint("nell-pageIndex:$pageIndex");
             },
           ),
         ),
@@ -49,36 +57,36 @@ class ProductImageSection extends HookConsumerWidget {
 
     return Column(
       children: [
-        Padding(
-          padding: paddingH24,
-          child: SizedBox(
-            width: 1.sw,
-            height: 300.h,
-            child: Stack(
-              children: [
-                Swiper(
-                  controller: controller,
-                  itemCount: state.image.length,
-                  itemBuilder: (context, index) => AspectRatio(
-                    aspectRatio: 384 / 572,
-                    child: GestureDetector(
-                      onTap: () => openGallery(state.image[index]),
-                      child: KCachedNetworkImage(
-                        imageUrl: state.image[index],
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                  ),
-                  pagination: SwiperPagination(
-                    builder: DotSwiperPaginationBuilder(
-                      color: context.colors.primaryContainer,
-                      activeColor: context.colors.secondary,
+        SizedBox(
+          width: 1.sw,
+          height: 200.h,
+          child: Stack(
+            children: [
+              Swiper(
+                controller: controller,
+                itemCount: state.image.length,
+                itemBuilder: (context, index) => AspectRatio(
+                  aspectRatio: 384 / 572,
+                  child: GestureDetector(
+                    onTap: () => openGallery(state.image[index]),
+                    child: state.image[index].networkImageBaseUrl(
+                      fit: BoxFit.fitHeight,
+                      height: null,
                     ),
                   ),
                 ),
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
+                pagination: SwiperPagination(
+                  builder: DotSwiperPaginationBuilder(
+                    color: context.colors.primaryContainer,
+                    activeColor: context.colors.secondary,
+                  ),
+                ),
+              ),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: paddingH24,
                     child: Row(
                       children: [
                         IconButton.outlined(
@@ -101,9 +109,49 @@ class ProductImageSection extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+              Positioned(
+                top: 8.h,
+                left: 18.w,
+                child: Visibility(
+                  visible: percent > 0,
+                  child: "${percent.toDoubleStringAsFixed(digit: 1)}%"
+                      .text
+                      .xs
+                      .bold
+                      .white
+                      .wide
+                      .size(16.sp)
+                      .make()
+                      .pSymmetric(h: AppSpacing.sm, v: AppSpacing.xxxs)
+                      .box
+                      .customRounded(radius4)
+                      .colorPrimary(context)
+                      .make(),
+                ),
+              ),
+              Positioned(
+                top: percent > 0 ? 32.h : 8.h,
+                left: 18.w,
+                child: Visibility(
+                  visible: true,
+                  child: "New"
+                      .text
+                      .xs
+                      .bold
+                      .white
+                      .wide
+                      .size(16.sp)
+                      .make()
+                      .pSymmetric(h: AppSpacing.sm, v: AppSpacing.xxxs)
+                      .box
+                      .customRounded(radius4)
+                      .colorPrimary(context)
+                      .make(),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
@@ -120,8 +168,9 @@ class ProductImageSection extends HookConsumerWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: AspectRatio(
                       aspectRatio: 384 / 572,
-                      child: KCachedNetworkImageWdLoading(
-                        imageUrl: state.image[index],
+                      child: state.image[index].networkImageBaseUrl(
+                        fit: BoxFit.fitHeight,
+                        isHero: false,
                       ),
                     ),
                   ),

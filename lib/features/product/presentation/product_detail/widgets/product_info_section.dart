@@ -41,7 +41,8 @@ class ProductInfoSection extends HookConsumerWidget {
           HtmlTextWidget(text: state.description),
           HtmlTextWidget(text: state.guideline),
           HtmlTextWidget(text: state.sizeChart),
-        ][currentTabIndex.value],
+        ][currentTabIndex.value]
+            .px16(),
       ],
     );
   }

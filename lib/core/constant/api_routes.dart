@@ -4,9 +4,8 @@ class APIRouteEndpoint {
   static const String DUMMY_PERSON = 'https://i.pravatar.cc/300';
   static const String WEB_URL = "";
 
-  static const String BASE_URL = "https://server.imglane.com/";
-  // static const String BASE_URL = "https://api.senaiyah.com/";
-  // static const String BASE_URL_LOCAL = "http://192.168.68.118:3697/";
+  static const String BASE_URL = "https://imglane.com/";
+  static const String IMAGE_BASE_URL = "https://server.imglane.com/";
   static const String API_V1 = "api/";
   static const String IMAGE_SUBSTRING = "storage/";
   static const String PRODUCT_IMAGE = "${IMAGE_SUBSTRING}product/";

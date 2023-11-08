@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/core/app_ui/app_ui.dart';
-import 'package:icon_shopper/features/common/presentation/product_grid_tile.dart';
 import 'package:icon_shopper/features/common/presentation/product_list_tile.dart';
 import 'package:velocity_x/velocity_x.dart';
 

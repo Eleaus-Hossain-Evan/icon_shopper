@@ -26,7 +26,7 @@ class HomeSlider extends HookConsumerWidget {
           return state
                   .whenData((value) => value.slider.mapWithIndex((t, index) =>
                       KCachedNetworkImageNoBase(
-                          imageUrl: APIRouteEndpoint.BASE_URL +
+                          imageUrl: APIRouteEndpoint.IMAGE_BASE_URL +
                               APIRouteEndpoint.IMAGE_SUBSTRING +
                               t.image)))
                   .asData

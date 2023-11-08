@@ -73,4 +73,20 @@ class AppStrings {
 
   //#----------------  Profile ----------------
   static const String updateProfile = "Update Profile";
+
+  //#----------------  Checkout ----------------
+
+  static var enterCoupon = "Enter Coupon";
+
+  static var apply = "Apply";
+
+  static var checkout = "Checkout";
+
+  static var subTotal = "Sub Total";
+
+  static var discount = "Discount";
+
+  static var deliveryCharge = "Delivery Charge";
+
+  static var total = "Total";
 }

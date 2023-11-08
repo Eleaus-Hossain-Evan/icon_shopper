@@ -177,7 +177,7 @@ class _CategoryWiseProductProviderElement
   String get slug => (origin as CategoryWiseProductProvider).slug;
 }
 
-String _$getProductDetailsHash() => r'18497571f6279b30b96f44db43aa3b7a6013b2c3';
+String _$getProductDetailsHash() => r'0fcf199e74e05dc81eecd5a5a58bb7c520feeb80';
 
 abstract class _$GetProductDetails
     extends BuildlessAutoDisposeAsyncNotifier<ProductResponse> {
@@ -322,7 +322,7 @@ class _GetProductDetailsProviderElement
   String get slug => (origin as GetProductDetailsProvider).slug;
 }
 
-String _$currentProductHash() => r'a0675242c06d1baa726e2cbf2f71e96f0af6c56b';
+String _$currentProductHash() => r'8d3074a7c8a4b69108e2594171d0d975078bc81b';
 
 /// See also [CurrentProduct].
 @ProviderFor(CurrentProduct)

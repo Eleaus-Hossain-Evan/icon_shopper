@@ -7,10 +7,18 @@ import 'model/product_model.dart';
 class ProductResponse extends Equatable {
   final bool success;
   final ProductModel data;
+
   const ProductResponse({
     required this.success,
     required this.data,
   });
+
+  factory ProductResponse.init() {
+    return ProductResponse(
+      success: false,
+      data: ProductModel.init(),
+    );
+  }
 
   ProductResponse copyWith({
     bool? success,

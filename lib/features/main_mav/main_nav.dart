@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/checkout/presentation/application/checkout_provider.dart';
 import 'package:icon_shopper/features/profile/presentation/profile_screen.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../auth/application/auth_provider.dart';
+import '../checkout/presentation/cart_screen.dart';
 import '../home/presentation/home_screen.dart';
 
 final bottomNavigatorKey = GlobalKey();
@@ -18,11 +20,12 @@ class MainNav extends HookConsumerWidget {
   const MainNav({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cartState = ref.watch(cartProductProvider);
     final navIndex = useState(0);
     final navWidget = [
       const HomeScreen(),
       const Center(child: Text('Category')),
-      const Center(child: Text('Order')),
+      const CartScreen(),
       const ProfileScreen(),
     ];
 
@@ -72,13 +75,23 @@ class MainNav extends HookConsumerWidget {
             label: "Category",
           ),
           NavigationDestination(
-            icon: const Icon(
-              BoxIcons.bx_cart_alt,
-              color: AppColors.black600,
+            icon: Badge(
+              backgroundColor: context.colors.secondary,
+              label: Text(cartState.length.toString()),
+              isLabelVisible: cartState.isNotEmpty,
+              child: const Icon(
+                BoxIcons.bx_cart_alt,
+                color: AppColors.black600,
+              ),
             ),
-            selectedIcon: Icon(
-              BoxIcons.bxs_cart_alt,
-              color: context.colors.primary,
+            selectedIcon: Badge(
+              backgroundColor: context.colors.secondary,
+              label: Text(cartState.length.toString()),
+              isLabelVisible: cartState.isNotEmpty,
+              child: Icon(
+                BoxIcons.bxs_cart_alt,
+                color: context.colors.primary,
+              ),
             ),
             label: "Cart",
           ),

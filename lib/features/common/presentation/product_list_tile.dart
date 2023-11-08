@@ -3,13 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/product/application/product_provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../product/domain/model/product_model.dart';
 import '../../product/presentation/product_detail/product_detail_screen.dart';
 
-class ProductListTile extends StatelessWidget {
+class ProductListTile extends HookConsumerWidget {
   const ProductListTile({
     super.key,
     required this.data,
@@ -20,7 +22,7 @@ class ProductListTile extends StatelessWidget {
   final bool isLast;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return KInkWell(
       onTap: () {
         log("message");
