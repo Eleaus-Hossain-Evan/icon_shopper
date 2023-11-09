@@ -7,6 +7,7 @@ import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/product/domain/model/product_model.dart';
 import 'package:icon_shopper/features/product/domain/model/product_variant_model.dart';
 import 'package:icon_shopper/features/product/domain/product_response.dart';
+import 'package:icon_shopper/features/product/domain/similar_product_response.dart';
 import 'package:icon_shopper/features/product/infrastructure/product_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,19 +32,32 @@ Future<List<ProductModel>> categoryWiseProduct(
   );
 }
 
-@riverpod
-class GetProductDetails extends _$GetProductDetails {
-  @override
-  FutureOr<ProductResponse> build(String slug) async {
-    final result = await ProductRepo().getProductDetails(slug);
-    return result.fold((l) {
-      showErrorToast(l.error.message);
-      return ProductResponse.init();
-    }, (r) => r);
-  }
-}
+final slugProvider = StateProvider<String>((ref) {
+  return '';
+});
 
-@riverpod
+// @riverpod
+// class GetProductDetails extends _$GetProductDetails {
+//   @override
+//   FutureOr<ProductResponse> build(String slug) async {
+//     final result = await ProductRepo().getProductDetails(slug);
+//     return result.fold((l) {
+//       showErrorToast(l.error.message);
+//       return ProductResponse.init();
+//     }, (r) => r);
+//   }
+// }
+
+final getProductDetailsProvider = FutureProvider<ProductResponse>((ref) async {
+  final slug = ref.watch(slugProvider);
+  final result = await ProductRepo().getProductDetails(slug);
+  return result.fold((l) {
+    showErrorToast(l.error.message);
+    return ProductResponse.init();
+  }, (r) => r);
+}, name: 'getProductDetailsProvider');
+
+@Riverpod(keepAlive: true)
 class CurrentProduct extends _$CurrentProduct {
   @override
   ProductModel build() {
@@ -82,3 +96,12 @@ final productVariantProvider =
 
   return variant;
 }, name: 'productVariantProvider');
+
+final similarProductProvider = FutureProvider<List<ProductModel>>((ref) async {
+  final state = ref.watch(currentProductProvider);
+  final result = await ProductRepo().similarProduct(3);
+  return result.fold((l) {
+    showErrorToast(l.error.message);
+    return [];
+  }, (r) => r.data);
+}, name: 'similarProductProvider');

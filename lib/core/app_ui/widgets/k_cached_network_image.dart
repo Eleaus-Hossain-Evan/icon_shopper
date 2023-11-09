@@ -173,7 +173,7 @@ class KCachedNetworkImage extends StatelessWidget {
       tag: ValueKey(imageUrl),
       child: CachedNetworkImage(
         imageUrl:
-            "${APIRouteEndpoint.BASE_URL}${APIRouteEndpoint.PRODUCT_IMAGE}$imageUrl",
+            "${APIRouteEndpoint.IMAGE_BASE_URL}${APIRouteEndpoint.PRODUCT_IMAGE}$imageUrl",
         fit: fit,
         height: height,
         width: width,

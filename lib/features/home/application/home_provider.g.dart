@@ -6,21 +6,6 @@ part of 'home_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeDataHash() => r'a4f68d9c6403464857199c629cc38b43443da08c';
-
-/// See also [HomeData].
-@ProviderFor(HomeData)
-final homeDataProvider =
-    AutoDisposeAsyncNotifierProvider<HomeData, HomeResponse>.internal(
-  HomeData.new,
-  name: r'homeDataProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$homeDataHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$HomeData = AutoDisposeAsyncNotifier<HomeResponse>;
 String _$searchProductHash() => r'2a43d5e25556f2b5b6861fd4d336b7d9235ebad6';
 
 /// Copied from Dart SDK

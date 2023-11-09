@@ -3,6 +3,7 @@ import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/checkout/presentation/application/checkout_provider.dart';
+import 'package:icon_shopper/features/home/application/home_provider.dart';
 import 'package:icon_shopper/features/profile/presentation/profile_screen.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -11,6 +12,7 @@ import '../../../core/core.dart';
 import '../auth/application/auth_provider.dart';
 import '../checkout/presentation/cart_screen.dart';
 import '../home/presentation/home_screen.dart';
+import '../profile/application/profile_provider.dart';
 
 final bottomNavigatorKey = GlobalKey();
 
@@ -31,7 +33,10 @@ class MainNav extends HookConsumerWidget {
 
     useEffect(() {
       Future.wait([
+        // Future.microtask(() => ref.read(homeDataProvider.notifier).getData()),
         Future.microtask(() => ref.read(authProvider.notifier).profileView()),
+        Future.microtask(() =>
+            ref.read(contactInfoNotifierProvider.notifier).getContactInfo()),
         // Future.microtask(() => ref.read(homeProvider.notifier)),
         // Future.microtask(
         //     () => ref.read(homeProvider.notifier).getRecentParcelList()),

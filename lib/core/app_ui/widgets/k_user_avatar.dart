@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../features/auth/application/auth_provider.dart';
 import '../../core.dart';
-import 'widgets.dart';
 
 class KUserAvatar extends HookConsumerWidget {
   const KUserAvatar({
-    Key? key,
+    super.key,
     this.radius = 20,
     this.onTap,
     this.icon,
@@ -20,7 +18,7 @@ class KUserAvatar extends HookConsumerWidget {
     this.bgColor,
     this.isHero = true,
     this.imageFile,
-  }) : super(key: key);
+  });
 
   final double radius;
   final bool enableBorder, isHero;

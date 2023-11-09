@@ -27,6 +27,10 @@ class Profile extends _$Profile {
     await ProfileRepo().launchFacebook();
   }
 
+  void launchMessenger() async {
+    await ProfileRepo().launchMessenger();
+  }
+
   Future<void> lunchEmail(String email) async {
     await ProfileRepo().urlLaunch(Uri.parse("mailto:$email"));
   }
@@ -42,6 +46,28 @@ class ContactInfo extends _$ContactInfo {
   FutureOr<ContactInfoModel> build() async {
     final result = await ProfileRepo().getContactInfo();
     return result.fold(
+      (l) {
+        showErrorToast(l.error.message);
+        return ContactInfoModel.init();
+      },
+      (r) => r.data,
+    );
+  }
+}
+
+final contactInfoNotifierProvider =
+    NotifierProvider<ContactInfoNotifier, ContactInfoModel>(
+        ContactInfoNotifier.new);
+
+class ContactInfoNotifier extends Notifier<ContactInfoModel> {
+  @override
+  ContactInfoModel build() {
+    return ContactInfoModel.init();
+  }
+
+  void getContactInfo() async {
+    final result = await ProfileRepo().getContactInfo();
+    state = result.fold(
       (l) {
         showErrorToast(l.error.message);
         return ContactInfoModel.init();

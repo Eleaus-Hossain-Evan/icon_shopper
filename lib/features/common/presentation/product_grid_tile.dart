@@ -3,25 +3,28 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/product/application/product_provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../product/domain/model/product_model.dart';
 import '../../product/presentation/product_detail/product_detail_screen.dart';
 
-class ProductGridTile extends StatelessWidget {
+class ProductGridTile extends HookConsumerWidget {
   const ProductGridTile({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
 
   final ProductModel data;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return KInkWell(
       onTap: () {
         log("message");
+        ref.read(slugProvider.notifier).update((state) => data.slug);
         context.push("${ProductDetailScreen.route}/${data.slug}");
       },
       child: Column(

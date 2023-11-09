@@ -1,5 +1,6 @@
 import 'package:icon_shopper/features/product/domain/category_wise_product_list.dart';
 import 'package:icon_shopper/features/product/domain/product_response.dart';
+import 'package:icon_shopper/features/product/domain/similar_product_response.dart';
 
 import '../../../core/core.dart';
 
@@ -26,6 +27,18 @@ class ProductRepo {
     final data = await api.get(
       fromData: (json) => ProductResponse.fromMap(json),
       endPoint: APIRouteEndpoint.PRODUCT_DETAILS + slug,
+      withToken: true,
+    );
+
+    return data;
+  }
+
+  Future<Either<CleanFailure, SimilarProductResponse>> similarProduct(
+    int id,
+  ) async {
+    final data = await api.get(
+      fromData: (json) => SimilarProductResponse.fromMap(json),
+      endPoint: "${APIRouteEndpoint.SIMILAR_PRODUCT}$id",
       withToken: true,
     );
 

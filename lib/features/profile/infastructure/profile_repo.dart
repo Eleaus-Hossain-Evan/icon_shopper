@@ -60,6 +60,28 @@ class ProfileRepo {
     }
   }
 
+  Future<void> launchMessenger() async {
+    String facebookIdHere = "iconshopperbd";
+    String url() {
+      if (Platform.isAndroid) {
+        String uri = 'https://m.me/$facebookIdHere';
+        return uri;
+      } else if (Platform.isIOS) {
+        // iOS
+        String uri = 'https://m.me/$facebookIdHere';
+        return uri;
+      } else {
+        return 'error';
+      }
+    }
+
+    if (await canLaunchUrl(Uri.parse(url()))) {
+      await launchUrl(Uri.parse(url()));
+    } else {
+      throw 'Could not launch ${url()}';
+    }
+  }
+
   Future<void> lunchMap(String address) async {
     String encodedAddress = Uri.encodeComponent(address);
     String googleMapUrl =

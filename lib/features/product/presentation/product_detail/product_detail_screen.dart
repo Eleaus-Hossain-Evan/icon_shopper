@@ -6,14 +6,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/checkout/presentation/cart_screen.dart';
-import 'package:icon_shopper/features/common/presentation/html_text_widget.dart';
 import 'package:icon_shopper/features/product/application/product_provider.dart';
 import 'package:icon_shopper/features/product/presentation/product_detail/widgets/product_variation_section.dart';
+import 'package:icon_shopper/features/product/presentation/product_detail/widgets/similar_product_section.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../core/core.dart';
 import '../../../common/presentation/go_to_cart_button.dart';
-import '../../domain/model/product_model.dart';
+import '../../../profile/presentation/widgets/contact_info_widget.dart';
 import 'widgets/product_cart_section.dart';
 import 'widgets/product_image_section.dart';
 import 'widgets/product_info_section.dart';
@@ -33,7 +33,7 @@ class ProductDetailScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = useMemoized<GlobalKey<ScaffoldState>>(GlobalKey.new);
 
-    final state = ref.watch(getProductDetailsProvider(slug));
+    final state = ref.watch(getProductDetailsProvider);
 
     useEffect(() {
       // Future.microtask(() => ref
@@ -90,20 +90,13 @@ class ProductDetailScreen extends HookConsumerWidget {
 
             SliverGap(12.h),
 
+            const SimilarProductSection().toSliverBox(),
+
+            SliverGap(12.h),
+
             const ProductInfoSection().toSliverBox(),
 
-            SliverList.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.lightBlue[100 * (index % 9)],
-                  child: Text('list item $index'),
-                );
-              },
-              itemCount: 20,
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
-            ),
+            const ContactInfoWidget(inDetailScreen: true).px20().toSliverBox(),
           ],
         );
       }, error: (error, stackTrace) {

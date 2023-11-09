@@ -5,6 +5,7 @@ import 'package:icon_shopper/features/home/presentation/widgets/home_category.da
 import 'package:icon_shopper/features/home/presentation/widgets/home_slider.dart';
 
 import '../../../core/core.dart';
+import '../application/home_provider.dart';
 import 'widgets/home_latest_product.dart';
 import 'widgets/home_search.dart';
 
@@ -27,17 +28,25 @@ class HomeScreen extends HookConsumerWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: padding0,
-        child: Column(
-          children: [
-            const HomeSlider(),
-            gap36,
-            const HomeCategoryWidget(),
-            gap36,
-            const HomeLatestProductWidget(),
-            Images.home.assetImage(),
-          ],
+      body: RefreshIndicator.adaptive(
+        onRefresh: () async {
+          await Future.wait([
+            // Future.microtask(
+            //     () => ref.read(homeDataProvider.notifier).getData()),
+          ]);
+        },
+        child: SingleChildScrollView(
+          padding: padding0,
+          child: Column(
+            children: [
+              const HomeSlider(),
+              gap36,
+              const HomeCategoryWidget(),
+              gap36,
+              const HomeLatestProductWidget(),
+              Images.home.assetImage(),
+            ],
+          ),
         ),
       ),
     );

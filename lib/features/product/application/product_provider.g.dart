@@ -177,157 +177,12 @@ class _CategoryWiseProductProviderElement
   String get slug => (origin as CategoryWiseProductProvider).slug;
 }
 
-String _$getProductDetailsHash() => r'0fcf199e74e05dc81eecd5a5a58bb7c520feeb80';
-
-abstract class _$GetProductDetails
-    extends BuildlessAutoDisposeAsyncNotifier<ProductResponse> {
-  late final String slug;
-
-  FutureOr<ProductResponse> build(
-    String slug,
-  );
-}
-
-/// See also [GetProductDetails].
-@ProviderFor(GetProductDetails)
-const getProductDetailsProvider = GetProductDetailsFamily();
-
-/// See also [GetProductDetails].
-class GetProductDetailsFamily extends Family<AsyncValue<ProductResponse>> {
-  /// See also [GetProductDetails].
-  const GetProductDetailsFamily();
-
-  /// See also [GetProductDetails].
-  GetProductDetailsProvider call(
-    String slug,
-  ) {
-    return GetProductDetailsProvider(
-      slug,
-    );
-  }
-
-  @override
-  GetProductDetailsProvider getProviderOverride(
-    covariant GetProductDetailsProvider provider,
-  ) {
-    return call(
-      provider.slug,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getProductDetailsProvider';
-}
-
-/// See also [GetProductDetails].
-class GetProductDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    GetProductDetails, ProductResponse> {
-  /// See also [GetProductDetails].
-  GetProductDetailsProvider(
-    String slug,
-  ) : this._internal(
-          () => GetProductDetails()..slug = slug,
-          from: getProductDetailsProvider,
-          name: r'getProductDetailsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getProductDetailsHash,
-          dependencies: GetProductDetailsFamily._dependencies,
-          allTransitiveDependencies:
-              GetProductDetailsFamily._allTransitiveDependencies,
-          slug: slug,
-        );
-
-  GetProductDetailsProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.slug,
-  }) : super.internal();
-
-  final String slug;
-
-  @override
-  FutureOr<ProductResponse> runNotifierBuild(
-    covariant GetProductDetails notifier,
-  ) {
-    return notifier.build(
-      slug,
-    );
-  }
-
-  @override
-  Override overrideWith(GetProductDetails Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: GetProductDetailsProvider._internal(
-        () => create()..slug = slug,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        slug: slug,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<GetProductDetails, ProductResponse>
-      createElement() {
-    return _GetProductDetailsProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetProductDetailsProvider && other.slug == slug;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, slug.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin GetProductDetailsRef
-    on AutoDisposeAsyncNotifierProviderRef<ProductResponse> {
-  /// The parameter `slug` of this provider.
-  String get slug;
-}
-
-class _GetProductDetailsProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<GetProductDetails,
-        ProductResponse> with GetProductDetailsRef {
-  _GetProductDetailsProviderElement(super.provider);
-
-  @override
-  String get slug => (origin as GetProductDetailsProvider).slug;
-}
-
-String _$currentProductHash() => r'8d3074a7c8a4b69108e2594171d0d975078bc81b';
+String _$currentProductHash() => r'95a9ae09d5450301d8cfe884e64e4b7e6c244484';
 
 /// See also [CurrentProduct].
 @ProviderFor(CurrentProduct)
 final currentProductProvider =
-    AutoDisposeNotifierProvider<CurrentProduct, ProductModel>.internal(
+    NotifierProvider<CurrentProduct, ProductModel>.internal(
   CurrentProduct.new,
   name: r'currentProductProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -337,6 +192,6 @@ final currentProductProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentProduct = AutoDisposeNotifier<ProductModel>;
+typedef _$CurrentProduct = Notifier<ProductModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
