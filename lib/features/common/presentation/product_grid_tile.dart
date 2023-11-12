@@ -15,9 +15,11 @@ class ProductGridTile extends HookConsumerWidget {
   const ProductGridTile({
     super.key,
     required this.data,
+    this.defaultFont = 16,
   });
 
   final ProductModel data;
+  final double defaultFont;
 
   @override
   Widget build(BuildContext context, ref) {
@@ -54,7 +56,7 @@ class ProductGridTile extends HookConsumerWidget {
                         .heightLoose
                         .white
                         .wide
-                        .size(14.sp)
+                        .size((defaultFont - 2).sp)
                         .make()
                         .pSymmetric(h: AppSpacing.sm, v: AppSpacing.xxxs)
                         .box
@@ -71,7 +73,7 @@ class ProductGridTile extends HookConsumerWidget {
               .letterSpacing(.8)
               .maxLines(1)
               .ellipsis
-              .size(16.sp)
+              .size(defaultFont.sp)
               .isIntrinsic
               .make(),
           // gap10,
@@ -100,7 +102,7 @@ class ProductGridTile extends HookConsumerWidget {
                     '৳ '
                         .textSpan
                         .semiBold
-                        .size(12.sp)
+                        .size((defaultFont - 4).sp)
                         .lineThrough
                         .color(AppColors.primary200)
                         .make(),
@@ -121,12 +123,12 @@ class ProductGridTile extends HookConsumerWidget {
               Text.rich(
                 TextSpan(
                   children: [
-                    '৳ '.textSpan.semiBold.size(16.sp).make(),
+                    '৳ '.textSpan.semiBold.size(defaultFont.sp).make(),
                     data.productVariants.first.salePrice
                         .toString()
                         .textSpan
                         .semiBold
-                        .size(16.sp)
+                        .size(defaultFont.sp)
                         .make()
                   ],
                 ),

@@ -1,8 +1,16 @@
+import 'package:bot_toast/bot_toast.dart';
+import 'package:clipboard/clipboard.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/product/domain/category_wise_product_list.dart';
 import 'package:icon_shopper/features/product/domain/product_response.dart';
 import 'package:icon_shopper/features/product/domain/similar_product_response.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/core.dart';
+
+final productRepoProvider = Provider<ProductRepo>((ref) {
+  return ProductRepo();
+});
 
 class ProductRepo {
   final api = NetworkHandler.instance;
@@ -43,5 +51,24 @@ class ProductRepo {
     );
 
     return data;
+  }
+
+  Future<void> shareOnFacebook(String urlToShare) async {
+    final String facebookUrl =
+        'https://www.facebook.com/sharer/sharer.php?u=$urlToShare';
+
+    if (await canLaunchUrl(Uri.parse(facebookUrl))) {
+      await launchUrl(Uri.parse(facebookUrl));
+    } else {
+      throw 'Could not launch $facebookUrl';
+    }
+  }
+
+  void copyProductUrl(String slug) {
+    FlutterClipboard.copy("https://iconshopper.com/products/$slug")
+        .then((value) {
+      // Show a toast message after copying to the clipboard
+      BotToast.showText(text: "URL copied to clipboard");
+    });
   }
 }

@@ -12,7 +12,7 @@ class ProductInfoSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final state = ref.watch(currentProductProvider);
+    final state = ref.watch(productNotifierProvider);
 
     final tabController =
         useTabController(initialLength: ProductInfoSectionEnum.values.length);

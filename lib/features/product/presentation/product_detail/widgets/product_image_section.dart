@@ -16,12 +16,11 @@ class ProductImageSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final state = ref.watch(currentProductProvider);
+    final state = ref.watch(productNotifierProvider);
 
     final controller = useMemoized(SwiperController.new);
 
-    final currentVariation = useMemoized(
-        () => state.selectedVariant,
+    final currentVariation = useMemoized(() => state.selectedVariant,
         [state.productVariants, state.selectedVariant]);
 
     final percent = 100 *

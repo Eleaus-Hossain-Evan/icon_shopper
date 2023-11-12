@@ -1,10 +1,15 @@
 import 'dart:io';
 
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/profile/domain/contact_info_response.dart';
 import 'package:icon_shopper/features/profile/domain/policy_response.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/core.dart';
+
+final profileRepoProvider = Provider<ProfileRepo>((ref) {
+  return ProfileRepo();
+});
 
 class ProfileRepo {
   final api = NetworkHandler.instance;

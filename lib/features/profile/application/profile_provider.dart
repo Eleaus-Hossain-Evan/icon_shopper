@@ -16,27 +16,27 @@ class Profile extends _$Profile {
   }
 
   void lunchMap(String address) async {
-    await ProfileRepo().lunchMap(address);
+    await ref.read(profileRepoProvider).lunchMap(address);
   }
 
   void lunchWhatApp(String number) async {
-    await ProfileRepo().lunchWhatApp(number);
+    await ref.read(profileRepoProvider).lunchWhatApp(number);
   }
 
   void launchFacebook() async {
-    await ProfileRepo().launchFacebook();
+    await ref.read(profileRepoProvider).launchFacebook();
   }
 
   void launchMessenger() async {
-    await ProfileRepo().launchMessenger();
+    await ref.read(profileRepoProvider).launchMessenger();
   }
 
   Future<void> lunchEmail(String email) async {
-    await ProfileRepo().urlLaunch(Uri.parse("mailto:$email"));
+    await ref.read(profileRepoProvider).urlLaunch(Uri.parse("mailto:$email"));
   }
 
   Future<void> lunchPhone(String phone) async {
-    await ProfileRepo().urlLaunch(Uri.parse("tel:+88$phone"));
+    await ref.read(profileRepoProvider).urlLaunch(Uri.parse("tel:+88$phone"));
   }
 }
 

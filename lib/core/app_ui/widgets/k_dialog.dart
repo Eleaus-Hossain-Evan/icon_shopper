@@ -4,6 +4,26 @@ import 'package:timer_count_down/timer_controller.dart';
 
 import '../../core.dart';
 
+showCustomDialog({
+  required BuildContext context,
+  required Widget child,
+}) =>
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: ColoredBox(
+            color: Colors.white,
+            child: child,
+          ),
+        );
+      },
+    );
+
 Future<T?> showOTPDialog<T>({
   required BuildContext context,
   Function? onFinishedTimer,

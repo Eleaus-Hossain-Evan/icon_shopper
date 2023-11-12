@@ -177,21 +177,21 @@ class _CategoryWiseProductProviderElement
   String get slug => (origin as CategoryWiseProductProvider).slug;
 }
 
-String _$currentProductHash() => r'95a9ae09d5450301d8cfe884e64e4b7e6c244484';
+String _$productNotifierHash() => r'9e60a0154b90f4949284048a7d5ebbe3bb109bb2';
 
-/// See also [CurrentProduct].
-@ProviderFor(CurrentProduct)
-final currentProductProvider =
-    NotifierProvider<CurrentProduct, ProductModel>.internal(
-  CurrentProduct.new,
-  name: r'currentProductProvider',
+/// See also [ProductNotifier].
+@ProviderFor(ProductNotifier)
+final productNotifierProvider =
+    AutoDisposeNotifierProvider<ProductNotifier, ProductModel>.internal(
+  ProductNotifier.new,
+  name: r'productNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$currentProductHash,
+      : _$productNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentProduct = Notifier<ProductModel>;
+typedef _$ProductNotifier = AutoDisposeNotifier<ProductModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

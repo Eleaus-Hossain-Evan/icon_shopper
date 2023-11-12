@@ -15,7 +15,7 @@ class ProductCartSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final product = ref.watch(currentProductProvider);
+    final product = ref.watch(productNotifierProvider);
     final cartList = ref.watch(cartProductProvider);
     final variant = ref.watch(productVariantProvider);
 

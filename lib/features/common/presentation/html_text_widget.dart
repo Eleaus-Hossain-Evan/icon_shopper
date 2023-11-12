@@ -18,7 +18,7 @@ class HtmlTextWidget extends StatelessWidget {
     return Html(
       data: text.isNotEmpty
           ? text
-          : '<h4 style="font-family: raleway, sans-serif; font-size: 16px; text-align: center; color: rgba(100, 100, 100, 1);">No data found</h4>',
+          : '<h6 style="font-family: raleway, sans-serif; font-size: 16px; font-weight: 400; text-align: center; color: rgba(100, 100, 100, 1);">No data found</h6>',
       onLinkTap: (url, attributes, element) async {
         if (url != null) {
           // context.push("${WebViewScreen.route}?url=$url");

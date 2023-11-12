@@ -11,7 +11,7 @@ class ProductPriceRatingSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final state = ref.watch(currentProductProvider);
+    final state = ref.watch(productNotifierProvider);
     final variant = ref.watch(productVariantProvider);
 
     // return const SizedBox.shrink();
@@ -28,7 +28,7 @@ class ProductPriceRatingSection extends HookConsumerWidget {
         gap8,
         Row(
           children: [
-            "Price:".text.xl2.make(),
+            "Price:".text.xl.make(),
             gap4,
             Row(
               children: [

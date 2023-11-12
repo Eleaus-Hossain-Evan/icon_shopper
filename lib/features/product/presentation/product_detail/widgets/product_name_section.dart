@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,7 +22,7 @@ class ProductNameSection extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final state = ref.watch(currentProductProvider);
+    final state = ref.watch(productNotifierProvider);
 
     final percent = shrinkOffset /
         (getHeight(
@@ -31,41 +32,46 @@ class ProductNameSection extends SliverPersistentHeaderDelegate {
             ) +
             extraHeight);
     final isTrue = (percent > 0.1) || overlapsContent;
-    return Column(
-      mainAxisSize: mainMax,
-      mainAxisAlignment: mainCenter,
-      children: [
-        gap2,
-        const KDivider(
-          color: AppColors.black300,
-        ),
-        AnimatedAlign(
-          duration: const Duration(milliseconds: 400),
-          alignment: isTrue ? Alignment.center : Alignment.centerLeft,
-          child: AnimatedDefaultTextStyle(
-            style: TextStyle(
-              fontWeight: isTrue ? FontWeight.w700 : FontWeight.w400,
-              fontFamily: GoogleFonts.jost().fontFamily,
-              height: 1.5,
-              letterSpacing: 0.5,
+    // ref.watch(productTitleOverflow.notifier).update((state) => isTrue);
+    return HookConsumer(
+      builder: (context, ref, child) {
+        return Column(
+          mainAxisSize: mainMax,
+          mainAxisAlignment: mainCenter,
+          children: [
+            gap2,
+            const KDivider(
+              color: AppColors.black300,
             ),
-            duration: const Duration(milliseconds: 400),
-            textAlign: isTrue ? TextAlign.center : TextAlign.start,
-            child: state.productName.text.black.xl.make(),
-          ),
-        ).p16(),
-        const KDivider(
-          color: AppColors.black300,
-        ),
-        gap6,
-      ],
-    ).color(AppColors.bg100);
+            AnimatedAlign(
+              duration: const Duration(milliseconds: 400),
+              alignment: isTrue ? Alignment.center : Alignment.centerLeft,
+              child: AnimatedDefaultTextStyle(
+                style: TextStyle(
+                  fontWeight: isTrue ? FontWeight.w700 : FontWeight.w400,
+                  fontFamily: GoogleFonts.jost().fontFamily,
+                  height: 1.5,
+                  letterSpacing: 0.5,
+                ),
+                duration: const Duration(milliseconds: 400),
+                textAlign: isTrue ? TextAlign.center : TextAlign.start,
+                child: state.productName.text.black.xl.make(),
+              ),
+            ).p16(),
+            const KDivider(
+              color: AppColors.black300,
+            ),
+            gap6,
+          ],
+        ).color(AppColors.bg100);
+      },
+    );
   }
 
   @override
   double get maxExtent =>
       getHeight(
-        ref.watch(currentProductProvider).productName,
+        ref.watch(productNotifierProvider).productName,
         ref.watch(scaffoldKeyProvider).currentContext!,
         true,
       ) +
@@ -74,7 +80,7 @@ class ProductNameSection extends SliverPersistentHeaderDelegate {
   @override
   double get minExtent =>
       getHeight(
-        ref.watch(currentProductProvider).productName,
+        ref.watch(productNotifierProvider).productName,
         ref.watch(scaffoldKeyProvider).currentContext!,
         true,
       ) +

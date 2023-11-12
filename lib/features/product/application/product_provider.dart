@@ -13,6 +13,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_provider.g.dart';
 
+final productTitleOverflow = StateProvider<bool>((ref) {
+  return false;
+}, name: 'productTitleOverflow');
+
 @riverpod
 Future<List<ProductModel>> categoryWiseProduct(
   CategoryWiseProductRef ref, {
@@ -57,38 +61,38 @@ final getProductDetailsProvider = FutureProvider<ProductResponse>((ref) async {
   }, (r) => r);
 }, name: 'getProductDetailsProvider');
 
-@Riverpod(keepAlive: true)
-class CurrentProduct extends _$CurrentProduct {
-  @override
-  ProductModel build() {
-    return ProductModel.init();
-  }
+// @Riverpod(keepAlive: true)
+// class CurrentProduct extends _$CurrentProduct {
+//   @override
+//   ProductModel build() {
+//     return ProductModel.init();
+//   }
 
-  void setState(ProductModel model) async {
-    state = model;
-    ref.read(productVariantProvider.notifier).update((v) {
-      if (model.productVariationStatus == 1) {
-        return model.productVariants.first;
-      }
-      return v;
-    });
-  }
+//   void setState(ProductModel model) async {
+//     state = model;
+//     ref.read(productVariantProvider.notifier).update((v) {
+//       if (model.productVariationStatus == 1) {
+//         return model.productVariants.first;
+//       }
+//       return v;
+//     });
+//   }
 
-  void setVariant(ProductVariantModel item) {
-    final model = state.copyWith(selectedVariant: item);
+//   void setVariant(ProductVariantModel item) {
+//     final model = state.copyWith(selectedVariant: item);
 
-    Logger.i(model);
-    state = model;
-  }
+//     Logger.i(model);
+//     state = model;
+//   }
 
-  // void setVariation(ProductVariantModel model) {
-  //   ref.read(productVariantProvider.notifier).update((v) => model);
-  // }
-}
+//   // void setVariation(ProductVariantModel model) {
+//   //   ref.read(productVariantProvider.notifier).update((v) => model);
+//   // }
+// }
 
 final productVariantProvider =
     StateProvider.autoDispose<ProductVariantModel>((ref) {
-  final state = ref.watch(currentProductProvider);
+  final state = ref.watch(productNotifierProvider);
 
   final variant = state.productVariants.isNotEmpty
       ? state.productVariants[0]
@@ -97,9 +101,36 @@ final productVariantProvider =
   return variant;
 }, name: 'productVariantProvider');
 
-final similarProductProvider = FutureProvider<List<ProductModel>>((ref) async {
-  final state = ref.watch(currentProductProvider);
-  final result = await ProductRepo().similarProduct(3);
+// final productNotifierProvider = NotifierProvider<ProductNotifier, ProductModel>(
+//   ProductNotifier.new,
+//   name: 'productNotifierProvider',
+// );
+
+@riverpod
+class ProductNotifier extends _$ProductNotifier {
+  @override
+  ProductModel build() {
+    final product = ref.watch(getProductDetailsProvider);
+    return product.when(
+      data: (data) => data.data,
+      error: (error, stackTrace) => ProductModel.init(),
+      loading: () => ProductModel.init(),
+    );
+  }
+
+  void copyProductUrl() {
+    ref.read(productRepoProvider).copyProductUrl(state.slug);
+  }
+
+  void shareToFB() async {
+    await ref.read(productRepoProvider).shareOnFacebook(state.slug);
+  }
+}
+
+final similarProductProvider =
+    FutureProvider.autoDispose<List<ProductModel>>((ref) async {
+  final state = ref.watch(productNotifierProvider);
+  final result = await ref.read(productRepoProvider).similarProduct(state.id);
   return result.fold((l) {
     showErrorToast(l.error.message);
     return [];

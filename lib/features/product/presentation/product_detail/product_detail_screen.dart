@@ -40,7 +40,7 @@ class ProductDetailScreen extends HookConsumerWidget {
       //     .read(currentProductProvider.notifier)
       //     .setState(state.value?.data));
       return () =>
-          Future.microtask(() => ref.invalidate(currentProductProvider));
+          Future.microtask(() => ref.invalidate(productNotifierProvider));
     }, []);
 
     return Scaffold(
@@ -60,8 +60,8 @@ class ProductDetailScreen extends HookConsumerWidget {
         loading: () => const SizedBox.shrink(),
       ),
       body: state.when(data: (data) {
-        Future.microtask(() =>
-            ref.read(currentProductProvider.notifier).setState(data.data));
+        // Future.microtask(() =>
+        //     ref.read(currentProductProvider.notifier).setState(data.data));
 
         BotToast.closeAllLoading();
         return CustomScrollView(
@@ -90,11 +90,24 @@ class ProductDetailScreen extends HookConsumerWidget {
 
             SliverGap(12.h),
 
-            const SimilarProductSection().toSliverBox(),
-
+            // const ProductDescriptionSection().toSliverBox(),
             SliverGap(12.h),
 
             const ProductInfoSection().toSliverBox(),
+
+            SliverGap(6.h),
+
+            const Divider().toSliverBox(),
+
+            SliverGap(6.h),
+
+            const SimilarProductSection().toSliverBox(),
+
+            SliverGap(6.h),
+
+            const Divider().toSliverBox(),
+
+            SliverGap(6.h),
 
             const ContactInfoWidget(inDetailScreen: true).px20().toSliverBox(),
           ],
