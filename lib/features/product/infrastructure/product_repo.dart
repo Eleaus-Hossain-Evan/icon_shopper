@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/product/domain/category_wise_product_list.dart';
+import 'package:icon_shopper/features/product/domain/model/product_stock_model.dart';
 import 'package:icon_shopper/features/product/domain/product_response.dart';
 import 'package:icon_shopper/features/product/domain/similar_product_response.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../core/core.dart';
 
@@ -70,5 +75,42 @@ class ProductRepo {
       // Show a toast message after copying to the clipboard
       BotToast.showText(text: "URL copied to clipboard");
     });
+  }
+
+  Future<Either<CleanFailure, List<ProductStockModel>>> fetchStock(
+      String variationCode) async {
+    final uri = Uri.parse(
+        "${APIRouteEndpoint.BASE_URL}${APIRouteEndpoint.PRODUCT_STOCK}$variationCode");
+
+    Logger.d(uri);
+
+    final response = await http.get(
+      uri,
+      headers: {"Accept": "application/json"},
+    );
+
+    Logger.d(response.body);
+    Logger.d(response.statusCode);
+
+    if (response.statusCode >= 200 && response.statusCode <= 299) {
+      // Decode the JSON response
+      List<dynamic> data = json.decode(response.body);
+      Logger.i(data);
+
+      // Convert the decoded data into a list of Post objects
+      List<ProductStockModel> postList =
+          data.map((item) => ProductStockModel.fromMap(item)).toList();
+      Logger.i(postList);
+
+      return right(postList);
+    } else {
+      Logger.e(response.body);
+      throw left(
+        CleanFailure(
+          error: const CleanError(message: "Failed to load post"),
+          tag: "${APIRouteEndpoint.PRODUCT_STOCK}$variationCode",
+        ),
+      );
+    }
   }
 }

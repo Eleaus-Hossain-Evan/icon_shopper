@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ import 'package:icon_shopper/features/product/domain/model/product_model.dart';
 import 'package:icon_shopper/features/product/domain/model/product_variant_model.dart';
 
 import '../../../application/product_provider.dart';
+import '../../../domain/model/product_stock_model.dart';
 
 class ProductVariationSection extends HookConsumerWidget {
   const ProductVariationSection({super.key});
@@ -163,9 +166,9 @@ class CheckProductStockWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final state = ref.watch(productNotifierProvider);
-
     final currentVariant = useState<ProductVariantModel?>(null);
+
+    final stock = ref.watch(productStockProvider);
 
     return Padding(
       padding: padding16,
@@ -178,21 +181,74 @@ class CheckProductStockWidget extends HookConsumerWidget {
           gap16,
           Column(
             children: [
-              'Please select size'.text.lg.semiBold.letterSpacing(.6).make(),
+              gap16,
+              'Please select size'
+                  .text
+                  .lg
+                  .semiBold
+                  .letterSpacing(.6)
+                  .make()
+                  .objectCenterLeft()
+                  .px16(),
               gap4,
               ProductVariantList(
                 currentVariant: currentVariant.value,
                 onTap: (item) => currentVariant.value = item,
-                minimumSize: Size(40.w, 32.h),
+                minimumSize: Size(38.w, 28.h),
                 runSpacing: 8.w,
                 spacing: 8.w,
-                fontWeight: FontWeight.w600,
-                fontSize: 12.sp,
-              ),
+                fontSize: 10.sp,
+              ).px(12.w).w(1.sw),
             ],
-          ).color(Vx.white).card.make(),
+          ).color(Vx.white).card.elevation(4).make(),
           gap14,
-          KFilledButton(onPressed: () {}, text: 'CHECK AVAILABILITY')
+          KFilledButton(
+            onPressed: currentVariant.value.isNotNull && stock.hasValue
+                ? () => ref
+                    .read(productStockProvider.notifier)
+                    .getStock(currentVariant.value!.productCode)
+                : null,
+            loading: stock.isLoading,
+            text: 'CHECK AVAILABILITY',
+          ),
+          gap16,
+          stock.when(
+            data: (data) => data.isEmpty
+                ? const SizedBox.shrink()
+                : Table(
+                    border: TableBorder.all(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    ),
+                    children: [
+                      TableRow(
+                        children: [
+                          "Name".text.lg.semiBold.make().p4(),
+                          "Address".text.lg.semiBold.make().p4(),
+                        ],
+                      ),
+                      ...data.map(
+                        (e) => TableRow(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey.shade300,
+                              width: 1,
+                            ),
+                          ),
+                          children: [
+                            e.name.text.heightLoose.make().p4(),
+                            e.address.text.heightLoose.make().p4(),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+            loading: () => const SizedBox.shrink(),
+            error: (error, stackTrace) {
+              log('', error: error, stackTrace: stackTrace);
+              return error.toString().text.make();
+            },
+          )
         ],
       ),
     );

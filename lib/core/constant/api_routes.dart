@@ -32,4 +32,5 @@ class APIRouteEndpoint {
   static const String PRODUCT_DETAILS = "${API_V1}get-product-details/";
   static const String CATEGORY_WISE_PRODUCT = "${API_V1}category-wise-product/";
   static const String SIMILAR_PRODUCT = "${API_V1}similar-products/";
+  static const String PRODUCT_STOCK = "${API_V1}product/showrooms-stock/";
 }

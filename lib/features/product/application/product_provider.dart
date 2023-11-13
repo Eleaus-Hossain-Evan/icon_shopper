@@ -11,6 +11,8 @@ import 'package:icon_shopper/features/product/domain/similar_product_response.da
 import 'package:icon_shopper/features/product/infrastructure/product_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../domain/model/product_stock_model.dart';
+
 part 'product_provider.g.dart';
 
 final productTitleOverflow = StateProvider<bool>((ref) {
@@ -136,3 +138,29 @@ final similarProductProvider =
     return [];
   }, (r) => r.data);
 }, name: 'similarProductProvider');
+
+
+
+@riverpod
+class ProductStock extends _$ProductStock {
+  @override
+  FutureOr<List<ProductStockModel>> build() {
+    return [];
+  }
+
+  void getStock(String code) async {
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      final repo = ref.watch(productRepoProvider);
+      final result = await repo.fetchStock(code);
+
+      Logger.i(result);
+
+      return result.fold((l) {
+        showErrorToast(l.error.message);
+        return [];
+      }, (r) => r);
+    });
+  }
+}

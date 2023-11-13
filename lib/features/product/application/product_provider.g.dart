@@ -177,7 +177,7 @@ class _CategoryWiseProductProviderElement
   String get slug => (origin as CategoryWiseProductProvider).slug;
 }
 
-String _$productNotifierHash() => r'9e60a0154b90f4949284048a7d5ebbe3bb109bb2';
+String _$productNotifierHash() => r'd3c5fd7d1a7e4842e5c1f02dc48f9e85bafbaf5b';
 
 /// See also [ProductNotifier].
 @ProviderFor(ProductNotifier)
@@ -193,5 +193,20 @@ final productNotifierProvider =
 );
 
 typedef _$ProductNotifier = AutoDisposeNotifier<ProductModel>;
+String _$productStockHash() => r'e0aa45aa5b8e414ef4179135b635584ba6dcc49d';
+
+/// See also [ProductStock].
+@ProviderFor(ProductStock)
+final productStockProvider = AutoDisposeAsyncNotifierProvider<ProductStock,
+    List<ProductStockModel>>.internal(
+  ProductStock.new,
+  name: r'productStockProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$productStockHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ProductStock = AutoDisposeAsyncNotifier<List<ProductStockModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

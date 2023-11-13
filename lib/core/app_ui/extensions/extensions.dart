@@ -16,3 +16,4 @@ part 'color_extension.dart';
 part 'velocity_extension.dart';
 part 'enum_extension.dart';
 part 'date_time_extension.dart';
+part 'null_extension.dart';
