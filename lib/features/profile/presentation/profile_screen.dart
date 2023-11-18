@@ -9,9 +9,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../auth/application/auth_provider.dart';
-import '../../common/presentation/html_text_screen.dart';
 import 'change_password_screen.dart';
-import 'widgets/contact_info_widget.dart';
 import 'widgets/picture_widget.dart';
 
 class ProfileScreen extends HookConsumerWidget {
@@ -68,19 +66,9 @@ class ProfileScreen extends HookConsumerWidget {
 
                     //.  --- logout section ---
                     ProfileOptionsItem(
-                      leading: EvaIcons.log_out,
-                      title: AppStrings.logout,
-                      onTap: () => kShowFloatBottomSheet(
-                        context: context,
-                        child: _LogoutDialog(
-                          onYesPressed: () {
-                            ref.read(authProvider.notifier).logout();
-                            // context.go(LoginScreen.route);
-                          },
-                          onNoPressed: () {},
-                        ),
-                      ),
-                    ),
+                        leading: EvaIcons.log_out,
+                        title: AppStrings.logout,
+                        onTap: () {}),
                   ],
                 ),
               ),
@@ -113,8 +101,7 @@ class ProfileScreen extends HookConsumerWidget {
                     ProfileOptionsItem(
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.termCondition,
-                      onTap: () => context.push(
-                          "${HtmlTextScreen.route}?title=${AppStrings.termCondition}&url=${APIRoute.TERMS_CONDITION}"),
+                      onTap: () {},
                     ),
                     KDivider(height: 36.h),
 
@@ -122,8 +109,7 @@ class ProfileScreen extends HookConsumerWidget {
                     ProfileOptionsItem(
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.privacyPolicy,
-                      onTap: () => context.push(
-                          "${HtmlTextScreen.route}?title=${AppStrings.privacyPolicy}&url=${APIRoute.PRIVACY_POLICY}"),
+                      onTap: () {},
                     ),
                     KDivider(height: 36.h),
 
@@ -131,8 +117,7 @@ class ProfileScreen extends HookConsumerWidget {
                     ProfileOptionsItem(
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.refundPolicy,
-                      onTap: () => context.push(
-                          "${HtmlTextScreen.route}?title=${AppStrings.refundPolicy}&url=${APIRoute.REFUND_POLICY}"),
+                      onTap: () {},
                     ),
                     KDivider(height: 36.h),
 
@@ -140,17 +125,13 @@ class ProfileScreen extends HookConsumerWidget {
                     ProfileOptionsItem(
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.returnPolicy,
-                      onTap: () => context.push(
-                          "${HtmlTextScreen.route}?title=${AppStrings.returnPolicy}&url=${APIRoute.RETURN_POLICY}"),
+                      onTap: () {},
                     ),
                   ],
                 ),
               ),
 
               gap28,
-
-              //.  --- contact info section ---
-              const ContactInfoWidget(),
             ],
           ),
         ),

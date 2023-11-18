@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/features/profile/presentation/profile_screen.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../auth/application/auth_provider.dart';
 import '../home/presentation/home_screen.dart';
+import '../profile/presentation/profile_screen.dart';
 
 final bottomNavigatorKey = GlobalKey();
 
@@ -47,7 +47,7 @@ class MainNav extends HookConsumerWidget {
         onDestinationSelected: (index) {
           navIndex.value = index;
         },
-        animationDuration: 600.milliseconds,
+        animationDuration: const Duration(milliseconds: 600),
         destinations: [
           NavigationDestination(
             icon: const Icon(
@@ -94,7 +94,7 @@ class MainNav extends HookConsumerWidget {
             label: AppStrings.profile,
           ),
         ],
-      ).box.shadowSm.make(),
+      ),
     );
   }
 }

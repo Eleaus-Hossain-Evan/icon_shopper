@@ -95,7 +95,7 @@ class VerifyOTP extends HookConsumerWidget {
                   },
                   backgroundColor: context.colors.secondary,
                   foregroundColor: AppColors.black100,
-                  child: AppStrings.changePassword.text.base.make(),
+                  child: const Text(AppStrings.changePassword),
                 ),
               ),
             ],

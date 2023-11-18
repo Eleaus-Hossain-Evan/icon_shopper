@@ -6,10 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
+import '../../home/presentation/home_screen.dart';
 import '../application/auth_provider.dart';
 import '../domain/signup_body.dart';
 
@@ -71,25 +71,26 @@ class RegisterScreen extends HookConsumerWidget {
                             style: CustomTextStyles.sHeadline1,
                           ),
                           gap8,
-                          AppStrings.toIconShopper.text
-                              .textStyle(CustomTextStyles.sBodyRegular)
-                              .make(),
+                          Text(
+                            AppStrings.toIconShopper,
+                            style: CustomTextStyles.sBodyRegular,
+                          ),
                         ],
                       ),
                       gap6,
 
                       //. Sign Up instruction Text
-                      AppStrings.signUpBelowText.text
-                          .textStyle(
-                            context.captionStyle!.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14.sp,
-                              letterSpacing: .02,
-                              color: AppColors.black600,
-                            ),
-                          )
-                          .center
-                          .make(),
+                      Text(
+                        AppStrings.signUpBelowText,
+                        textAlign: TextAlign.center,
+                        style: UITextStyle.caption.copyWith(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                          letterSpacing: .02,
+                          color: AppColors.black600,
+                        ),
+                      ),
+
                       gap24,
 
                       //. Name
@@ -169,7 +170,7 @@ class RegisterScreen extends HookConsumerWidget {
                       Text(
                         AppStrings.signUpPrivacyPolicy,
                         textAlign: TextAlign.center,
-                        style: context.captionStyle!.copyWith(
+                        style: UITextStyle.caption.copyWith(
                           fontWeight: FontWeight.w400,
                           fontSize: 12.sp,
                           letterSpacing: .02,
@@ -193,21 +194,7 @@ class RegisterScreen extends HookConsumerWidget {
                               )
                               .then((value) {
                             if (value) {
-                              showOTPDialog(
-                                context: context,
-                                onFinishedTimer: () => Navigator.pop(context),
-                                onTapOtpCheck: (otp) async {
-                                  ref
-                                      .read(authProvider.notifier)
-                                      .verifyOtp(otp)
-                                      .then((value) {
-                                    if (value) {
-                                      Navigator.pop(context);
-                                    }
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              );
+                              context.go(HomeScreen.route);
                             }
                           });
                         },
@@ -224,7 +211,7 @@ class RegisterScreen extends HookConsumerWidget {
                   child: Text.rich(
                     TextSpan(
                       text: AppStrings.alreadyHaveAccount,
-                      style: context.titleSmall!.copyWith(
+                      style: UITextStyle.headline4.copyWith(
                         color: AppColors.black600,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -237,7 +224,7 @@ class RegisterScreen extends HookConsumerWidget {
                         ),
                         TextSpan(
                           text: AppStrings.login,
-                          style: context.headlineMedium!.copyWith(
+                          style: UITextStyle.headline2.copyWith(
                             color: context.colors.primary,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,

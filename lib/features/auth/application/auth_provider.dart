@@ -1,17 +1,14 @@
 import 'dart:io';
 
-// ignore: unused_import
-import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/core/core.dart';
-import 'package:icon_shopper/features/auth/application/auth_state.dart';
-import 'package:icon_shopper/features/auth/domain/signup_body.dart';
-import 'package:icon_shopper/features/auth/infastructure/auth_repo.dart';
-import 'package:mime/mime.dart';
 
+import '../../../core/core.dart';
 import '../../profile/domain/change_password_body.dart';
 import '../domain/model/user_model.dart';
 import '../../profile/domain/profile_update_body.dart';
+import '../domain/signup_body.dart';
+import '../infastructure/auth_repo.dart';
+import 'auth_state.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier(ref, AuthRepo());
@@ -115,7 +112,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     final imageString = Uri.dataFromBytes(
       avatar?.readAsBytesSync() ?? [],
-      mimeType: lookupMimeType(avatar?.path ?? '') ?? '',
+      // mimeType: lookupMimeType(avatar?.path ?? '') ?? '',
     ).toString();
 
     final body = ProfileUpdateBody(

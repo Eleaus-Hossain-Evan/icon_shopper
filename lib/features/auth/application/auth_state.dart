@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:icon_shopper/features/auth/domain/model/user_model.dart';
+import '../domain/model/user_model.dart';
 
 class AuthState extends Equatable {
   final bool loading;

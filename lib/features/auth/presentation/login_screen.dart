@@ -4,11 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/features/auth/presentation/forgot_password/forgot_password_screen.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../application/auth_provider.dart';
+import 'forgot_password/forgot_password_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends HookConsumerWidget {
@@ -56,15 +55,12 @@ class LoginScreen extends HookConsumerWidget {
                     Row(
                       crossAxisAlignment: crossEnd,
                       children: [
-                        AppStrings.login
-                            .toTitleCase()
-                            .text
-                            .textStyle(ContentTextStyle.headline1)
-                            .make(),
+                        Text(
+                          AppStrings.login.toTitleCase(),
+                          style: ContentTextStyle.headline1,
+                        ),
                         gap8,
-                        AppStrings.toIconShopper.text
-                            .textStyle(CustomTextStyles.sBodyRegular)
-                            .make(),
+                        const Text(AppStrings.toIconShopper),
                       ],
                     ),
                     gap28,
@@ -106,12 +102,12 @@ class LoginScreen extends HookConsumerWidget {
                     //. going to forgot password page
                     KTextButton(
                       padding: paddingH12,
-                      child: AppStrings.forgotPassword.text
-                          .textStyle(ContentTextStyle.bodyText1)
-                          .bold
-                          .base
-                          .colorTertiary(context)
-                          .make(),
+                      child: Text(
+                        AppStrings.forgotPassword,
+                        style: ContentTextStyle.bodyText1.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       onPressed: () {
                         context.push(ForgotPasswordScreen.route);
                       },

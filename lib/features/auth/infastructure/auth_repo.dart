@@ -1,10 +1,11 @@
-import 'package:icon_shopper/features/auth/domain/auth_response.dart';
-import 'package:icon_shopper/features/auth/domain/signup_body.dart';
-import 'package:icon_shopper/features/common/domain/simple_response.dart';
-import 'package:icon_shopper/features/profile/domain/change_password_body.dart';
+
 
 import '../../../core/core.dart';
+import '../../common/domain/simple_response.dart';
+import '../../profile/domain/change_password_body.dart';
 import '../../profile/domain/profile_update_body.dart';
+import '../domain/auth_response.dart';
+import '../domain/signup_body.dart';
 
 class AuthRepo {
   final api = NetworkHandler.instance;
@@ -55,7 +56,7 @@ class AuthRepo {
   Future<Either<CleanFailure, AuthResponse>> updateProfile(
     ProfileUpdateBody body,
   ) async {
-    final data = await api.post(
+     await api.post(
       body: body.toMap(),
       fromData: (json) => SimpleResponse.fromMap(json),
       endPoint: APIRoute.PROFILE_UPDATE,

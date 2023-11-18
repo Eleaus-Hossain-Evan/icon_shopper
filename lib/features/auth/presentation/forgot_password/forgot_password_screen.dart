@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../core/core.dart';
 import '../../application/auth_provider.dart';
@@ -22,7 +21,7 @@ class ForgotPasswordScreen extends HookConsumerWidget {
     final token = useState('');
 
     final pageController = usePageController();
-    final isPageChnaged = useState(false);
+    // final isPageChnaged = useState(false);
 
     final currentPasswordController = useTextEditingController();
     final newPasswordController = useTextEditingController();
@@ -63,7 +62,7 @@ class ForgotPasswordScreen extends HookConsumerWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32.w),
             child: AnimatedCrossFade(
-              duration: 500.milliseconds,
+              duration: const Duration(milliseconds: 500),
               crossFadeState: CrossFadeState.showSecond,
               firstChild: Text(
                 AppStrings.forgotBelowText1,

@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,9 +10,9 @@ import '../profile_detail_screen.dart';
 
 class ProfilePicWidget extends HookConsumerWidget {
   const ProfilePicWidget({
-    Key? key,
+    super.key,
     this.onEditTap,
-  }) : super(key: key);
+  });
 
   final Function()? onEditTap;
 
@@ -24,45 +23,51 @@ class ProfilePicWidget extends HookConsumerWidget {
     return KInkWell(
       onTap: onEditTap ?? () => context.push(ProfileDetailScreen.route),
       borderRadius: radius8,
-      child: Row(
-        children: [
-          KUserAvatar(
-            radius: 36.w,
-            enableBorder: true,
-            isHero: false,
-          ),
-          gap16,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: crossStart,
-              children: [
-                Text(
-                  state.user.name,
-                  style: CustomTextStyles.s16w600,
-                ),
-                Visibility(
-                  visible: state.user.email.isNotEmpty,
-                  child: Text(
-                    state.user.email,
-                    textAlign: TextAlign.center,
-                    style: CustomTextStyles.s14w400Black800,
-                  ).pOnly(top: 4.h),
-                ),
-                gap4,
-                Text(
-                  state.user.phone,
-                  style: CustomTextStyles.s14w400Black800,
-                ),
-              ],
+      child: Padding(
+        padding: EdgeInsets.all(16.w),
+        child: Row(
+          children: [
+            KUserAvatar(
+              radius: 36.w,
+              enableBorder: true,
+              isHero: false,
             ),
-          ),
-          Icon(
-            Icons.chevron_right_rounded,
-            size: 28.sp,
-            color: AppColors.black,
-          ),
-        ],
-      ).p20(),
-    ).box.color(AppColors.bg100).shadowSm.roundedSM.make();
+            gap16,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: crossStart,
+                children: [
+                  Text(
+                    state.user.name,
+                    style: CustomTextStyles.s16w600,
+                  ),
+                  Visibility(
+                    visible: state.user.email.isNotEmpty,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 4.h),
+                      child: Text(
+                        state.user.email,
+                        textAlign: TextAlign.center,
+                        style: CustomTextStyles.s14w400Black800,
+                      ),
+                    ),
+                  ),
+                  gap4,
+                  Text(
+                    state.user.phone,
+                    style: CustomTextStyles.s14w400Black800,
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 28.sp,
+              color: AppColors.black,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
