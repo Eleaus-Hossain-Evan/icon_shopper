@@ -25,7 +25,7 @@ class SendOTP extends HookConsumerWidget {
     // Controller
     final controller = useMemoized(() => CountdownController(autoStart: true));
     return SingleChildScrollView(
-      child: ContainerBGWhiteSlideFromTop(
+      child: ContainerBGWhiteScaleFromMiddle(
         margin: EdgeInsets.symmetric(horizontal: 32.w),
         bgColor: AppColors.bg200,
         child: Column(

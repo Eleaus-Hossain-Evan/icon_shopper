@@ -49,7 +49,7 @@ class LoginScreen extends HookConsumerWidget {
               Gap(60.h),
 
               //. Login Form
-              ContainerBGWhiteSlideFromTop(
+              ContainerBGWhiteScaleFromMiddle(
                 bgColor: AppColors.bg200,
                 child: Column(
                   children: [

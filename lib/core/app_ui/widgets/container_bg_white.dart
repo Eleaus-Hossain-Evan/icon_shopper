@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core.dart';
-import 'animations/animations.dart';
 
 class ContainerBGWhiteSlideFromRight extends StatelessWidget {
   const ContainerBGWhiteSlideFromRight({
-    Key? key,
+    super.key,
     required this.child,
     this.padding,
     this.bgColor = AppColors.bg100,
@@ -14,7 +13,7 @@ class ContainerBGWhiteSlideFromRight extends StatelessWidget {
     this.borderRadius,
     this.isBorder = false,
     this.margin,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final EdgeInsetsGeometry? padding;
@@ -34,8 +33,8 @@ class ContainerBGWhiteSlideFromRight extends StatelessWidget {
             width: 1.2.w,
           );
     return FadeAnimation(
-      intervalStart: 0.6,
-      duration: const Duration(milliseconds: 400),
+      intervalStart: 0.3,
+      duration: const Duration(milliseconds: 650),
       child: Container(
         padding: padding ?? padding20,
         width: 1.sw,
@@ -45,12 +44,12 @@ class ContainerBGWhiteSlideFromRight extends StatelessWidget {
           borderRadius: borderRadius ?? BorderRadius.circular(16.r),
           border: border,
         ),
-        child: FadeAnimation(
-          intervalStart: 0.5,
+        child: SlideAnimation(
+          begin: const Offset(100, 0),
+          intervalStart: 0.4,
           duration: const Duration(milliseconds: 650),
-          child: SlideAnimation(
-            begin: const Offset(100, 0),
-            intervalStart: 0.5,
+          child: FadeAnimation(
+            intervalStart: 0.6,
             duration: const Duration(milliseconds: 650),
             child: child,
           ),
@@ -62,14 +61,14 @@ class ContainerBGWhiteSlideFromRight extends StatelessWidget {
 
 class ContainerBGWhiteSlideFromLeft extends StatelessWidget {
   const ContainerBGWhiteSlideFromLeft({
-    Key? key,
+    super.key,
     required this.child,
     this.padding,
     this.bgColor = AppColors.bg100,
     this.borderColor = AppColors.bg100,
     this.borderRadius,
     this.isBorder = false,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final EdgeInsetsGeometry? padding;
@@ -88,8 +87,8 @@ class ContainerBGWhiteSlideFromLeft extends StatelessWidget {
             width: 1.2.w,
           );
     return FadeAnimation(
-      intervalStart: 0.6,
-      duration: const Duration(milliseconds: 400),
+      intervalStart: 0.3,
+      duration: const Duration(milliseconds: 650),
       child: Container(
         padding: padding ?? padding20,
         width: 1.sw,
@@ -99,12 +98,12 @@ class ContainerBGWhiteSlideFromLeft extends StatelessWidget {
           borderRadius: borderRadius ?? BorderRadius.circular(16.r),
           border: border,
         ),
-        child: FadeAnimation(
-          intervalStart: 0.5,
+        child: SlideAnimation(
+          begin: const Offset(-100, 0),
+          intervalStart: 0.4,
           duration: const Duration(milliseconds: 650),
-          child: SlideAnimation(
-            begin: const Offset(-100, 0),
-            intervalStart: 0.5,
+          child: FadeAnimation(
+            intervalStart: 0.6,
             duration: const Duration(milliseconds: 650),
             child: child,
           ),
@@ -116,13 +115,13 @@ class ContainerBGWhiteSlideFromLeft extends StatelessWidget {
 
 class ContainerBGWhiteSlideFromTop extends StatelessWidget {
   const ContainerBGWhiteSlideFromTop({
-    Key? key,
+    super.key,
     required this.child,
     this.padding,
     this.bgColor = AppColors.bg100,
     this.borderRadius,
     this.margin,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final EdgeInsets? padding, margin;
@@ -131,8 +130,8 @@ class ContainerBGWhiteSlideFromTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeAnimation(
-      intervalStart: 0.6,
-      duration: const Duration(milliseconds: 400),
+      intervalStart: 0.3,
+      duration: const Duration(milliseconds: 650),
       child: Container(
         padding: padding ?? padding20,
         width: 1.sw,
@@ -145,12 +144,57 @@ class ContainerBGWhiteSlideFromTop extends StatelessWidget {
           //   width: 1.2.w,
           // ),
         ),
-        child: FadeAnimation(
-          intervalStart: 0.5,
+        child: SlideAnimation(
+          begin: const Offset(0, -100),
+          intervalStart: 0.4,
           duration: const Duration(milliseconds: 650),
-          child: SlideAnimation(
-            begin: const Offset(0, -100),
-            intervalStart: 0.5,
+          child: FadeAnimation(
+            intervalStart: 0.6,
+            duration: const Duration(milliseconds: 650),
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ContainerBGWhiteScaleFromMiddle extends StatelessWidget {
+  const ContainerBGWhiteScaleFromMiddle({
+    super.key,
+    required this.child,
+    this.padding,
+    this.bgColor = AppColors.bg100,
+    this.borderRadius,
+    this.margin,
+  });
+
+  final Widget child;
+  final EdgeInsets? padding, margin;
+  final Color bgColor;
+  final BorderRadiusGeometry? borderRadius;
+  @override
+  Widget build(BuildContext context) {
+    return FadeAnimation(
+      intervalStart: 0.3,
+      duration: const Duration(milliseconds: 650),
+      child: Container(
+        padding: padding ?? padding20,
+        width: 1.sw,
+        margin: margin,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: borderRadius ?? BorderRadius.circular(16.r),
+          // border: Border.all(
+          //   color: ColorPalate.primary.withOpacity(.1),
+          //   width: 1.2.w,
+          // ),
+        ),
+        child: ScaleAnimation(
+          intervalStart: 0.4,
+          duration: const Duration(milliseconds: 650),
+          child: FadeAnimation(
+            intervalStart: 0.6,
             duration: const Duration(milliseconds: 650),
             child: child,
           ),
