@@ -77,6 +77,7 @@ class AppStrings {
   //#----------------  Checkout ----------------
 
   static var enterCoupon = "Enter Coupon";
+  static var promoCodeEnter = "Please enter the coupon code if you have any";
 
   static var apply = "Apply";
 

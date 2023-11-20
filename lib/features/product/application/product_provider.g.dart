@@ -193,7 +193,7 @@ final productNotifierProvider =
 );
 
 typedef _$ProductNotifier = AutoDisposeNotifier<ProductModel>;
-String _$productStockHash() => r'e0aa45aa5b8e414ef4179135b635584ba6dcc49d';
+String _$productStockHash() => r'242d1af8d45a841b72891e7e552a963c5c368dce';
 
 /// See also [ProductStock].
 @ProviderFor(ProductStock)

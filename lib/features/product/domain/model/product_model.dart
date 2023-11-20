@@ -320,19 +320,19 @@ class ProductModel extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'product_variation_status': productVariationStatus,
-      'product_name': productName,
-      'product_code': productCode,
-      'variant_code': variantCode,
-      'category_id': categoryId,
-      'brand_id': brandId,
-      'unit_id': unitId,
-      'minimum_purchase_qty': minimumPurchaseQty,
-      'barcode_symbol': barcodeSymbol,
-      'unit_price': unitPrice,
+      'productVariationStatus': productVariationStatus,
+      'productName': productName,
+      'productCode': productCode,
+      'variantCode': variantCode,
+      'categoryId': categoryId,
+      'brandId': brandId,
+      'unitId': unitId,
+      'minimumPurchaseQty': minimumPurchaseQty,
+      'barcodeSymbol': barcodeSymbol,
+      'unitPrice': unitPrice,
       'discount': discount,
-      'discount_type': discountType,
-      'shipping_type': shippingType,
+      'discountType': discountType,
+      'shippingType': shippingType,
       'qty': qty,
       'sku': sku,
       'tags': tags,
@@ -341,42 +341,42 @@ class ProductModel extends Equatable {
       'colors': colors,
       'attributes': attributes,
       'description': description,
-      'size_chart': sizeChart,
-      'guide_line': guideline,
-      'pdf_file': pdfFile,
-      'meta_tag': metaTag,
-      'meta_description': metaDescription,
-      'meta_image': metaImage,
-      'free_shipping': freeShipping,
-      'flat_rate': flatRate,
-      'shipping_cost': shippingCost,
-      'low_stock_quantity': lowStockQuantity,
-      'stock_visibility_state': stockVisibilityState,
-      'cash_on_delivery': cashOnDelivery,
-      'new_arrival_status': newArrivalStatus,
-      'featured_status': featuredStatus,
-      'hot_product_status': hotProductStatus,
-      'landing_product': landingProduct,
-      'estimate_shipping_time': estimateShippingTime,
-      'tax_id': taxId,
-      'tax_method': taxMethod,
-      'showroom_id': showroomId,
-      'whole_sell_product_status': wholeSellProductStatus,
+      'sizeChart': sizeChart,
+      'guideline': guideline,
+      'pdfFile': pdfFile,
+      'metaTag': metaTag,
+      'metaDescription': metaDescription,
+      'metaImage': metaImage,
+      'freeShipping': freeShipping,
+      'flatRate': flatRate,
+      'shippingCost': shippingCost,
+      'lowStockQuantity': lowStockQuantity,
+      'stockVisibilityState': stockVisibilityState,
+      'cashOnDelivery': cashOnDelivery,
+      'newArrivalStatus': newArrivalStatus,
+      'featuredStatus': featuredStatus,
+      'hotProductStatus': hotProductStatus,
+      'landingProduct': landingProduct,
+      'estimateShippingTime': estimateShippingTime,
+      'taxId': taxId,
+      'taxMethod': taxMethod,
+      'showroomId': showroomId,
+      'wholeSellProductStatus': wholeSellProductStatus,
       'status': status,
-      'created_by': createdBy,
-      'modified_by': modifiedBy,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
-      'regular_price': regularPrice,
-      'sale_price': salePrice,
-      'whole_sale_price': wholeSalePrice,
+      'createdBy': createdBy,
+      'modifiedBy': modifiedBy,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'regularPrice': regularPrice,
+      'salePrice': salePrice,
+      'wholeSalePrice': wholeSalePrice,
       'categories': categories,
       'brands': brands.map((x) => x.toMap()).toList(),
-      'color_list': colorList.map((x) => x.toMap()).toList(),
-      'available_attributes':
-          availableAttributes.map((x) => x.toMap()).toList(),
-      'attributes_types': attributesTypes.map((x) => x.toMap()).toList(),
-      'product_variants': productVariants.map((x) => x.toMap()).toList(),
+      'colorList': colorList.map((x) => x.toMap()).toList(),
+      'availableAttributes': availableAttributes.map((x) => x.toMap()).toList(),
+      'attributesTypes': attributesTypes.map((x) => x.toMap()).toList(),
+      'productVariants': productVariants.map((x) => x.toMap()).toList(),
+      'selectedVariant': selectedVariant.toMap(),
       'slug': slug,
     };
   }
@@ -460,11 +460,6 @@ class ProductModel extends Equatable {
       ProductModel.fromMap(json.decode(source));
 
   @override
-  String toString() {
-    return 'ProductModel(id: $id, productVariationStatus: $productVariationStatus, productName: $productName, productCode: $productCode, variantCode: $variantCode, categoryId: $categoryId, brandId: $brandId, unitId: $unitId, minimumPurchaseQty: $minimumPurchaseQty, barcodeSymbol: $barcodeSymbol, unitPrice: $unitPrice, discount: $discount, discountType: $discountType, shippingType: $shippingType, qty: $qty, sku: $sku, tags: $tags, refundable: $refundable, image: $image, colors: $colors, attributes: $attributes, description: $description, sizeChart: $sizeChart, guideline: $guideline, pdfFile: $pdfFile, metaTag: $metaTag, metaDescription: $metaDescription, metaImage: $metaImage, freeShipping: $freeShipping, flatRate: $flatRate, shippingCost: $shippingCost, lowStockQuantity: $lowStockQuantity, stockVisibilityState: $stockVisibilityState, cashOnDelivery: $cashOnDelivery, newArrivalStatus: $newArrivalStatus, featuredStatus: $featuredStatus, hotProductStatus: $hotProductStatus, landingProduct: $landingProduct, estimateShippingTime: $estimateShippingTime, taxId: $taxId, taxMethod: $taxMethod, showroomId: $showroomId, wholeSellProductStatus: $wholeSellProductStatus, status: $status, createdBy: $createdBy, modifiedBy: $modifiedBy, createdAt: $createdAt, updatedAt: $updatedAt, regularPrice: $regularPrice, salePrice: $salePrice, wholeSalePrice: $wholeSalePrice, categories: $categories, brands: $brands, colorList: $colorList, availableAttributes: $availableAttributes, attributesTypes: $attributesTypes, productVariants: $productVariants, selectedVariants: $selectedVariant slug: $slug)';
-  }
-
-  @override
   List<Object> get props {
     return [
       id,
@@ -527,6 +522,11 @@ class ProductModel extends Equatable {
       selectedVariant,
       slug,
     ];
+  }
+
+  @override
+  String toString() {
+    return 'ProductModel(id: $id, productName: $productName, selectedVariant: $selectedVariant, slug: $slug, productVariationStatus: $productVariationStatus, productCode: $productCode, variantCode: $variantCode, categoryId: $categoryId, brandId: $brandId, unitId: $unitId, minimumPurchaseQty: $minimumPurchaseQty, barcodeSymbol: $barcodeSymbol, unitPrice: $unitPrice, discount: $discount, discountType: $discountType, shippingType: $shippingType, qty: $qty, sku: $sku, tags: $tags, refundable: $refundable, image: $image, colors: $colors, attributes: $attributes, pdfFile: $pdfFile, metaTag: $metaTag, metaDescription: $metaDescription, metaImage: $metaImage, freeShipping: $freeShipping, flatRate: $flatRate, shippingCost: $shippingCost, lowStockQuantity: $lowStockQuantity, stockVisibilityState: $stockVisibilityState, cashOnDelivery: $cashOnDelivery, newArrivalStatus: $newArrivalStatus, featuredStatus: $featuredStatus, hotProductStatus: $hotProductStatus, landingProduct: $landingProduct, estimateShippingTime: $estimateShippingTime, taxId: $taxId, taxMethod: $taxMethod, showroomId: $showroomId, wholeSellProductStatus: $wholeSellProductStatus, status: $status, createdBy: $createdBy, modifiedBy: $modifiedBy, createdAt: $createdAt, updatedAt: $updatedAt, regularPrice: $regularPrice, salePrice: $salePrice, wholeSalePrice: $wholeSalePrice, categories: $categories, brands: $brands, colorList: $colorList, availableAttributes: $availableAttributes, attributesTypes: $attributesTypes, productVariants: $productVariants)';
   }
 }
 

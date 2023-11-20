@@ -89,14 +89,9 @@ class MainNav extends HookConsumerWidget {
                 color: AppColors.black600,
               ),
             ),
-            selectedIcon: Badge(
-              backgroundColor: context.colors.secondary,
-              label: Text(cartState.length.toString()),
-              isLabelVisible: cartState.isNotEmpty,
-              child: Icon(
-                BoxIcons.bxs_cart_alt,
-                color: context.colors.primary,
-              ),
+            selectedIcon: Icon(
+              BoxIcons.bxs_cart_alt,
+              color: context.colors.primary,
             ),
             label: "Cart",
           ),

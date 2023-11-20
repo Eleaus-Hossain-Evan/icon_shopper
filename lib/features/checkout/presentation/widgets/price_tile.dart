@@ -11,7 +11,7 @@ class PriceTile extends HookConsumerWidget {
     this.isTotal = false,
   });
   final String title;
-  final double price;
+  final num price;
   final bool isTotal;
   @override
   Widget build(BuildContext context, WidgetRef ref) {

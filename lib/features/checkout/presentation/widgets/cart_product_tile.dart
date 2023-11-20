@@ -11,11 +11,11 @@ import '../application/checkout_provider.dart';
 
 class CartProductTile extends HookConsumerWidget {
   const CartProductTile({
-    Key? key,
+    super.key,
     required this.cartProduct,
     this.isCart = true,
     this.fromProductDetail = false,
-  }) : super(key: key);
+  });
 
   final CartProductModel cartProduct;
   final bool isCart;
@@ -25,7 +25,7 @@ class CartProductTile extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final salePrice = cartProduct.product.selectedVariant.salePrice;
     return SizedBox(
-      height: 100.h,
+      // height: 100.h,
       // decoration: BoxDecoration(
       //   color: AppColors.white,
       //   borderRadius: BorderRadius.circular(8.r),
@@ -60,18 +60,20 @@ class CartProductTile extends HookConsumerWidget {
                   bottomLeft: Radius.circular(8.r),
                 ),
                 child: cartProduct.product.image.first.networkImageBaseUrl(
+                  isHero: isCart,
                   fit: BoxFit.cover,
-                  height: 120.h,
+                  height: 100.h,
+                  width: 120.w,
                 ),
               ),
             ),
-            gap16,
+            gap12,
             Column(
               mainAxisAlignment: mainStart,
               crossAxisAlignment: crossStart,
               children: [
                 Row(
-                  crossAxisAlignment: crossStart,
+                  crossAxisAlignment: crossCenter,
                   children: [
                     cartProduct.product.productName
                         .toTitleCase()
@@ -83,130 +85,136 @@ class CartProductTile extends HookConsumerWidget {
                         .make()
                         .py12()
                         .expand(),
-                    IconButton(
-                      onPressed: () {
+                    KInkWell(
+                      padding: EdgeInsets.all(4.w),
+                      onTap: () {
                         ref
                             .read(cartProductProvider.notifier)
                             .removeProduct(cartProduct.product);
                       },
-                      icon: const Icon(
+                      child: const Icon(
                         Icons.close,
                         size: 16,
                       ),
                     ).hide(isVisible: isCart),
+                    gap10,
                   ],
                 ),
-                // gap6,
+                Padding(
+                  padding: paddingBottom8,
+                  child: Wrap(
+                    spacing: 8.w,
+                    runSpacing: 6.w,
+                    children: [
+                      // product variation section
+                      Row(
+                        mainAxisSize: mainMin,
+                        children: [
+                          cartProduct
+                              .product.availableAttributes.first.name.text
+                              .make(),
+                          " : ".text.make(),
+                          cartProduct
+                              .product.selectedVariant.productVariantName.text
+                              .colorPrimary(context)
+                              .make(),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: mainMin,
+                        children: [
+                          // product amount X price; only showing in checkout page..
+                          Row(
+                            mainAxisSize: mainMin,
+                            children: [
+                              cartProduct.quantity.toString().text.make(),
+                              " x ".text.make(),
+                              cartProduct.product.salePrice
+                                  .toString()
+                                  .text
+                                  .make(),
+                            ],
+                          ).hide(isVisible: !isCart),
 
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        // product variation section
-                        Row(
-                          children: [
-                            cartProduct
-                                .product.availableAttributes.first.name.text
-                                .make(),
-                            " : ".text.make(),
-                            cartProduct
-                                .product.selectedVariant.productVariantName.text
-                                .make(),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            // product amount X price; only showing in checkout page..
-                            Row(
+                          // product total price
+                          Text.rich(
+                            TextSpan(
                               children: [
-                                cartProduct.quantity.toString().text.make(),
-                                " x ".text.make(),
-                                cartProduct.product.salePrice
-                                    .toString()
-                                    .text
+                                "Price: ".textSpan.make(),
+                                "${salePrice * cartProduct.quantity}"
+                                    .textSpan
+                                    .color(context.colors.primary)
                                     .make(),
                               ],
-                            ).hide(isVisible: !isCart),
-
-                            // product total price
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  "Price: ".textSpan.make(),
-                                  "${salePrice * cartProduct.quantity}"
-                                      .textSpan
-                                      .underline
-                                      .make(),
-                                ],
-                              ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ).expand(),
-
-                    // cart amount update section(+/-)
-                    Row(
-                      mainAxisAlignment: mainCenter,
-                      children: [
-                        IconButton(
-                          style: ButtonStyle(
-                            shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0),
-                              ),
-                            ),
-                            visualDensity: VisualDensity.compact,
                           ),
-                          onPressed: () {
-                            ref
-                                .read(cartProductProvider.notifier)
-                                .updateProduct(cartProduct.product,
-                                    cartProduct.quantity - 1);
-                          },
-                          icon: const Icon(Icons.remove),
-                        ),
-                        const VerticalDivider(
-                          color: AppColors.black500,
-                          thickness: 1,
-                          width: 1,
-                        ),
-                        Text(
-                          cartProduct.quantity.toString(),
-                        ).centered().w(28.w),
-                        const VerticalDivider(
-                          color: AppColors.black500,
-                          thickness: 1,
-                          width: 1,
-                        ),
-                        IconButton(
-                          style: ButtonStyle(
-                            shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0),
+                        ],
+                      ),
+
+                      // cart amount update section(+/-)
+                      Row(
+                        mainAxisAlignment: mainCenter,
+                        mainAxisSize: mainMin,
+                        children: [
+                          IconButton(
+                            style: ButtonStyle(
+                              shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
                               ),
+                              visualDensity: VisualDensity.compact,
                             ),
-                            visualDensity: VisualDensity.compact,
+                            onPressed: () {
+                              ref
+                                  .read(cartProductProvider.notifier)
+                                  .updateProduct(cartProduct.product,
+                                      cartProduct.quantity - 1);
+                            },
+                            icon: const Icon(Icons.remove),
                           ),
-                          onPressed: () {
-                            ref
-                                .read(cartProductProvider.notifier)
-                                .updateProduct(cartProduct.product,
-                                    cartProduct.quantity + 1);
-                          },
-                          icon: const Icon(Icons.add),
-                        ),
-                      ],
-                    )
-                        .box
-                        .border(
-                          color: AppColors.black400,
-                        )
-                        .height(30)
-                        .make()
-                        .pOnly(right: 16.w)
-                        .hide(isVisible: isCart),
-                  ],
+                          const VerticalDivider(
+                            color: AppColors.black500,
+                            thickness: 1,
+                            width: 1,
+                          ),
+                          Text(
+                            cartProduct.quantity.toString(),
+                          ).centered().w(28.w),
+                          const VerticalDivider(
+                            color: AppColors.black500,
+                            thickness: 1,
+                            width: 1,
+                          ),
+                          IconButton(
+                            style: ButtonStyle(
+                              shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                              ),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                            onPressed: () {
+                              ref
+                                  .read(cartProductProvider.notifier)
+                                  .updateProduct(cartProduct.product,
+                                      cartProduct.quantity + 1);
+                            },
+                            icon: const Icon(Icons.add),
+                          ),
+                        ],
+                      )
+                          .box
+                          .border(
+                            color: AppColors.black400,
+                          )
+                          .height(30)
+                          .make()
+                          .pOnly(right: 16.w)
+                          .hide(isVisible: isCart),
+                    ],
+                  ),
                 )
               ],
             ).expand(),

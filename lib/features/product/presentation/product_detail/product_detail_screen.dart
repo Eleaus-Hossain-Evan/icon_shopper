@@ -39,13 +39,13 @@ class ProductDetailScreen extends HookConsumerWidget {
       // Future.microtask(() => ref
       //     .read(currentProductProvider.notifier)
       //     .setState(state.value?.data));
-      return () =>
-          Future.microtask(() => ref.invalidate(productNotifierProvider));
+      return () async =>
+          await Future.microtask(() => ref.invalidate(productNotifierProvider));
     }, []);
 
     return Scaffold(
       key: scaffoldKey,
-      endDrawer: const CartScreen(fromProductDetail: true),
+      endDrawer: const Drawer(child: CartScreen(fromProductDetail: true)),
       appBar: KAppBar(
         // titleText: slug,
         actions: [

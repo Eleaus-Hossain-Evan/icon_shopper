@@ -7,9 +7,11 @@ import '../../core.dart';
 showCustomDialog({
   required BuildContext context,
   required Widget child,
+  bool barrierDismissible = false,
 }) =>
     showDialog(
       context: context,
+      barrierDismissible: barrierDismissible,
       builder: (context) {
         return Dialog(
           shape: RoundedRectangleBorder(

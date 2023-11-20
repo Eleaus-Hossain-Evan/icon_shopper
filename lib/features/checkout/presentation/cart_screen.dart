@@ -23,14 +23,13 @@ class CartScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(cartProductProvider);
 
-    final couponController = useTextEditingController();
-
     final subtotal = useMemoized<double>(() {
       if (state.isEmpty) {
         return 0.0;
       }
       final value = state
-          .map((element) => element.product.salePrice * element.quantity)
+          .map((element) =>
+              element.product.selectedVariant.salePrice * element.quantity)
           .toList();
       return value.reduce((value, element) => value + element).toDouble();
     }, [state]);
@@ -74,63 +73,25 @@ class CartScreen extends HookConsumerWidget {
           gap10,
           Padding(
             padding: paddingH20,
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: KTextFormField2(
-                    controller: couponController,
-                    hintText: AppStrings.enterCoupon,
-                  ),
-                ),
-                gap20,
-                Expanded(
-                  flex: 3,
-                  child: ValueListenableBuilder(
-                      valueListenable: couponController,
-                      builder: (context, value, child) {
-                        return KFilledButton(
-                          onPressed: value.text.isEmpty
-                              ? null
-                              : () {
-                                  // ref
-                                  //     .read(cartProvider.notifier)
-                                  //     .applyPromo(couponController.text)
-                                  //     .then(
-                                  //   (value) {
-                                  //     value ? couponController.clear() : null;
-                                  //   },
-                                  // );
-                                },
-                          text: AppStrings.apply,
-                        );
-                      }),
-                )
-              ],
-            ),
-          ),
-          gap20,
-          Padding(
-            padding: paddingH20,
             child: Column(
               children: [
                 gap10,
-                PriceTile(
-                  title: AppStrings.subTotal,
-                  price: subtotal,
-                ),
-                PriceTile(
-                  title: AppStrings.discount,
-                  price: discount.value,
-                ),
-                PriceTile(
-                  title: AppStrings.deliveryCharge,
-                  price: deliveryCharge.value,
-                ),
-                Divider(
-                  thickness: 1,
-                  color: context.colors.secondaryContainer,
-                ),
+                // PriceTile(
+                //   title: AppStrings.subTotal,
+                //   price: subtotal,
+                // ),
+                // PriceTile(
+                //   title: AppStrings.discount,
+                //   price: discount.value,
+                // ),
+                // PriceTile(
+                //   title: AppStrings.deliveryCharge,
+                //   price: deliveryCharge.value,
+                // ),
+                // Divider(
+                //   thickness: 1,
+                //   color: context.colors.secondaryContainer,
+                // ),
                 PriceTile(
                   title: AppStrings.total,
                   price: total,
@@ -141,20 +102,23 @@ class CartScreen extends HookConsumerWidget {
             ),
           ).box.white.shadowSm.roundedSM.make().px24(),
           gap10,
-          Padding(
-            padding: paddingH20,
-            child: KFilledButton(
-              onPressed: state.isEmpty
-                  ? null
-                  : () {
-                      // if (ref.watch(loggedInProvider).loggedIn) {
-                      context.push(CheckoutScreen.route);
-                      // } else {
-                      //   context.pushNamed(SignInScreen.route);
-                      // }
-                      // context.pushNamed(CheckoutScreen.route);
-                    },
-              text: AppStrings.checkout,
+          Visibility(
+            visible: !fromProductDetail,
+            child: Padding(
+              padding: paddingH20,
+              child: KFilledButton(
+                onPressed: state.isEmpty
+                    ? null
+                    : () {
+                        // if (ref.watch(loggedInProvider).loggedIn) {
+                        context.push(CheckoutScreen.route);
+                        // } else {
+                        //   context.pushNamed(SignInScreen.route);
+                        // }
+                        // context.pushNamed(CheckoutScreen.route);
+                      },
+                text: AppStrings.checkout,
+              ),
             ),
           ),
           gap10,

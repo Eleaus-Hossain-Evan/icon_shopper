@@ -8,14 +8,14 @@ import 'k_inkwell.dart';
 
 class KIconElevatedButton extends HookConsumerWidget {
   const KIconElevatedButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.text,
     required this.icon,
     this.backgroundColor,
     this.foregroundColor,
     this.loading = false,
-  }) : super(key: key);
+  });
 
   final String text;
   final Widget icon;
@@ -68,7 +68,7 @@ class KIconElevatedButton extends HookConsumerWidget {
 
 class KElevatedButton extends HookConsumerWidget {
   const KElevatedButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.text,
     this.backgroundColor,
@@ -79,7 +79,7 @@ class KElevatedButton extends HookConsumerWidget {
     this.textStyle,
     this.size,
     this.padding,
-  }) : super(key: key);
+  });
 
   final String text;
   final Color? backgroundColor;
@@ -156,7 +156,7 @@ class KElevatedButton extends HookConsumerWidget {
 
 class KOutlinedButton extends HookConsumerWidget {
   const KOutlinedButton({
-    Key? key,
+    super.key,
     this.text,
     this.backgroundColor,
     this.foregroundColor,
@@ -173,7 +173,7 @@ class KOutlinedButton extends HookConsumerWidget {
     this.padding,
     this.shape,
     this.borderRadius = BorderRadius.zero,
-  }) : super(key: key);
+  });
 
   final String? text;
   final Color? backgroundColor, foregroundColor;
@@ -235,14 +235,14 @@ class KOutlinedButton extends HookConsumerWidget {
 
 class KButton extends HookConsumerWidget {
   const KButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.text,
     this.backgroundColor,
     this.foregroundColor,
     this.loading,
     this.child,
-  }) : super(key: key);
+  });
 
   final String text;
   final Color? backgroundColor;
@@ -286,7 +286,7 @@ class KButton extends HookConsumerWidget {
 
 class KFilledButton extends HookConsumerWidget {
   const KFilledButton({
-    Key? key,
+    super.key,
     this.text = '',
     this.backgroundColor,
     this.foregroundColor,
@@ -297,7 +297,7 @@ class KFilledButton extends HookConsumerWidget {
     this.textStyle,
     this.size,
     this.padding,
-  }) : super(key: key);
+  });
 
   final String text;
   final Color? backgroundColor;
@@ -364,12 +364,12 @@ class KFilledButton extends HookConsumerWidget {
 
 class KCircularButton extends StatelessWidget {
   const KCircularButton({
-    Key? key,
+    super.key,
     this.radius = 20,
     this.onTap,
     this.icon,
     this.bgColor,
-  }) : super(key: key);
+  });
 
   final double radius;
 
@@ -401,7 +401,7 @@ class KCircularButton extends StatelessWidget {
 
 class KTextButton extends StatelessWidget {
   const KTextButton({
-    Key? key,
+    super.key,
     this.child,
     required this.onPressed,
     this.borderRadius = BorderRadius.zero,
@@ -410,7 +410,8 @@ class KTextButton extends StatelessWidget {
     this.text,
     this.isSecondary,
     this.foregroundColor,
-  }) : super(key: key);
+    this.backgroundColor,
+  });
 
   final String? text;
   final Widget? child;
@@ -419,24 +420,89 @@ class KTextButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final ButtonStyle? style;
   final Color? foregroundColor;
+  final Color? backgroundColor;
   final bool? isSecondary;
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(),
-      child: TextButton(
-        style: TextButton.styleFrom(
-          foregroundColor: isSecondary == null
-              ? foregroundColor
-              : (isSecondary!
-                  ? context.colors.secondary
-                  : context.colors.primary),
-        ),
-        onPressed: onPressed,
-        child: child ??
-            (text.isEmptyOrNull ? const SizedBox.shrink() : Text(text!)),
+    return TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: isSecondary == null
+            ? foregroundColor
+            : (isSecondary!
+                ? context.colors.secondary
+                : context.colors.primary),
+        backgroundColor: backgroundColor,
       ),
+      onPressed: onPressed,
+      child:
+          child ?? (text.isEmptyOrNull ? const SizedBox.shrink() : Text(text!)),
+    );
+  }
+}
+
+class KGradientButton extends StatelessWidget {
+  const KGradientButton({
+    super.key,
+    this.text,
+    this.child,
+    required this.onPressed,
+    this.borderRadius = BorderRadius.zero,
+    this.padding = EdgeInsets.zero,
+    this.style,
+    this.foregroundColor,
+    this.backgroundColor,
+    this.isSecondary,
+    this.gradient,
+    this.colors,
+  });
+
+  final String? text;
+  final Widget? child;
+  final VoidCallback? onPressed;
+  final BorderRadiusGeometry borderRadius;
+  final EdgeInsetsGeometry? padding;
+  final ButtonStyle? style;
+  final Color? foregroundColor;
+  final Color? backgroundColor;
+  final bool? isSecondary;
+  final Gradient? gradient;
+  final List<Color>? colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.white,
+        backgroundColor: backgroundColor,
+        padding: padding0,
+        textStyle: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+          color: AppColors.white,
+        ),
+      ),
+      onPressed: onPressed,
+      child: Ink(
+          height: context.theme.buttonTheme.height,
+          decoration: BoxDecoration(
+            color: onPressed == null ? Colors.blueGrey.shade200 : null,
+            gradient: onPressed != null
+                ? gradient ??
+                    LinearGradient(
+                      colors: colors ??
+                          [
+                            const Color(0xFFfb913b),
+                            const Color(0xFFea590d),
+                          ],
+                    )
+                : null,
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Center(
+            child: child ??
+                (text.isEmptyOrNull ? const SizedBox.shrink() : Text(text!)),
+          )),
     );
   }
 }
