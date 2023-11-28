@@ -34,6 +34,12 @@ class LoginScreen extends HookConsumerWidget {
       },
     );
 
+    useEffect(() {
+      return () {
+        BotToast.closeAllLoading();
+      };
+    }, const []);
+
     return Scaffold(
       body: Form(
         key: formKey,
@@ -138,7 +144,7 @@ class LoginScreen extends HookConsumerWidget {
                       context.push(RegisterScreen.route);
                     },
                     text: AppStrings.register,
-                  ),
+                  ).w(80.w),
                 ],
               ),
             ],

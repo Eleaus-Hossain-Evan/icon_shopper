@@ -5,6 +5,11 @@ import '../../core.dart';
 
 final hiveProvider = Provider<StorageHandler>((_) => StorageHandler());
 
+final hiveEventStreamProvider =
+    StreamProvider.family<BoxEvent, String?>((ref, key) {
+  return ref.watch(hiveProvider).getCacheBox().watch(key: key);
+});
+
 class StorageHandler {
   StorageHandler._();
   // static final StorageHandler _instance = StorageHandler._();
@@ -19,6 +24,10 @@ class StorageHandler {
   // Future<void> create() async {
   //   await instance._init();
   // }
+
+  Box getCacheBox() {
+    return _cacheBox;
+  }
 
   Future<void> init() async {
     await Hive.initFlutter();

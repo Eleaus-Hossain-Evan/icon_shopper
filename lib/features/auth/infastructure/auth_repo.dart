@@ -17,6 +17,7 @@ class AuthRepo {
       body: {"phone": phone, "password": password},
       fromData: (json) => AuthResponse.fromMap(json),
       endPoint: APIRouteEndpoint.LOGIN,
+      withToken: false,
     );
 
     return data;
@@ -27,6 +28,7 @@ class AuthRepo {
       body: body.toMap(),
       fromData: (json) => SimpleResponse.fromMap(json),
       endPoint: APIRouteEndpoint.SIGN_UP,
+      withToken: false,
     );
 
     return data;
@@ -37,6 +39,7 @@ class AuthRepo {
       body: {"otp": otp},
       fromData: (json) => SimpleResponse.fromMap(json),
       endPoint: APIRouteEndpoint.VERIFY_OTP,
+      withToken: false,
     );
 
     return data;
@@ -55,7 +58,7 @@ class AuthRepo {
   Future<Either<CleanFailure, AuthResponse>> updateProfile(
     ProfileUpdateBody body,
   ) async {
-    final data = await api.post(
+    await api.post(
       body: body.toMap(),
       fromData: (json) => SimpleResponse.fromMap(json),
       endPoint: APIRouteEndpoint.PROFILE_UPDATE,

@@ -43,7 +43,7 @@ class CartProductTile extends HookConsumerWidget {
       //   ],
       // ),
       child: KInkWell(
-        onTap: fromProductDetail
+        onTap: fromProductDetail || !isCart
             ? null
             : () => context.push(
                   "${ProductDetailScreen.route}/${cartProduct.product.id}",
@@ -60,7 +60,7 @@ class CartProductTile extends HookConsumerWidget {
                   bottomLeft: Radius.circular(8.r),
                 ),
                 child: cartProduct.product.image.first.networkImageBaseUrl(
-                  isHero: isCart,
+                  isHero: false,
                   fit: BoxFit.cover,
                   height: 100.h,
                   width: 120.w,

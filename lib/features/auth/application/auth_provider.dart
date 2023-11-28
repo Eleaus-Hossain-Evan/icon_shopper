@@ -7,8 +7,10 @@ import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/auth/application/auth_state.dart';
 import 'package:icon_shopper/features/auth/domain/signup_body.dart';
 import 'package:icon_shopper/features/auth/infastructure/auth_repo.dart';
+import 'package:icon_shopper/features/auth/presentation/login_screen.dart';
 import 'package:mime/mime.dart';
 
+import '../../main_mav/main_nav.dart';
 import '../../profile/domain/change_password_body.dart';
 import '../domain/model/user_model.dart';
 import '../../profile/domain/profile_update_body.dart';
@@ -38,6 +40,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
           .read(loggedInProvider.notifier)
           .updateAuthCache(token: r.token, user: r.user);
       NetworkHandler.instance.setToken(r.token);
+      // ref.read(routerProvider).go(MainNav.route);
       return state.copyWith(loading: false, user: r.user);
     });
   }
@@ -48,8 +51,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     ref.read(loggedInProvider.notifier).deleteAuthCache();
     NetworkHandler.instance.setToken("");
+    // ref.read(routerProvider).go(LoginScreen.route);
 
-    // _ref.read(loggedInProvider.notifier).isLoggedIn();
+    // ref.read(loggedInProvider.notifier).isLoggedIn();
   }
 
   Future<bool> register(SignUpBody body) async {

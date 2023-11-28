@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../features/auth/domain/model/user_model.dart';
 import '../../core.dart';
-
-
 
 final loggedInProvider = ChangeNotifierProvider((ref) {
   return LoggedInNotifier(ref);
@@ -13,13 +12,26 @@ final loggedInProvider = ChangeNotifierProvider((ref) {
 class LoggedInNotifier extends ChangeNotifier {
   final Ref ref;
 
-  String get token => getToken();
+  String _token = '';
+
+  String get token => _token;
 
   UserModel get user => getUser();
 
   bool get loggedIn => token.isEmpty && user == UserModel.init() ? false : true;
 
-  LoggedInNotifier(this.ref) : super();
+  LoggedInNotifier(this.ref) {
+    ref
+        .watch(hiveProvider)
+        .getCacheBox()
+        .watch(key: AppStrings.token)
+        .listen((event) {
+      Logger.d('token: ${event.value}');
+      if (event.key == AppStrings.token && !event.deleted) {
+        _token = event.value ?? '';
+      }
+    });
+  }
 
   void deleteAuthCache() {
     ref.read(hiveProvider).delete(AppStrings.token);
@@ -43,9 +55,13 @@ class LoggedInNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  String getToken() {
-    return ref.watch(hiveProvider).get(AppStrings.token, defaultValue: '');
-  }
+  // String getToken() {
+  //   final boxStream =
+  //       ref.watch(hiveProvider).getCacheBox().watch(key: AppStrings.token);
+  //   String data = boxStream.listen((event) {
+  //     return event.value;
+  //   }).toString();
+  // }
 
   UserModel getUser() {
     return UserModel.fromJson(ref

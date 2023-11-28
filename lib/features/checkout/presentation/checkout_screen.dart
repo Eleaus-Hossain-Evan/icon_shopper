@@ -1,15 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/checkout/domain/promo_data_model.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../profile/presentation/widgets/contact_info_widget.dart';
+import '../domain/place_order_body.dart';
 import 'application/checkout_provider.dart';
+import 'widgets/apply_coupon_widget.dart';
 import 'widgets/cart_product_tile.dart';
+import 'widgets/payment_method_item.dart';
 import 'widgets/price_tile.dart';
+import 'widgets/shipping_tile.dart';
 
 class CheckoutScreen extends HookConsumerWidget {
   static const route = '/checkout';
@@ -19,12 +26,11 @@ class CheckoutScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(cartProductProvider);
 
-    final couponCode = useState('');
-    final couponDiscount = useState('');
-
     final selectedShipping = useState(ShippingMethod.inside);
 
     final selectedPayment = useState(PaymentMethod.cashOnDelivery);
+
+    final appliedPromo = useState<PromoDataModel?>(null);
 
     final subtotal = useMemoized<double>(() {
       final value = state
@@ -34,7 +40,7 @@ class CheckoutScreen extends HookConsumerWidget {
       return value.reduce((value, element) => value + element).toDouble();
     }, [state]);
 
-    final discount = useState(int.tryParse(couponDiscount.value) ?? 0.0);
+    final discount = useState(appliedPromo.value?.value ?? 0.0);
     final deliveryCharge = useMemoized(() {
       return selectedShipping.value.price;
     }, [selectedShipping.value]);
@@ -134,10 +140,8 @@ class CheckoutScreen extends HookConsumerWidget {
                           showCustomDialog(
                             context: context,
                             child: ApplyCouponWidget(
-                              onCouponApplied: (coupon, discount) {
-                                couponCode.value = coupon;
-                                couponDiscount.value = discount;
-                              },
+                              onCouponApplied: (promo) =>
+                                  appliedPromo.value = PromoDataModel.data(),
                             ),
                           );
                         },
@@ -147,7 +151,7 @@ class CheckoutScreen extends HookConsumerWidget {
                           color: context.colors.primary,
                         ),
                       ),
-                      couponCode.value.text.sm.bold.make(),
+                      (appliedPromo.value?.name ?? "").text.sm.bold.make(),
                     ],
                   ),
                   gap12,
@@ -181,8 +185,7 @@ class CheckoutScreen extends HookConsumerWidget {
                   ),
                   PriceTile(
                     title: AppStrings.discount,
-                    price:
-                        couponDiscount.value.toDoubleOption.toNullable() ?? 0,
+                    price: appliedPromo.value?.value ?? 0,
                   ),
                   PriceTile(
                     title: AppStrings.deliveryCharge,
@@ -235,7 +238,28 @@ class CheckoutScreen extends HookConsumerWidget {
                 .make()
                 .px20(),
             gap12,
-            KFilledButton(onPressed: () {}, text: 'Place Order').px32(),
+
+            //. place order button
+            KFilledButton(
+              loading: ref.watch(checkoutProvider).isLoading,
+              onPressed: () {
+                ref
+                    .read(checkoutProvider.notifier)
+                    .placeOrder(
+                      coupon: appliedPromo.value,
+                      shippingCost: selectedShipping.value.price,
+                      name: 'Md. Ogerio Hasan',
+                      phone: '01700000000',
+                      information: 'House#44 Road # 8/A, Nikunjo-1',
+                    )
+                    .then((value) {
+                  if (value) {
+                    Navigator.pop(context);
+                  }
+                });
+              },
+              text: 'Place Order',
+            ).px32(),
             gap18,
             const KDivider(color: AppColors.black300).px20(),
             gap12,
@@ -243,138 +267,6 @@ class CheckoutScreen extends HookConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class PaymentMethodItem extends StatelessWidget {
-  const PaymentMethodItem({
-    super.key,
-    required this.image,
-    required this.text,
-    required this.selectedPayment,
-  });
-
-  final String image;
-  final PaymentMethod text;
-  final ValueNotifier<PaymentMethod> selectedPayment;
-
-  @override
-  Widget build(BuildContext context) {
-    return KInkWell(
-      onTap: () => selectedPayment.value = text,
-      borderRadius: BorderRadius.circular(7.5.r),
-      child: Column(
-        children: [
-          image.assetImage(
-            height: 32.h,
-            width: 40.w,
-          ),
-          gap4,
-          text.name.toTitleCaseFromCamel().text.bold.make(),
-        ],
-      )
-          .p8()
-          .box
-          .roundedSM
-          .color(selectedPayment.value == text ? Vx.white : Colors.transparent)
-          .border(
-              color: selectedPayment.value == text
-                  ? Colors.transparent
-                  : Vx.gray300)
-          .make(),
-    );
-  }
-}
-
-class ApplyCouponWidget extends HookConsumerWidget {
-  const ApplyCouponWidget({
-    super.key,
-    required this.onCouponApplied,
-  });
-
-  final void Function(String, String) onCouponApplied;
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final couponController = useTextEditingController();
-    return Padding(
-      padding: padding20,
-      child: Column(
-        mainAxisSize: mainMin,
-        children: [
-          Row(
-            children: [
-              AppStrings.enterCoupon.text.bold.make().expand(),
-              const CloseButton(),
-            ],
-          ),
-          KTextFormField2(
-            controller: couponController,
-            hintText: AppStrings.promoCodeEnter,
-          ),
-          gap20,
-          ValueListenableBuilder(
-              valueListenable: couponController,
-              builder: (context, controller, child) {
-                return KFilledButton(
-                  loading: ref.watch(checkoutProvider).isLoading,
-                  onPressed: controller.text.isEmpty
-                      ? null
-                      : () {
-                          FocusScope.of(context).unfocus();
-                          ref
-                              .read(checkoutProvider.notifier)
-                              .applyPromo(couponController.text)
-                              .then(
-                            (value) {
-                              if (value.isNotEmptyAndNotNull) {
-                                couponController.clear();
-                                onCouponApplied(controller.text, value);
-                                Navigator.pop(context);
-                              }
-                            },
-                          );
-                        },
-                  text: AppStrings.apply,
-                );
-              })
-        ],
-      ),
-    );
-  }
-}
-
-class ShippingTile extends StatelessWidget {
-  const ShippingTile({
-    super.key,
-    required this.selectedShipping,
-    this.onChanged,
-    required this.value,
-  });
-
-  final ValueNotifier<ShippingMethod> selectedShipping;
-  final void Function(ShippingMethod?)? onChanged;
-  final ShippingMethod value;
-
-  @override
-  Widget build(BuildContext context) {
-    return KInkWell(
-      onTap: () {
-        onChanged?.call(value);
-      },
-      child: value.value.text.sm.bold
-          .color(value == selectedShipping.value
-              ? AppColors.white
-              : context.colors.onSurface)
-          .make()
-          .pSymmetric(v: 4.h, h: 8.w)
-          .box
-          .border(color: context.colors.onSurface)
-          .color(value == selectedShipping.value
-              ? context.colors.onSurface
-              : AppColors.white)
-          .make(),
     );
   }
 }

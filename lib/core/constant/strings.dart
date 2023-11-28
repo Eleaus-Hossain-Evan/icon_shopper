@@ -1,4 +1,8 @@
 class AppStrings {
+  static String locale = 'local';
+
+  static String themeData = 'themeData';
+
   AppStrings._();
 
   static const String appName = 'Courier Delivery App';

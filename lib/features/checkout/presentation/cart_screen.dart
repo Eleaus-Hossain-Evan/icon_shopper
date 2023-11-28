@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
@@ -107,6 +109,7 @@ class CartScreen extends HookConsumerWidget {
             child: Padding(
               padding: paddingH20,
               child: KFilledButton(
+                borderRadius: BorderRadius.circular(20.r),
                 onPressed: state.isEmpty
                     ? null
                     : () {
@@ -117,7 +120,18 @@ class CartScreen extends HookConsumerWidget {
                         // }
                         // context.pushNamed(CheckoutScreen.route);
                       },
-                text: AppStrings.checkout,
+                child: Row(
+                  mainAxisAlignment: mainCenter,
+                  children: [
+                    AppStrings.checkout.text.base.wide.make(),
+                    gap4,
+                    Icon(
+                      Bootstrap.box_arrow_in_right,
+                      size: 18.sp,
+                      color: context.colors.background,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

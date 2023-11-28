@@ -297,6 +297,8 @@ class KFilledButton extends HookConsumerWidget {
     this.textStyle,
     this.size,
     this.padding,
+    this.shape,
+    this.borderRadius,
   });
 
   final String text;
@@ -309,29 +311,12 @@ class KFilledButton extends HookConsumerWidget {
   final TextStyle? textStyle;
   final Size? size;
   final EdgeInsetsGeometry? padding;
+  final OutlinedBorder? shape;
+  final BorderRadiusGeometry? borderRadius;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FilledButton(
-      // style: ButtonStyle(
-      //   minimumSize: MaterialStateProperty.all(size ?? Size.fromHeight(55.h)),
-      //   textStyle: MaterialStateProperty.all(textStyle),
-      //   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-      //       (Set<MaterialState> states) {
-      //     if (states.contains(MaterialState.disabled)) {
-      //       return context.theme.disabledColor;
-      //     }
-      //     return backgroundColor ??
-      //         (isSecondary
-      //             ? context.color.secondary
-      //             : context.color.primary); // Use the component's default.
-      //   }),
-      //   foregroundColor:
-      //       MaterialStateProperty.all(foregroundColor ?? Colors.white),
-      //   overlayColor: MaterialStateProperty.all(
-      //     isSecondary ? context.color.secondary : context.color.primary,
-      //   ),
-      // ),
       style: FilledButton.styleFrom(
         textStyle: textStyle ??
             TextStyle(
@@ -343,6 +328,9 @@ class KFilledButton extends HookConsumerWidget {
         // fixedSize: size ?? const Size.fromHeight(40),
         minimumSize: size,
         padding: padding,
+        shape: RoundedRectangleBorder(
+          borderRadius: borderRadius ?? BorderRadius.circular(8.r),
+        ),
       ),
       onPressed: onPressed,
       child: (loading != null && loading!)

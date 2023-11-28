@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+import 'package:icon_shopper/features/checkout/domain/promo_data_model.dart';
+
 class CouponResponse extends Equatable {
   final bool success;
   final String message;
-  final String data;
+  final PromoDataModel data;
   const CouponResponse({
     required this.success,
     required this.message,
@@ -15,7 +17,7 @@ class CouponResponse extends Equatable {
   CouponResponse copyWith({
     bool? success,
     String? message,
-    String? data,
+    PromoDataModel? data,
   }) {
     return CouponResponse(
       success: success ?? this.success,
@@ -28,7 +30,7 @@ class CouponResponse extends Equatable {
     return {
       'success': success,
       'message': message,
-      'data': data,
+      'data': data.toMap(),
     };
   }
 
@@ -36,7 +38,7 @@ class CouponResponse extends Equatable {
     return CouponResponse(
       success: map['success'] ?? false,
       message: map['message'] ?? '',
-      data: map['data'] ?? '',
+      data: PromoDataModel.fromMap(map['data']),
     );
   }
 

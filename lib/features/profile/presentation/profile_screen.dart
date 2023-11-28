@@ -9,10 +9,12 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../auth/application/auth_provider.dart';
+import '../../auth/presentation/login_screen.dart';
 import '../../common/presentation/html_text_screen.dart';
 import 'change_password_screen.dart';
 import 'widgets/contact_info_widget.dart';
 import 'widgets/picture_widget.dart';
+import 'widgets/profile_option_item.dart';
 
 class ProfileScreen extends HookConsumerWidget {
   static const route = '/profile';
@@ -73,8 +75,8 @@ class ProfileScreen extends HookConsumerWidget {
                       onTap: () => kShowFloatBottomSheet(
                         context: context,
                         child: _LogoutDialog(
-                          onYesPressed: () {
-                            ref.read(authProvider.notifier).logout();
+                          onYesPressed: () async {
+                            await ref.read(authProvider.notifier).logout();
                             // context.go(LoginScreen.route);
                           },
                           onNoPressed: () {},
@@ -153,69 +155,6 @@ class ProfileScreen extends HookConsumerWidget {
               const ContactInfoWidget(),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileOptionsItem extends HookConsumerWidget {
-  const ProfileOptionsItem({
-    super.key,
-    required this.leading,
-    required this.title,
-    this.visible = true,
-    this.trailingText,
-    this.onTap,
-    this.trailing,
-    this.secondaryTrailing,
-  });
-
-  final IconData leading;
-  final String title;
-  final bool visible;
-  final String? trailingText;
-  final VoidCallback? onTap;
-  final Widget? trailing;
-  final Widget? secondaryTrailing;
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Visibility(
-      visible: visible,
-      child: KInkWell(
-        onTap: onTap,
-        borderRadius: radius10,
-        child: Row(
-          children: [
-            Icon(
-              leading,
-              size: 20.sp,
-              color: AppColors.secondary,
-            ),
-            gap16,
-            Expanded(
-              child: Text(
-                title,
-                style: CustomTextStyles.s14w,
-              ),
-            ),
-            trailing ??
-                (secondaryTrailing ??
-                    (trailingText == null
-                        ? const SizedBox.shrink()
-                        : Text(
-                            trailingText ?? "",
-                            style: CustomTextStyles.s14w500Red,
-                          ))),
-            gap12,
-            trailing == null
-                ? Icon(
-                    Icons.chevron_right_rounded,
-                    size: 28.sp,
-                    color: AppColors.black,
-                  )
-                : const SizedBox.shrink(),
-          ],
         ),
       ),
     );

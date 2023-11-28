@@ -79,6 +79,7 @@ dependencies:
   fpdart: ^1.1.0
   riverpod_annotation: ^2.3.0
   fast_immutable_collections: ^9.1.6
+  random_x: ^0.3.1
 
 
 
