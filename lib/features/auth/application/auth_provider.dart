@@ -7,10 +7,8 @@ import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/auth/application/auth_state.dart';
 import 'package:icon_shopper/features/auth/domain/signup_body.dart';
 import 'package:icon_shopper/features/auth/infastructure/auth_repo.dart';
-import 'package:icon_shopper/features/auth/presentation/login_screen.dart';
 import 'package:mime/mime.dart';
 
-import '../../main_mav/main_nav.dart';
 import '../../profile/domain/change_password_body.dart';
 import '../domain/model/user_model.dart';
 import '../../profile/domain/profile_update_body.dart';
@@ -103,7 +101,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
       showErrorToast(l.error.message);
       return state.copyWith(loading: false);
     }, (r) {
-      return state.copyWith(loading: false, user: r.user);
+      final user = state.user.copyWith(
+        name: r.user.name,
+        email: r.user.email,
+        phone: r.user.phone,
+        information: r.user.information,
+        avatar: r.user.avatar,
+        gender: r.user.gender,
+      );
+      return state.copyWith(loading: false, user: user);
     });
   }
 
@@ -161,5 +167,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
     });
 
     return success;
+  }
+
+  setUser(UserModel user) {
+    state = state.copyWith(user: user);
   }
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/features/checkout/presentation/application/checkout_provider.dart';
+import 'package:icon_shopper/features/category/presentation/category_screen.dart';
+import 'package:icon_shopper/features/checkout/application/checkout_provider.dart';
 import 'package:icon_shopper/features/home/application/home_provider.dart';
 import 'package:icon_shopper/features/profile/presentation/profile_screen.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -26,7 +27,7 @@ class MainNav extends HookConsumerWidget {
     final navIndex = useState(0);
     final navWidget = [
       const HomeScreen(),
-      const Center(child: Text('Category')),
+      const CategoryScreen(),
       const CartScreen(),
       const ProfileScreen(),
     ];

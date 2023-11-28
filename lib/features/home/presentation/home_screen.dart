@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/auth/application/auth_provider.dart';
 import 'package:icon_shopper/features/home/presentation/widgets/home_category.dart';
 import 'package:icon_shopper/features/home/presentation/widgets/home_slider.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../application/home_provider.dart';

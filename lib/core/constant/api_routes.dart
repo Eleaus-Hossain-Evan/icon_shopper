@@ -40,4 +40,6 @@ class APIRouteEndpoint {
   //#<<---------------- Product ------------------>>
   static const PLACE_ORDER = "${API_V1}checkout";
   static const COUPON_CHECK = "${API_V1}coupon-code-check";
+
+  static const DELIVERY_CHARGE = "${API_V1}delivery-charge";
 }

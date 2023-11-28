@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/checkout/domain/delivery_charge_response.dart';
 import 'package:icon_shopper/features/checkout/domain/place_order_body.dart';
 import 'package:icon_shopper/features/common/domain/simple_response.dart';
 
@@ -37,4 +38,12 @@ class CheckoutRepo {
 
     return data;
   }
+
+ Future<Either<CleanFailure, DeliveryChargeResponse>> getDeliveryCharge()async {
+return await api.get(
+      fromData: (json) => DeliveryChargeResponse.fromMap(json),
+      endPoint: APIRouteEndpoint.DELIVERY_CHARGE,
+      withToken: true,
+    );
+ }
 }

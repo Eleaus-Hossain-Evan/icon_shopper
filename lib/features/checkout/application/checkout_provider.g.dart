@@ -6,7 +6,24 @@ part of 'checkout_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cartProductHash() => r'309b35ed4806580443d81c48fe42a1360d700900';
+String _$getDeliveryChargeHash() => r'fc285127ab5937ac39c68067bb6faa7c97f70e21';
+
+/// See also [getDeliveryCharge].
+@ProviderFor(getDeliveryCharge)
+final getDeliveryChargeProvider =
+    AutoDisposeFutureProvider<IList<DeliveryChargeModel>>.internal(
+  getDeliveryCharge,
+  name: r'getDeliveryChargeProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getDeliveryChargeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetDeliveryChargeRef
+    = AutoDisposeFutureProviderRef<IList<DeliveryChargeModel>>;
+String _$cartProductHash() => r'374714ee6341964d4b037bba1a1824c46c1b1dc2';
 
 /// See also [CartProduct].
 @ProviderFor(CartProduct)
@@ -21,7 +38,7 @@ final cartProductProvider =
 );
 
 typedef _$CartProduct = Notifier<IList<CartProductModel>>;
-String _$checkoutHash() => r'3c7ae03828886545a1e702b1901ed90ca3fbaa52';
+String _$checkoutHash() => r'f4cf4363d944c0771642b471e64782ae3b50e542';
 
 /// See also [Checkout].
 @ProviderFor(Checkout)

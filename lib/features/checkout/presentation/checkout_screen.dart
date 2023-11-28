@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/features/checkout/domain/promo_data_model.dart';
+import 'package:icon_shopper/features/auth/application/auth_provider.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import 'package:icon_shopper/features/checkout/domain/promo_data_model.dart';
 
 import '../../../core/core.dart';
 import '../../profile/presentation/widgets/contact_info_widget.dart';
 import '../domain/place_order_body.dart';
-import 'application/checkout_provider.dart';
+import '../application/checkout_provider.dart';
 import 'widgets/apply_coupon_widget.dart';
 import 'widgets/cart_product_tile.dart';
 import 'widgets/payment_method_item.dart';
@@ -25,6 +27,11 @@ class CheckoutScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(cartProductProvider);
+    final auth = ref.watch(authProvider);
+
+    final name = useState(auth.user.name);
+    final phone = useState(auth.user.phone);
+    final address = useState(auth.user.information);
 
     final selectedShipping = useState(ShippingMethod.inside);
 
@@ -33,6 +40,9 @@ class CheckoutScreen extends HookConsumerWidget {
     final appliedPromo = useState<PromoDataModel?>(null);
 
     final subtotal = useMemoized<double>(() {
+      if (state.isEmpty) {
+        return 0.0;
+      }
       final value = state
           .map((element) =>
               element.product.selectedVariant.salePrice * element.quantity)
@@ -57,44 +67,6 @@ class CheckoutScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            gap16,
-            "BILLING & SHIPPING".text.xl2.semiBold.makeCentered(),
-            gap14,
-            ContainerBGWhiteSlideFromRight(
-              bgColor: AppColors.bg100,
-              borderRadius: radius0,
-              padding: paddingV20,
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: crossStart,
-                    children: [
-                      "Md. Ogerio Hasan".text.make(),
-                      gap2,
-                      "Phone: 01700000000".text.make(),
-                      gap2,
-                      "Address: House#44 Road # 8/A,".text.make(),
-                      gap2,
-                      "Nikunjo-1, Dhaka, 1212,".text.make(),
-                    ],
-                  ).px16().expand(),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.arrow_forward_ios),
-                  )
-                ],
-              ),
-            ).card.make().px20(),
-            gap16,
-            "ADDITIONAL INFORMATION".text.xl2.semiBold.makeCentered(),
-            gap14,
-            "Order notes (optional)".text.make().objectCenterLeft().px32(),
-            gap6,
-            const KTextFormField2(
-              hintText: 'e.g. Special notes for delivery.',
-              isLabel: false,
-              maxLines: null,
-            ).px32(),
             gap18,
             "Order Summery".text.xl2.semiBold.makeCentered(),
             gap18,
@@ -106,7 +78,7 @@ class CheckoutScreen extends HookConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      "Cart Item".text.lg.make().expand(),
+                      "Cart Overview".text.lg.make().expand(),
                       "${state.length} items".text.lg.make(),
                     ],
                   ),
@@ -203,7 +175,55 @@ class CheckoutScreen extends HookConsumerWidget {
                 ],
               ),
             ).card.make().px20(),
+
+            gap16,
+            "Customer Information".text.xl2.semiBold.makeCentered(),
+            gap14,
+            ContainerBGWhiteSlideFromRight(
+              bgColor: AppColors.bg100,
+              borderRadius: radius0,
+              padding: paddingV20,
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: crossStart,
+                    children: [
+                      name.value.text.make(),
+                      gap2,
+                      "Phone: ${phone.value}".text.make(),
+                      gap2,
+                      "Address: ${address.value}".text.make(),
+                    ],
+                  ).px16().expand(),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: EditCustomerInfoWidget(
+                            name: name.value,
+                            phone: phone.value,
+                            address: address.value,
+                            onTapOk: (nameVal, phoneVal, addressVal) {
+                              log('name: $nameVal');
+                              log('phone: $phoneVal');
+                              log('address: $addressVal');
+                              name.value = nameVal;
+                              phone.value = phoneVal;
+                              address.value = addressVal;
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.arrow_forward_ios),
+                  )
+                ],
+              ),
+            ).card.make().px20(),
+
             gap18,
+
             Row(
               children: [
                 "Payment Method".text.xl2.semiBold.make().expand(),
@@ -243,20 +263,27 @@ class CheckoutScreen extends HookConsumerWidget {
             KFilledButton(
               loading: ref.watch(checkoutProvider).isLoading,
               onPressed: () {
-                ref
-                    .read(checkoutProvider.notifier)
-                    .placeOrder(
+                if (name.value.isEmpty) {
+                  showErrorToast('Please enter your name');
+                  return;
+                }
+                if (phone.value.isEmpty) {
+                  showErrorToast('Please enter your phone number');
+                  return;
+                }
+                if (address.value.isEmpty) {
+                  showErrorToast('Please enter your address');
+                  return;
+                }
+                ref.read(checkoutProvider.notifier).placeOrder(
+                      cart: state,
                       coupon: appliedPromo.value,
                       shippingCost: selectedShipping.value.price,
-                      name: 'Md. Ogerio Hasan',
-                      phone: '01700000000',
-                      information: 'House#44 Road # 8/A, Nikunjo-1',
-                    )
-                    .then((value) {
-                  if (value) {
-                    Navigator.pop(context);
-                  }
-                });
+                      name: name.value,
+                      phone: phone.value,
+                      information: address.value,
+                      customerId: auth.user.id,
+                    );
               },
               text: 'Place Order',
             ).px32(),
@@ -264,6 +291,69 @@ class CheckoutScreen extends HookConsumerWidget {
             const KDivider(color: AppColors.black300).px20(),
             gap12,
             const ContactInfoWidget(inDetailScreen: true).px16()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EditCustomerInfoWidget extends HookConsumerWidget {
+  const EditCustomerInfoWidget({
+    super.key,
+    required this.name,
+    required this.phone,
+    required this.address,
+    required this.onTapOk,
+  });
+
+  final String name;
+  final String phone;
+  final String address;
+  final void Function(String, String, String) onTapOk;
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final nameController = useTextEditingController(text: name);
+    final phoneController = useTextEditingController(text: phone);
+    final addressController = useTextEditingController(text: address);
+    return ColoredBox(
+      color: AppColors.bg100,
+      child: Padding(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            gap24,
+            KTextFormField2(
+              controller: nameController,
+              hintText: 'Name',
+              contentPadding: paddingH20,
+            ),
+            gap16,
+            KTextFormField2(
+              controller: phoneController,
+              hintText: 'Phone',
+              contentPadding: paddingH20,
+            ),
+            gap16,
+            KTextFormField2(
+              controller: addressController,
+              hintText: 'Address',
+              contentPadding: paddingH20,
+              maxLines: null,
+              containerPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            ),
+            gap24,
+            KOutlinedButton(
+              onPressed: () {
+                onTapOk.call(nameController.text, phoneController.text,
+                    addressController.text);
+                Navigator.pop(context);
+              },
+              child: 'Ok'.text.make(),
+            ).px64()
           ],
         ),
       ),

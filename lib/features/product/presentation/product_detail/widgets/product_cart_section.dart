@@ -5,7 +5,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../../core/core.dart';
 import '../../../../checkout/domain/cart_product_model.dart';
-import '../../../../checkout/presentation/application/checkout_provider.dart';
+import '../../../../checkout/application/checkout_provider.dart';
 import '../../../application/product_provider.dart';
 
 class ProductCartSection extends HookConsumerWidget {

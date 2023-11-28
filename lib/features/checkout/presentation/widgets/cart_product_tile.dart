@@ -7,7 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 import '../../../../core/core.dart';
 import '../../../product/presentation/product_detail/product_detail_screen.dart';
 import '../../domain/cart_product_model.dart';
-import '../application/checkout_provider.dart';
+import '../../application/checkout_provider.dart';
 
 class CartProductTile extends HookConsumerWidget {
   const CartProductTile({

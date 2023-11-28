@@ -7,7 +7,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
-import 'application/checkout_provider.dart';
+import '../application/checkout_provider.dart';
 import 'checkout_screen.dart';
 import 'widgets/cart_product_tile.dart';
 import 'widgets/price_tile.dart';
@@ -52,7 +52,15 @@ class CartScreen extends HookConsumerWidget {
           Expanded(
             child: state.isEmpty
                 ? Center(
-                    child: 'No items in cart'.text.make(),
+                    child: Column(
+                      mainAxisAlignment: mainCenter,
+                      crossAxisAlignment: crossCenter,
+                      children: [
+                        Images.cart.assetImage(width: .8.sw).centered(),
+                        gap16,
+                        'Your Cart is Empty'.text.xl.gray400.extraBold.make(),
+                      ],
+                    ),
                   )
                 : ListView.separated(
                     shrinkWrap: true,
@@ -128,7 +136,6 @@ class CartScreen extends HookConsumerWidget {
                     Icon(
                       Bootstrap.box_arrow_in_right,
                       size: 18.sp,
-                      color: context.colors.background,
                     ),
                   ],
                 ),

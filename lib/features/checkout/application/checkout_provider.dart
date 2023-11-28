@@ -1,14 +1,16 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icon_shopper/core/core.dart';
+import 'package:icon_shopper/features/checkout/domain/delivery_charge_response.dart';
 import 'package:random_x/random_x.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../product/domain/model/product_model.dart';
-import '../../domain/cart_product_model.dart';
-import '../../domain/place_order_body.dart';
-import '../../domain/promo_data_model.dart';
-import '../../infrastructure/checkout_repo.dart';
+import '../../product/domain/model/product_model.dart';
+import '../domain/cart_product_model.dart';
+import '../domain/place_order_body.dart';
+import '../domain/promo_data_model.dart';
+import '../infrastructure/checkout_repo.dart';
 
 part 'checkout_provider.g.dart';
 
@@ -20,7 +22,7 @@ class CartProduct extends _$CartProduct {
       // Logger.v("previous: $previous");
       Logger.i("next: $next");
     });
-    return IList();
+    return IList(const []);
   }
 
   void addProduct(ProductModel product) async {
@@ -93,6 +95,10 @@ class CartProduct extends _$CartProduct {
 class Checkout extends _$Checkout {
   @override
   FutureOr<void> build() {
+    ref.listenSelf((previous, next) {
+      // Logger.v("previous: $previous");
+      Logger.i("next: $next");
+    });
     return null;
   }
 
@@ -118,9 +124,10 @@ class Checkout extends _$Checkout {
     required String name,
     required String phone,
     required String information,
+    required int customerId,
+    required IList<CartProductModel> cart,
   }) async {
     state = const AsyncLoading();
-    final cart = ref.watch(cartProductProvider);
 
     final product = cart.map((e) {
       return SProduct(
@@ -158,9 +165,11 @@ class Checkout extends _$Checkout {
               : ((total * (coupon?.value ?? 0)) / 100)
           : null,
       invoice_no: "ECOM-${RndX.guid(length: 6)}",
-      customer_id: 1,
-      item: 1,
-      total_qty: 1,
+      item: cart.length,
+      total_qty: cart
+          .map((element) => element.quantity)
+          .toList()
+          .reduce((a, b) => a + b),
       shipping_cost: shippingCost,
       net_total: total,
       grand_total: coupon?.type != null
@@ -173,25 +182,44 @@ class Checkout extends _$Checkout {
                   : total + shippingCost
           : total + shippingCost,
       sale_date: DateTime.now().toFormatDate('yyyy-MM-dd'),
+      customer_id: customerId,
       name: name,
       phone: phone,
       information: information,
     );
 
-    // final result = await ref.read(checkoutRepoProvider).placeOrder(body);
-    // return result.fold(
-    //   (l) {
-    //     showErrorToast(l.error.message);
-    //     state = AsyncError(l.error, StackTrace.current);
-    //     return false;
-    //   },
-    //   (r) {
-    //     showToast(r.message);
-    //     state = const AsyncData(null);
-    //     return r.success;
-    //   },
-    // );
-    Logger.d(body);
-    return false;
+    final result = await ref.read(checkoutRepoProvider).placeOrder(body);
+    return result.fold(
+      (l) {
+        showErrorToast(l.error.message);
+        state = AsyncError(l.error, StackTrace.current);
+        return false;
+      },
+      (r) {
+        ref.read(routerProvider).pop();
+        ref.read(cartProductProvider.notifier).clearCart();
+        state = const AsyncData(null);
+        showToast(r.message);
+        return r.success;
+      },
+    );
+    // Logger.d(body);
+    // return false;
   }
+}
+
+@riverpod
+FutureOr<IList<DeliveryChargeModel>> getDeliveryCharge(
+    GetDeliveryChargeRef ref) async {
+  return await ref.read(checkoutRepoProvider).getDeliveryCharge().then(
+        (value) => value.fold(
+          (l) {
+            showErrorToast(l.error.message);
+            return IList(const []);
+          },
+          (r) {
+            return r.data.lock;
+          },
+        ),
+      );
 }

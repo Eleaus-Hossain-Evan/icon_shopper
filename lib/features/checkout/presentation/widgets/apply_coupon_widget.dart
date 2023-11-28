@@ -5,7 +5,7 @@ import 'package:icon_shopper/features/checkout/domain/promo_data_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../core/core.dart';
-import '../application/checkout_provider.dart';
+import '../../application/checkout_provider.dart';
 
 class ApplyCouponWidget extends HookConsumerWidget {
   const ApplyCouponWidget({
