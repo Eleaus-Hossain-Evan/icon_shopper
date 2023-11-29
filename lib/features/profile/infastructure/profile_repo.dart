@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/profile/domain/contact_info_response.dart';
+import 'package:icon_shopper/features/profile/domain/order_list_response.dart';
 import 'package:icon_shopper/features/profile/domain/policy_response.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -121,5 +122,15 @@ class ProfileRepo {
     } catch (error) {
       throw ("Cannot launch url");
     }
+  }
+
+  Future<Either<CleanFailure, OrderListResponse>> getOrderList() async {
+    final data = await api.get(
+      fromData: (json) => OrderListResponse.fromMap(json),
+      endPoint: APIRouteEndpoint.ORDER_LIST,
+      withToken: true,
+    );
+
+    return data;
   }
 }

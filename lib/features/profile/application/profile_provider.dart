@@ -1,10 +1,14 @@
 import 'dart:async';
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/profile/domain/model/contact_info_model.dart';
 import 'package:icon_shopper/features/profile/domain/model/policy_model.dart';
 import 'package:icon_shopper/features/profile/infastructure/profile_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../domain/model/order_model.dart';
 
 part 'profile_provider.g.dart';
 
@@ -87,4 +91,14 @@ class GetPolicy extends _$GetPolicy {
       return PolicyModel.init();
     }, (r) => r.data);
   }
+}
+
+@riverpod
+FutureOr<IList<OrderModel>> getOrderList(GetOrderListRef ref) async {
+  final result = await ref.read(profileRepoProvider).getOrderList();
+
+  return result.fold((l) {
+    showErrorToast(l.error.message);
+    return IList();
+  }, (r) => r.data.data.lock);
 }

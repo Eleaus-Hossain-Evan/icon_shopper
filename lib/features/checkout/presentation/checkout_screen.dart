@@ -12,8 +12,8 @@ import 'package:icon_shopper/features/checkout/domain/promo_data_model.dart';
 
 import '../../../core/core.dart';
 import '../../profile/presentation/widgets/contact_info_widget.dart';
-import '../domain/place_order_body.dart';
 import '../application/checkout_provider.dart';
+import '../domain/delivery_charge_response.dart';
 import 'widgets/apply_coupon_widget.dart';
 import 'widgets/cart_product_tile.dart';
 import 'widgets/payment_method_item.dart';
@@ -33,7 +33,7 @@ class CheckoutScreen extends HookConsumerWidget {
     final phone = useState(auth.user.phone);
     final address = useState(auth.user.information);
 
-    final selectedShipping = useState(ShippingMethod.inside);
+    final selectedShipping = useState<DeliveryChargeModel?>(null);
 
     final selectedPayment = useState(PaymentMethod.cashOnDelivery);
 
@@ -51,13 +51,16 @@ class CheckoutScreen extends HookConsumerWidget {
     }, [state]);
 
     final discount = useState(appliedPromo.value?.value ?? 0.0);
-    final deliveryCharge = useMemoized(() {
-      return selectedShipping.value.price;
-    }, [selectedShipping.value]);
-    ();
+
     final total = useMemoized(
-        () => (subtotal + deliveryCharge) - discount.value,
-        [subtotal, discount.value, deliveryCharge, selectedShipping.value]);
+        () =>
+            (subtotal + (selectedShipping.value?.value ?? 0)) - discount.value,
+        [
+          subtotal,
+          discount.value,
+          (selectedShipping.value?.value ?? 0),
+          selectedShipping.value
+        ]);
 
     return Scaffold(
       backgroundColor: AppColors.bg200,
@@ -131,23 +134,40 @@ class CheckoutScreen extends HookConsumerWidget {
                   gap12,
                   "Select your area".text.make(),
                   gap4,
-                  Row(children: [
-                    ShippingTile(
-                      selectedShipping: selectedShipping,
-                      onChanged: (value) {
-                        selectedShipping.value = value!;
-                      },
-                      value: ShippingMethod.inside,
-                    ),
-                    gap16,
-                    ShippingTile(
-                      selectedShipping: selectedShipping,
-                      onChanged: (value) {
-                        selectedShipping.value = value!;
-                      },
-                      value: ShippingMethod.outside,
-                    ),
-                  ]),
+                  Wrap(
+                    spacing: 10.w,
+                    runSpacing: 16.w,
+                    runAlignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: ref.watch(getDeliveryChargeProvider).when(
+                          data: (data) {
+                            // return [
+                            //   VxSkeleton(height: 28.h, width: .35.sw),
+                            //   VxSkeleton(height: 28.h, width: .35.sw)
+                            // ];
+                            return data
+                                .map(
+                                  (e) => ShippingTile(
+                                    model: e,
+                                    selectedShipping: selectedShipping,
+                                    onChanged: (value) {
+                                      selectedShipping.value = value;
+                                    },
+                                  ),
+                                )
+                                .toList();
+                          },
+                          error: (error, stacktrace) {
+                            return [
+                              Text(error.toString()),
+                            ];
+                          },
+                          loading: () => [
+                            VxSkeleton(height: 22.h, width: .4.sw),
+                            VxSkeleton(height: 22.h, width: .4.sw)
+                          ],
+                        ),
+                  ),
                   gap12,
                   const KDivider(color: AppColors.black300),
                   gap12,
@@ -161,7 +181,7 @@ class CheckoutScreen extends HookConsumerWidget {
                   ),
                   PriceTile(
                     title: AppStrings.deliveryCharge,
-                    price: deliveryCharge,
+                    price: (selectedShipping.value?.value ?? 0),
                   ),
                   Divider(
                     thickness: 1,
@@ -278,7 +298,8 @@ class CheckoutScreen extends HookConsumerWidget {
                 ref.read(checkoutProvider.notifier).placeOrder(
                       cart: state,
                       coupon: appliedPromo.value,
-                      shippingCost: selectedShipping.value.price,
+                      shippingCost:
+                          (selectedShipping.value?.value ?? 0).toDouble(),
                       name: name.value,
                       phone: phone.value,
                       information: address.value,

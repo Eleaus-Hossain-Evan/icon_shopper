@@ -3,36 +3,49 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../core/core.dart';
+import '../../domain/delivery_charge_response.dart';
 
 class ShippingTile extends StatelessWidget {
   const ShippingTile({
     super.key,
     required this.selectedShipping,
     this.onChanged,
-    required this.value,
+    required this.model,
   });
 
-  final ValueNotifier<ShippingMethod> selectedShipping;
-  final void Function(ShippingMethod?)? onChanged;
-  final ShippingMethod value;
+  final ValueNotifier<DeliveryChargeModel?> selectedShipping;
+  final void Function(DeliveryChargeModel?)? onChanged;
+  final DeliveryChargeModel model;
 
   @override
   Widget build(BuildContext context) {
     return KInkWell(
       onTap: () {
-        onChanged?.call(value);
+        onChanged?.call(model);
       },
-      child: value.value.text.sm.bold
-          .color(value == selectedShipping.value
+      child: "${model.name} "
+          .richText
+          .withTextSpanChildren(
+            [
+              "${AppStrings.tkSymbol}${model.value}"
+                  .textSpan
+                  .wide
+                  .textStyle(
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700))
+                  .make(),
+            ],
+          )
+          .color(model == selectedShipping.value
               ? AppColors.white
               : context.colors.onSurface)
+          .sm
           .make()
-          .pSymmetric(v: 4.h, h: 8.w),
+          .pSymmetric(v: 6.h, h: 8.w),
     )
         .animatedBox
         .milliSeconds(milliSec: 300)
         .border(color: context.colors.onSurface)
-        .color(value == selectedShipping.value
+        .color(model == selectedShipping.value
             ? context.colors.onSurface
             : AppColors.white)
         .make();

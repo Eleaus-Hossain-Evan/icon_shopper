@@ -11,9 +11,9 @@ import '../profile_detail_screen.dart';
 
 class ProfilePicWidget extends HookConsumerWidget {
   const ProfilePicWidget({
-    Key? key,
+    super.key,
     this.onEditTap,
-  }) : super(key: key);
+  });
 
   final Function()? onEditTap;
 

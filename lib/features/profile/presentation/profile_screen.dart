@@ -3,17 +3,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/profile/presentation/page/order_list_screen.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../auth/application/auth_provider.dart';
-import '../../auth/presentation/login_screen.dart';
 import '../../common/presentation/html_text_screen.dart';
 import 'change_password_screen.dart';
 import 'widgets/contact_info_widget.dart';
-import 'widgets/picture_widget.dart';
+import 'widgets/picture_pic_widget.dart';
 import 'widgets/profile_option_item.dart';
 
 class ProfileScreen extends HookConsumerWidget {
@@ -48,6 +48,17 @@ class ProfileScreen extends HookConsumerWidget {
               //.  --- profile detail section ---
               const ProfilePicWidget(),
               gap40,
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Padding(
+              //     padding: paddingLeft10,
+              //     child: Text(
+              //       AppStrings.account,
+              //       style: CustomTextStyles.s16w600Black900,
+              //     ),
+              //   ),
+              // ),
+              gap12,
               Container(
                 padding: padding20,
                 decoration: BoxDecoration(
@@ -87,16 +98,16 @@ class ProfileScreen extends HookConsumerWidget {
                 ),
               ),
               gap18,
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: paddingLeft10,
-                  child: Text(
-                    AppStrings.support,
-                    style: CustomTextStyles.s16w600Black900,
-                  ),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Padding(
+              //     padding: paddingLeft10,
+              //     child: Text(
+              //       AppStrings.support,
+              //       style: CustomTextStyles.s16w600Black900,
+              //     ),
+              //   ),
+              // ),
               gap12,
               Container(
                 padding: padding20,
@@ -110,6 +121,15 @@ class ProfileScreen extends HookConsumerWidget {
                 ),
                 child: Column(
                   children: [
+                    //.  --- Order ---
+
+                    ProfileOptionsItem(
+                      leading: Bootstrap.card_checklist,
+                      title: AppStrings.order,
+                      onTap: () => context.push(OrderListScreen.route),
+                    ),
+                    KDivider(height: 36.h),
+
                     //.  --- term and condition ---
 
                     ProfileOptionsItem(
@@ -122,7 +142,7 @@ class ProfileScreen extends HookConsumerWidget {
 
                     //.  --- privacy policy section ---
                     ProfileOptionsItem(
-                      leading: Icons.privacy_tip_outlined,
+                      leading: BoxIcons.bx_fingerprint,
                       title: AppStrings.privacyPolicy,
                       onTap: () => context.push(
                           "${HtmlTextScreen.route}?title=${AppStrings.privacyPolicy}&url=${APIRouteEndpoint.PRIVACY_POLICY}"),
@@ -131,7 +151,7 @@ class ProfileScreen extends HookConsumerWidget {
 
                     //.  --- refund-policy ---
                     ProfileOptionsItem(
-                      leading: Icons.privacy_tip_outlined,
+                      leading: FontAwesome.money_bill_transfer,
                       title: AppStrings.refundPolicy,
                       onTap: () => context.push(
                           "${HtmlTextScreen.route}?title=${AppStrings.refundPolicy}&url=${APIRouteEndpoint.REFUND_POLICY}"),
@@ -140,7 +160,7 @@ class ProfileScreen extends HookConsumerWidget {
 
                     //.  --- return-policy ---
                     ProfileOptionsItem(
-                      leading: Icons.privacy_tip_outlined,
+                      leading: EvaIcons.undo_outline,
                       title: AppStrings.returnPolicy,
                       onTap: () => context.push(
                           "${HtmlTextScreen.route}?title=${AppStrings.returnPolicy}&url=${APIRouteEndpoint.RETURN_POLICY}"),

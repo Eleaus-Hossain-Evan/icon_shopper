@@ -1,6 +1,5 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/checkout/domain/delivery_charge_response.dart';
 import 'package:random_x/random_x.dart';

@@ -68,7 +68,8 @@ class CategoryScreen extends HookConsumerWidget {
                                         ),
                                         fit: BoxFit.cover,
                                         colorFilter: ColorFilter.mode(
-                                          Colors.black.withOpacity(0.5),
+                                          Colors.black
+                                              .withOpacity(isOpen ? 0.2 : 0.5),
                                           BlendMode.darken,
                                         ),
                                       ),
@@ -77,9 +78,7 @@ class CategoryScreen extends HookConsumerWidget {
                                 ),
                                 Positioned.fill(
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.01),
-                                    ),
+                                    decoration: const BoxDecoration(),
                                     child: item.name.text.bold.underline
                                         .heightLoose.wider.white.xl
                                         .textStyle(const TextStyle(
