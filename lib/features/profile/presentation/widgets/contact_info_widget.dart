@@ -261,6 +261,15 @@ class ContactInfoWidget extends HookConsumerWidget {
               icon: Logo(Logos.facebook_logo, size: 22.sp),
             ),
             gap16,
+            IconButton.outlined(
+              onPressed: () => ref
+                  .read(profileProvider.notifier)
+                  .launchFacebook() // Facebook
+              ,
+              padding: padding14,
+              icon: Logo(Logos.facebook_messenger, size: 22.sp),
+            ),
+            gap16,
             const KDivider().flexible(),
           ],
         ),

@@ -4,6 +4,7 @@ class APIRouteEndpoint {
   static const String DUMMY_PERSON = 'https://i.pravatar.cc/300';
   static const String WEB_URL = "";
 
+  // static const String BASE_URL = "http://192.168.0.249:8000/";
   // static const String BASE_URL = "https://webapi.iconshopper.com.bd/";
   static const String BASE_URL = "https://iconshopper.demoff.xyz/";
   // static const String IMAGE_BASE_URL = "https://admin.iconshopper.com.bd/";

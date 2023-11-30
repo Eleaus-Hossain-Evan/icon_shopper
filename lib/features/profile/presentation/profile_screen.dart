@@ -43,11 +43,8 @@ class ProfileScreen extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              gap18,
-
               //.  --- profile detail section ---
               const ProfilePicWidget(),
-              gap40,
               // Align(
               //   alignment: Alignment.centerLeft,
               //   child: Padding(

@@ -39,6 +39,7 @@ class ContainerBGWhiteSlideFromRight extends StatelessWidget {
         padding: padding ?? padding20,
         width: 1.sw,
         margin: margin,
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: borderRadius ?? BorderRadius.circular(16.r),

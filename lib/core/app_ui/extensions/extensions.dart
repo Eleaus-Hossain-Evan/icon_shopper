@@ -8,6 +8,8 @@ import 'dart:ui' as ui;
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:math' as math;
 
+import '../../core.dart';
+
 part 'localization_extension.dart';
 part 'string_extension.dart';
 part 'num_extension.dart';

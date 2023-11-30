@@ -24,45 +24,38 @@ class ProfilePicWidget extends HookConsumerWidget {
     return KInkWell(
       onTap: onEditTap ?? () => context.push(ProfileDetailScreen.route),
       borderRadius: radius8,
-      child: Row(
+      child: Column(
         children: [
           KUserAvatar(
-            radius: 36.w,
+            radius: 42.w,
             enableBorder: true,
             isHero: false,
           ),
-          gap16,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: crossStart,
-              children: [
-                Text(
-                  state.user.name,
-                  style: CustomTextStyles.s16w600,
-                ),
-                Visibility(
-                  visible: state.user.email.isNotEmpty,
-                  child: Text(
-                    state.user.email,
-                    textAlign: TextAlign.center,
-                    style: CustomTextStyles.s14w400Black800,
-                  ).pOnly(top: 4.h),
-                ),
-                gap4,
-                Text(
-                  state.user.phone,
+          gap12,
+          Column(
+            crossAxisAlignment: crossCenter,
+            children: [
+              Text(
+                state.user.name,
+                style: CustomTextStyles.s16w600,
+              ),
+              Visibility(
+                visible: state.user.email.isNotEmpty,
+                child: Text(
+                  state.user.email,
+                  textAlign: TextAlign.center,
                   style: CustomTextStyles.s14w400Black800,
-                ),
-              ],
-            ),
-          ),
-          Icon(
-            Icons.chevron_right_rounded,
-            size: 28.sp,
-            color: AppColors.black,
+                ).pOnly(top: 4.h),
+              ),
+              gap4,
+              Text(
+                state.user.phone,
+                style: CustomTextStyles.s14w400Black800,
+              ),
+            ],
           ),
         ],
       ).p20(),
-    ).box.color(AppColors.bg100).shadowSm.roundedSM.make();
+    ).box.color(AppColors.bg100).roundedSM.make();
   }
 }

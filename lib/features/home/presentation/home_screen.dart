@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/auth/application/auth_provider.dart';
 import 'package:icon_shopper/features/home/presentation/widgets/home_category.dart';
 import 'package:icon_shopper/features/home/presentation/widgets/home_slider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
@@ -17,6 +19,10 @@ class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //. -- Refresh Controller --
+    final refreshController = useMemoized(
+        () => RefreshController(initialLoadStatus: LoadStatus.canLoading));
+
     return Scaffold(
       appBar: KAppBar(
         title: Images.logoSmall.assetImage(height: kToolbarHeight - 36.h),
@@ -30,13 +36,11 @@ class HomeScreen extends HookConsumerWidget {
           ),
         ],
       ),
-      body: RefreshIndicator.adaptive(
-        onRefresh: () async {
-          await Future.wait([
-            // Future.microtask(
-            //     () => ref.read(homeDataProvider.notifier).getData()),
-          ]);
-        },
+      body: SmartRefresher(
+        controller: refreshController,
+        onRefresh: () => ref
+            .refresh(homeDataProvider.future)
+            .then((value) => refreshController.refreshCompleted()),
         child: SingleChildScrollView(
           padding: padding0,
           child: Column(

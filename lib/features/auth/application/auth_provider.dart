@@ -147,6 +147,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       showToast("Profile Updated Successfully");
       return state.copyWith(loading: false);
     });
+    await profileView();
 
     return success;
   }
@@ -163,6 +164,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }, (r) {
       showToast(r.message);
       success = r.success;
+      ref.read(routerProvider).pop();
       return state.copyWith(loading: false);
     });
 

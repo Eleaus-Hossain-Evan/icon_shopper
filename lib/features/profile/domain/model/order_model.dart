@@ -1,4 +1,3 @@
-
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
@@ -20,7 +19,7 @@ class OrderModel extends Equatable {
   final int grand_total;
   final String payment_method;
   final String sale_date;
-  final String delivery_status;
+  final int delivery_status;
   final String information;
   final String optional_information;
   final List<SaleProductList> sale_product_list;
@@ -60,7 +59,7 @@ class OrderModel extends Equatable {
     int? grand_total,
     String? payment_method,
     String? sale_date,
-    String? delivery_status,
+    int? delivery_status,
     String? information,
     String? optional_information,
     List<SaleProductList>? sale_product_list,
@@ -126,7 +125,7 @@ class OrderModel extends Equatable {
       grand_total: map['grand_total']?.toInt() ?? 0,
       payment_method: map['payment_method'] ?? '',
       sale_date: map['sale_date'] ?? '',
-      delivery_status: map['delivery_status'] ?? '',
+      delivery_status: int.tryParse(map['delivery_status']) ?? 0,
       information: map['information'] ?? '',
       optional_information: map['optional_information'] ?? '',
       sale_product_list: List<SaleProductList>.from(
