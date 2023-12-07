@@ -23,21 +23,19 @@ class OrderDetailScreen extends HookConsumerWidget {
     DeliveryStatus getFromData(int data) =>
         DeliveryStatus.values.firstWhere((element) => element.data == data);
 
-    List<int> status = [];
-
-    List<int> getStatus(int data) {
-      if (data == 1) {
-        return status = [1, 2, 3];
-      } else if (data == 12) {
-        return status = [10, 11, 12];
-      } else {
-        return status = [
-          data - 1,
-          data,
-          data + 1,
-        ];
-      }
-    }
+    // List<int> getStatus(int data) {
+    //   if (data == 1) {
+    //     return [1, 2, 3];
+    //   } else if (data == 12) {
+    //     return [10, 11, 12];
+    //   } else {
+    //     return [
+    //       data - 1,
+    //       data,
+    //       data + 1,
+    //     ];
+    //   }
+    // }
 
     return Scaffold(
       appBar: const KAppBar(
