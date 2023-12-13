@@ -6,7 +6,6 @@ import 'package:timer_count_down/timer_controller.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../../core/core.dart';
-import '../../../application/auth_provider.dart';
 
 class SendOTP extends HookConsumerWidget {
   const SendOTP({

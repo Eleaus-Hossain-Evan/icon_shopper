@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_easylogger/flutter_logger.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/product/domain/model/product_model.dart';
 import 'package:icon_shopper/features/product/domain/model/product_variant_model.dart';
 import 'package:icon_shopper/features/product/domain/product_response.dart';
-import 'package:icon_shopper/features/product/domain/similar_product_response.dart';
 import 'package:icon_shopper/features/product/infrastructure/product_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -138,8 +136,6 @@ final similarProductProvider =
     return [];
   }, (r) => r.data);
 }, name: 'similarProductProvider');
-
-
 
 @riverpod
 class ProductStock extends _$ProductStock {

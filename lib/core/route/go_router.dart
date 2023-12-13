@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:go_router/go_router.dart';
@@ -10,8 +9,8 @@ import 'package:icon_shopper/features/auth/presentation/forgot_password/forgot_p
 import 'package:icon_shopper/features/auth/presentation/login_screen.dart';
 import 'package:icon_shopper/features/auth/presentation/register_screen.dart';
 import 'package:icon_shopper/features/checkout/presentation/checkout_screen.dart';
-import 'package:icon_shopper/features/product/presentation/category_wise_product.dart';
 import 'package:icon_shopper/features/home/presentation/home_screen.dart';
+import 'package:icon_shopper/features/product/presentation/category_wise_product.dart';
 import 'package:icon_shopper/features/profile/presentation/page/order_detail_screen.dart';
 import 'package:icon_shopper/features/profile/presentation/page/order_list_screen.dart';
 import 'package:icon_shopper/features/profile/presentation/profile_detail_screen.dart';
@@ -27,7 +26,7 @@ import '../core.dart';
 final routerProvider = Provider<GoRouter>((ref) {
   final router = RouterNotifier(ref);
 
-  final listenable = ValueNotifier<bool>(true);
+  // final listenable = ValueNotifier<bool>(true);
 
   return GoRouter(
       debugLogDiagnostics: true,

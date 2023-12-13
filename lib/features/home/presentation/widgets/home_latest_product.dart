@@ -2,13 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:velocity_x/velocity_x.dart';
-
 import 'package:icon_shopper/core/app_ui/app_ui.dart';
 import 'package:icon_shopper/core/constant/constant.dart';
-import 'package:icon_shopper/features/product/domain/model/product_model.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import '../../../common/presentation/product_grid_tile.dart';
 import '../../application/home_provider.dart';

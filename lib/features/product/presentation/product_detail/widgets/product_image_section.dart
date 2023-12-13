@@ -9,7 +9,6 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../../core/core.dart';
 import '../../../application/product_provider.dart';
-import '../../../domain/model/product_variant_model.dart';
 
 class ProductImageSection extends HookConsumerWidget {
   const ProductImageSection({super.key});

@@ -22,7 +22,7 @@ class ForgotPasswordScreen extends HookConsumerWidget {
     final token = useState('');
 
     final pageController = usePageController();
-    final isPageChnaged = useState(false);
+    // final isPageChnaged = useState(false);
 
     final currentPasswordController = useTextEditingController();
     final newPasswordController = useTextEditingController();

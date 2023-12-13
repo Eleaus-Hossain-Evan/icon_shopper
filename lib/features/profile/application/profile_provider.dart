@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/profile/domain/model/contact_info_model.dart';
 import 'package:icon_shopper/features/profile/domain/model/policy_model.dart';

@@ -144,7 +144,7 @@ class LoginScreen extends HookConsumerWidget {
                       context.push(RegisterScreen.route);
                     },
                     text: AppStrings.register,
-                  ).w(80.w),
+                  ).w(80),
                 ],
               ),
             ],

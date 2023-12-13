@@ -1,21 +1,15 @@
 import 'dart:developer';
 
-import 'package:bot_toast/bot_toast.dart';
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/core/core.dart';
+import 'package:icon_shopper/features/product/domain/model/product_variant_model.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'package:icon_shopper/core/core.dart';
-import 'package:icon_shopper/features/product/domain/model/product_model.dart';
-import 'package:icon_shopper/features/product/domain/model/product_variant_model.dart';
-
 import '../../../application/product_provider.dart';
-import '../../../domain/model/product_stock_model.dart';
 
 class ProductVariationSection extends HookConsumerWidget {
   const ProductVariationSection({super.key});

@@ -7,7 +7,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
@@ -22,7 +21,7 @@ class CategoryScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeDataProvider);
 
-    final controller = useMemoized(RefreshController.new);
+    // final controller = useMemoized(RefreshController.new);
     return Scaffold(
       appBar: const KAppBar(
         titleText: 'Category',

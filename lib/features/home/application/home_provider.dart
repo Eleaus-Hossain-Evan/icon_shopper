@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/home/domain/home_response.dart';
 import 'package:icon_shopper/features/home/domain/paginated_product_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 import '../infrastructure/home_repo.dart';
 
