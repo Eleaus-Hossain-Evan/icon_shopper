@@ -99,5 +99,5 @@ FutureOr<IList<OrderModel>> getOrderList(GetOrderListRef ref) async {
   return result.fold((l) {
     showErrorToast(l.error.message);
     return IList();
-  }, (r) => r.data.data.lock);
+  }, (r) => r.data.lock);
 }

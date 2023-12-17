@@ -13,7 +13,7 @@ class ApplyCouponWidget extends HookConsumerWidget {
     required this.onCouponApplied,
   });
 
-  final void Function(PromoDataModel) onCouponApplied;
+  final void Function(PromoDataModel?) onCouponApplied;
 
   @override
   Widget build(BuildContext context, ref) {

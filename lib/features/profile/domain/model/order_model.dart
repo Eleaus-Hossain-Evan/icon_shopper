@@ -308,21 +308,25 @@ class Unit extends Equatable {
 class Product extends Equatable {
   final int id;
   final String product_name;
+  final String image;
   final String slug;
   const Product({
     required this.id,
     required this.product_name,
+    required this.image,
     required this.slug,
   });
 
   Product copyWith({
     int? id,
     String? product_name,
+    String? image,
     String? slug,
   }) {
     return Product(
       id: id ?? this.id,
       product_name: product_name ?? this.product_name,
+      image: image ?? this.image,
       slug: slug ?? this.slug,
     );
   }
@@ -331,6 +335,7 @@ class Product extends Equatable {
     return {
       'id': id,
       'product_name': product_name,
+      'image': image,
       'slug': slug,
     };
   }
@@ -339,6 +344,7 @@ class Product extends Equatable {
     return Product(
       id: map['id']?.toInt() ?? 0,
       product_name: map['product_name'] ?? '',
+      image: map['image'] ?? '',
       slug: map['slug'] ?? '',
     );
   }
@@ -349,9 +355,10 @@ class Product extends Equatable {
       Product.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'Product(id: $id, product_name: $product_name, slug: $slug)';
+  String toString() {
+    return 'Product(id: $id, product_name: $product_name, image: $image, slug: $slug)';
+  }
 
   @override
-  List<Object> get props => [id, product_name, slug];
+  List<Object> get props => [id, product_name, image, slug];
 }

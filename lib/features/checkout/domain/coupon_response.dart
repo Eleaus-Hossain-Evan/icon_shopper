@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:icon_shopper/features/checkout/domain/promo_data_model.dart';
 
 class CouponResponse extends Equatable {
   final bool success;
   final String message;
-  final PromoDataModel data;
+  final PromoDataModel? data;
   const CouponResponse({
     required this.success,
     required this.message,
@@ -17,12 +18,12 @@ class CouponResponse extends Equatable {
   CouponResponse copyWith({
     bool? success,
     String? message,
-    PromoDataModel? data,
+    ValueGetter<PromoDataModel?>? data,
   }) {
     return CouponResponse(
       success: success ?? this.success,
       message: message ?? this.message,
-      data: data ?? this.data,
+      data: data?.call() ?? this.data,
     );
   }
 
@@ -30,7 +31,7 @@ class CouponResponse extends Equatable {
     return {
       'success': success,
       'message': message,
-      'data': data.toMap(),
+      'data': data?.toMap(),
     };
   }
 
@@ -38,7 +39,7 @@ class CouponResponse extends Equatable {
     return CouponResponse(
       success: map['success'] ?? false,
       message: map['message'] ?? '',
-      data: PromoDataModel.fromMap(map['data']),
+      data: map['data'] != null ? PromoDataModel.fromMap(map['data']) : null,
     );
   }
 
@@ -52,5 +53,5 @@ class CouponResponse extends Equatable {
       'CouponResponse(success: $success, message: $message, data: $data)';
 
   @override
-  List<Object> get props => [success, message, data];
+  List<Object?> get props => [success, message, data];
 }

@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
-import 'package:clipboard/clipboard.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:icon_shopper/features/product/domain/category_wise_product_list.dart';
 import 'package:icon_shopper/features/product/domain/model/product_stock_model.dart';
 import 'package:icon_shopper/features/product/domain/product_response.dart';
 import 'package:icon_shopper/features/product/domain/similar_product_response.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../core/core.dart';
 
@@ -70,7 +70,8 @@ class ProductRepo {
   }
 
   void copyProductUrl(String slug) {
-    FlutterClipboard.copy("https://iconshopper.com/products/$slug")
+    Clipboard.setData(
+            ClipboardData(text: "https://iconshopper.com/products/$slug"))
         .then((value) {
       // Show a toast message after copying to the clipboard
       BotToast.showText(text: "URL copied to clipboard");

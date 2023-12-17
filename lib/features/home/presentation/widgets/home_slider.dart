@@ -41,15 +41,15 @@ class HomeSlider extends HookConsumerWidget {
         ),
         // scale: .9,
         // viewportFraction: .85,
-        autoplay: (state
-                        .unwrapPrevious()
-                        .whenData((value) => value.slider.length)
-                        .asData
-                        ?.value ??
-                    0) <=
-                1
-            ? false
-            : true,
+        // autoplay: (state
+        //                 .unwrapPrevious()
+        //                 .whenData((value) => value.slider.length)
+        //                 .asData
+        //                 ?.value ??
+        //             0) <=
+        //         1
+        //     ? false
+        //     : true,
         // outer: true,
         index: currentIndex.value,
         onIndexChanged: (value) => currentIndex.value = value,

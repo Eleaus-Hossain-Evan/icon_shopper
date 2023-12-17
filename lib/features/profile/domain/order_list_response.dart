@@ -8,7 +8,7 @@ import 'model/order_model.dart';
 
 class OrderListResponse extends Equatable {
   final bool success;
-  final Data data;
+  final List<OrderModel> data;
   const OrderListResponse({
     required this.success,
     required this.data,
@@ -16,7 +16,7 @@ class OrderListResponse extends Equatable {
 
   OrderListResponse copyWith({
     bool? success,
-    Data? data,
+    List<OrderModel>? data,
   }) {
     return OrderListResponse(
       success: success ?? this.success,
@@ -27,14 +27,15 @@ class OrderListResponse extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'success': success,
-      'data': data.toMap(),
+      'data': data.map((x) => x.toMap()).toList(),
     };
   }
 
   factory OrderListResponse.fromMap(Map<String, dynamic> map) {
     return OrderListResponse(
       success: map['success'] ?? false,
-      data: Data.fromMap(map['data']),
+      data: List<OrderModel>.from(
+          map['data']?.map((x) => OrderModel.fromMap(x)) ?? const []),
     );
   }
 

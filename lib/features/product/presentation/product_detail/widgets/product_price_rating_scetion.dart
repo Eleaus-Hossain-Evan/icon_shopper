@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -53,7 +54,13 @@ class ProductPriceRatingSection extends HookConsumerWidget {
                 gap6,
                 state.sku.text.base.make(),
                 MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: state.sku));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Copied to Clipboard')));
+                    Clipboard.getData('text/plain')
+                        .then((value) => print(value?.text));
+                  },
                   color: const Color(0xffe5e7eb),
                   shape: const CircleBorder(),
                   padding: EdgeInsets.zero,

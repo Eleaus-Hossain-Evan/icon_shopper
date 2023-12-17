@@ -101,7 +101,7 @@ class Checkout extends _$Checkout {
     return null;
   }
 
-  Future<PromoDataModel> applyPromo(String couponCode) async {
+  Future<PromoDataModel?> applyPromo(String couponCode) async {
     state = const AsyncLoading();
     return await ref
         .read(checkoutRepoProvider)
