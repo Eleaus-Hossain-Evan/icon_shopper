@@ -308,8 +308,9 @@ class Unit extends Equatable {
 class Product extends Equatable {
   final int id;
   final String product_name;
-  final String image;
+  final List<String> image;
   final String slug;
+
   const Product({
     required this.id,
     required this.product_name,
@@ -320,7 +321,7 @@ class Product extends Equatable {
   Product copyWith({
     int? id,
     String? product_name,
-    String? image,
+    List<String>? image,
     String? slug,
   }) {
     return Product(
@@ -344,7 +345,7 @@ class Product extends Equatable {
     return Product(
       id: map['id']?.toInt() ?? 0,
       product_name: map['product_name'] ?? '',
-      image: map['image'] ?? '',
+      image: List<String>.from(map['image'] ?? const []),
       slug: map['slug'] ?? '',
     );
   }

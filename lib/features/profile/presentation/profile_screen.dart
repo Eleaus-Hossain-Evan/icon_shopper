@@ -27,17 +27,17 @@ class ProfileScreen extends HookConsumerWidget {
     // final isLoggedIn = ref.watch(loggedInProvider).loggedIn;
 
     //. -- Refresh Controller --
-    final refreshController = useMemoized(
-        () => RefreshController(initialLoadStatus: LoadStatus.canLoading));
+    final refreshController =
+        useRef(RefreshController(initialLoadStatus: LoadStatus.canLoading));
 
     return Scaffold(
       appBar: const KAppBar(titleText: AppStrings.profile),
       body: SmartRefresher(
-        controller: refreshController,
+        controller: refreshController.value,
         onRefresh: () => ref
             .refresh(authProvider.notifier)
             .profileView()
-            .then((_) => refreshController.refreshCompleted()),
+            .then((_) => refreshController.value.refreshCompleted()),
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(

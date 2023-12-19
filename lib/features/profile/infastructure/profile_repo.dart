@@ -124,10 +124,11 @@ class ProfileRepo {
     }
   }
 
-  Future<Either<CleanFailure, OrderListResponse>> getOrderList() async {
+  Future<Either<CleanFailure, OrderListResponse>> getOrderList(
+      {int page = 1}) async {
     final data = await api.get(
       fromData: (json) => OrderListResponse.fromMap(json),
-      endPoint: APIRouteEndpoint.ORDER_LIST,
+      endPoint: "${APIRouteEndpoint.ORDER_LIST}$page",
       withToken: true,
     );
 

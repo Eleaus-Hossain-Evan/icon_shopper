@@ -6,7 +6,7 @@ part of 'profile_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getOrderListHash() => r'dc065a90c625190c1f17ec187f59b83bbce89555';
+String _$getOrderListHash() => r'1da83b9c5ed3d0fa8bc17d9943daddb8abd5fc49';
 
 /// See also [getOrderList].
 @ProviderFor(getOrderList)
@@ -16,8 +16,8 @@ final getOrderListProvider =
   name: r'getOrderListProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$getOrderListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: const <ProviderOrFamily>[],
+  allTransitiveDependencies: const <ProviderOrFamily>{},
 );
 
 typedef GetOrderListRef = AutoDisposeFutureProviderRef<IList<OrderModel>>;

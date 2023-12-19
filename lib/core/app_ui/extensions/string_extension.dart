@@ -160,6 +160,7 @@ extension StringWidgetsExtension on String {
     double? width,
     bool isHero = true,
     bool isBox = false,
+    BorderRadius? borderRadius,
   }) =>
       KCachedNetworkImageWdLoading(
         imageUrl: this,
@@ -168,5 +169,6 @@ extension StringWidgetsExtension on String {
         width: width,
         isHero: isHero,
         isBox: isBox,
+        borderRadius: borderRadius ?? BorderRadius.zero,
       );
 }

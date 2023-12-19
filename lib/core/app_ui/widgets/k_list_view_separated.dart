@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class KListViewSeparated extends StatelessWidget {
-  const KListViewSeparated(
-      {Key? key,
-      this.shrinkWrap = false,
-      this.physics = const BouncingScrollPhysics(),
-      required this.itemBuilder,
-      this.separator,
-      this.alternateWidget,
-      required this.itemCount,
-      this.scrollDirection = Axis.vertical,
-      this.gap = 0,
-      this.controller,
-      this.edgePadding,
-      this.padding,
-      this.reverse = false})
-      : super(key: key);
+  const KListViewSeparated({
+    super.key,
+    this.shrinkWrap = false,
+    this.physics = const BouncingScrollPhysics(),
+    required this.itemBuilder,
+    this.separator,
+    this.alternateWidget,
+    required this.itemCount,
+    this.scrollDirection = Axis.vertical,
+    this.gap = 0,
+    this.controller,
+    this.edgePadding,
+    this.padding,
+    this.reverse = false,
+  });
 
   final bool shrinkWrap;
   final ScrollPhysics physics;
@@ -33,6 +33,7 @@ class KListViewSeparated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      key: key,
       padding: padding,
       scrollDirection: scrollDirection,
       shrinkWrap: shrinkWrap,

@@ -106,12 +106,12 @@ class OrderDetailScreen extends HookConsumerWidget {
                     itemBuilder: (context, index) {
                       final item = model.sale_product_list[index];
                       return ListTile(
-                        // leading: Image.network(
-                        //   item.image,
-                        //   width: 80.w,
-                        //   height: 80.w,
-                        //   fit: BoxFit.cover,
-                        // ),
+                        leading: item.product.image.first.networkImageBaseUrl(
+                          width: 80.w,
+                          height: 80.w,
+                          fit: BoxFit.cover,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
                         title: item.product.product_name.text.bold.sm.make(),
                         subtitle:
                             "${AppStrings.tkSymbol}${item.net_unit_price} X ${item.qty}"

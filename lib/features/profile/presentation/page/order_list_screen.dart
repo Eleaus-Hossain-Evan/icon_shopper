@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/features/profile/application/profile_provider.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../core/core.dart';
@@ -55,10 +54,11 @@ class OrderListScreen extends HookConsumerWidget {
                       child: Row(
                         crossAxisAlignment: crossStart,
                         children: [
-                          const Icon(
-                            FontAwesome.list_check,
-                            size: 22,
-                          ).py8(),
+                          // const Icon(
+                          //   FontAwesome.list_check,
+                          //   size: 22,
+                          // ).py8(),
+                          Images.iconPriceList.assetImage(width: 38).py8(),
                           gap16,
                           Expanded(
                             child: Column(
@@ -83,7 +83,7 @@ class OrderListScreen extends HookConsumerWidget {
                                     .richText
                                     .bodyMedium(context)
                                     .withTextSpanChildren([
-                                  item.item.toString().textSpan.make(),
+                                  item.total_qty.toString().textSpan.make(),
                                 ]).make(),
                               ],
                             ),

@@ -9,4 +9,5 @@ class Images {
   static const String logoSmall = 'assets/images/logo-small.jpg';
   static const String logo = 'assets/images/logo.jpg';
   static const String onlinePayment = 'assets/images/online-payment.png';
+  static const String iconPriceList = 'assets/icons/price-list.png';
 }

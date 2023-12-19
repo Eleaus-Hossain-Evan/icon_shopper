@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/profile/domain/model/contact_info_model.dart';
 import 'package:icon_shopper/features/profile/domain/model/policy_model.dart';
@@ -92,12 +93,18 @@ class GetPolicy extends _$GetPolicy {
   }
 }
 
-@riverpod
+final orderPageProvider = StateProvider<int>((ref) {
+  return 1;
+});
+
+@Riverpod(dependencies: [])
 FutureOr<IList<OrderModel>> getOrderList(GetOrderListRef ref) async {
-  final result = await ref.read(profileRepoProvider).getOrderList();
+  final result = await ref
+      .read(profileRepoProvider)
+      .getOrderList(page: ref.watch(orderPageProvider));
 
   return result.fold((l) {
     showErrorToast(l.error.message);
     return IList();
-  }, (r) => r.data.lock);
+  }, (r) => r.data.data.lock);
 }

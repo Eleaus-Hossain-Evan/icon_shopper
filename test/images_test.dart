@@ -11,5 +11,6 @@ void main() {
     expect(File(Images.logoSmall).existsSync(), isTrue);
     expect(File(Images.logo).existsSync(), isTrue);
     expect(File(Images.onlinePayment).existsSync(), isTrue);
+    expect(File(Images.iconPriceList).existsSync(), isTrue);
   });
 }
