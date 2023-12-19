@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/profile/domain/model/contact_info_model.dart';
 import 'package:icon_shopper/features/profile/domain/model/policy_model.dart';
-import 'package:icon_shopper/features/profile/infastructure/profile_repo.dart';
+import 'package:icon_shopper/features/profile/infrastructure/profile_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/model/order_model.dart';

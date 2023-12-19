@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
+import '../../product/application/product_provider.dart';
 import '../../product/domain/model/product_model.dart';
 import '../../product/presentation/product_detail/product_detail_screen.dart';
 
@@ -25,6 +26,7 @@ class ProductListTile extends HookConsumerWidget {
     return KInkWell(
       onTap: () {
         log("message");
+        ref.read(slugProvider.notifier).update((state) => data.slug);
         context.push("${ProductDetailScreen.route}/${data.slug}");
       },
       child: Column(

@@ -59,67 +59,73 @@ class ProductDetailScreen extends HookConsumerWidget {
         error: (error, stackTrace) => const SizedBox.shrink(),
         loading: () => const SizedBox.shrink(),
       ),
-      body: state.when(data: (data) {
-        // Future.microtask(() =>
-        //     ref.read(currentProductProvider.notifier).setState(data.data));
+      body: state.when(
+        data: (data) {
+          // Future.microtask(() =>
+          //     ref.read(currentProductProvider.notifier).setState(data.data));
 
-        BotToast.closeAllLoading();
-        return CustomScrollView(
-          key: PageStorageKey<String>(slug),
-          slivers: [
-            // const SingleChildScrollView(
-            //   child: Column(
-            //     children: [],
-            //   ),
-            // ),
-            // const ProductAppBar(),
+          BotToast.closeAllLoading();
+          return CustomScrollView(
+            key: PageStorageKey<String>(slug),
+            slivers: [
+              // const SingleChildScrollView(
+              //   child: Column(
+              //     children: [],
+              //   ),
+              // ),
+              // const ProductAppBar(),
 
-            const ProductImageSection().toSliverBox(),
+              const ProductImageSection().toSliverBox(),
 
-            SliverPersistentHeader(
-              delegate: ProductNameSection(ref),
-              pinned: true,
-              floating: true,
-            ),
+              SliverPersistentHeader(
+                delegate: ProductNameSection(ref),
+                pinned: true,
+                floating: true,
+              ),
 
-            const ProductPriceRatingSection().toSliverBox(),
+              const ProductPriceRatingSection().toSliverBox(),
 
-            SliverGap(12.h),
+              SliverGap(12.h),
 
-            const ProductVariationSection().toSliverBox(),
+              const ProductVariationSection().toSliverBox(),
 
-            SliverGap(12.h),
+              SliverGap(12.h),
 
-            // const ProductDescriptionSection().toSliverBox(),
-            SliverGap(12.h),
+              // const ProductDescriptionSection().toSliverBox(),
+              SliverGap(12.h),
 
-            const ProductInfoSection().toSliverBox(),
+              const ProductInfoSection().toSliverBox(),
 
-            SliverGap(6.h),
+              SliverGap(6.h),
 
-            const Divider().toSliverBox(),
+              const Divider().toSliverBox(),
 
-            SliverGap(6.h),
+              SliverGap(6.h),
 
-            const SimilarProductSection().toSliverBox(),
+              const SimilarProductSection().toSliverBox(),
 
-            SliverGap(6.h),
+              SliverGap(6.h),
 
-            const Divider().toSliverBox(),
+              const Divider().toSliverBox(),
 
-            SliverGap(6.h),
+              SliverGap(6.h),
 
-            const ContactInfoWidget(inDetailScreen: true).px20().toSliverBox(),
-          ],
-        );
-      }, error: (error, stackTrace) {
-        log('', error: error, stackTrace: stackTrace);
+              const ContactInfoWidget(inDetailScreen: true)
+                  .px20()
+                  .toSliverBox(),
+            ],
+          );
+        },
+        error: (error, stackTrace) {
+          log('', error: error, stackTrace: stackTrace);
 
-        return error.toString().text.make();
-      }, loading: () {
-        BotToast.showLoading();
-        return const SizedBox.shrink();
-      }),
+          return error.toString().text.make();
+        },
+        loading: () {
+          BotToast.showLoading();
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }

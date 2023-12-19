@@ -11,10 +11,10 @@ class AppLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: context.theme.scaffoldBackgroundColor,
-      child: Hero(
-        tag: "app-logo",
+    return Hero(
+      tag: "app-logo",
+      child: Material(
+        color: context.theme.scaffoldBackgroundColor,
         child: Column(
           children: [
             Images.logoSmall.assetImage(width: .6.sw).centered(),

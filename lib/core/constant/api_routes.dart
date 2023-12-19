@@ -5,9 +5,9 @@ class APIRouteEndpoint {
   static const String WEB_URL = "";
 
   // static const String BASE_URL = "http://192.168.0.249:8000/";
-  // static const String BASE_URL = "https://webapi.iconshopper.com.bd/";
+  // static const String BASE_URL = "https://apilife.iconshopper.com.bd/";
   static const String BASE_URL = "https://iconshopper.demoff.xyz/";
-  // static const String IMAGE_BASE_URL = "https://admin.iconshopper.com.bd/";
+  // static const String IMAGE_BASE_URL = "https://life.iconshopper.com.bd/";
   static const String IMAGE_BASE_URL = "https://iconshopper.demoff.xyz/";
   static const String API_V1 = "api/";
   static const String IMAGE_SUBSTRING = "storage/";

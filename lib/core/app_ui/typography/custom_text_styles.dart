@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:icon_shopper/core/app_ui/app_ui.dart';
+
+import '../app_ui.dart';
 
 abstract class CustomTextStyles {
   static TextStyle sHeadlineLargeBold =
