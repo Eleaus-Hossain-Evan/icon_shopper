@@ -7,8 +7,8 @@ class APIRouteEndpoint {
   // static const String BASE_URL = "http://192.168.0.249:8000/";
   // static const String BASE_URL = "https://apilife.iconshopper.com.bd/";
   static const String BASE_URL = "https://iconshopper.demoff.xyz/";
-  // static const String IMAGE_BASE_URL = "https://life.iconshopper.com.bd/";
-  static const String IMAGE_BASE_URL = "https://iconshopper.demoff.xyz/";
+  static const String IMAGE_BASE_URL = "https://life.iconshopper.com.bd/";
+  // static const String IMAGE_BASE_URL = "https://iconshopper.demoff.xyz/";
   static const String API_V1 = "api/";
   static const String IMAGE_SUBSTRING = "storage/";
   static const String PRODUCT_IMAGE = "${IMAGE_SUBSTRING}product/";
@@ -35,6 +35,7 @@ class APIRouteEndpoint {
   //#<<---------------- Product ------------------>>
   static const String PRODUCT_DETAILS = "${API_V1}get-product-details/";
   static const String CATEGORY_WISE_PRODUCT = "${API_V1}category-wise-product/";
+  static const String GET_ALL_PRODUCT = "${API_V1}get-all-product";
   static const String SIMILAR_PRODUCT = "${API_V1}similar-products/";
   static const String PRODUCT_STOCK = "${API_V1}product/showrooms-stock/";
 

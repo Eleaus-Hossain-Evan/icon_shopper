@@ -6,7 +6,7 @@ import '../../core.dart';
 
 class KAppBar extends StatelessWidget implements PreferredSizeWidget {
   const KAppBar({
-    Key? key,
+    super.key,
     this.leading,
     this.title,
     this.titleText,
@@ -18,7 +18,8 @@ class KAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.elevation,
     this.foregroundColor = AppColors.black,
-  }) : super(key: key);
+    this.surfaceTintColor,
+  });
 
   final Widget? leading;
   final Widget? title;
@@ -28,7 +29,7 @@ class KAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TextStyle? titleTextStyle;
   final bool centerTitle;
   final PreferredSizeWidget? bottom;
-  final Color? backgroundColor, foregroundColor;
+  final Color? backgroundColor, foregroundColor, surfaceTintColor;
   final double? elevation;
 
   @override
@@ -50,6 +51,7 @@ class KAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       bottom: bottom,
       elevation: elevation,
+      surfaceTintColor: surfaceTintColor,
     );
   }
 
@@ -61,7 +63,7 @@ class KAppBar extends StatelessWidget implements PreferredSizeWidget {
 class KAppBarBGTransparent extends StatelessWidget
     implements PreferredSizeWidget {
   const KAppBarBGTransparent({
-    Key? key,
+    super.key,
     this.leading,
     this.title,
     this.titleText,
@@ -73,7 +75,7 @@ class KAppBarBGTransparent extends StatelessWidget
     this.backgroundColor,
     this.elevation,
     this.isLeading = true,
-  }) : super(key: key);
+  });
 
   final Widget? leading;
   final Widget? title;

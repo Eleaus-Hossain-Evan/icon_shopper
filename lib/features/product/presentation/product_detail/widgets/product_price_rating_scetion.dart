@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +18,29 @@ class ProductPriceRatingSection extends HookConsumerWidget {
     final variant = ref.watch(productVariantProvider);
 
     // return const SizedBox.shrink();
+
+    final hasVariation =
+        state.productVariationStatus == 1; //' product has variation or not
+
+    final discountType = hasVariation
+        ? variant.discountType
+        : state
+            .discountType; //' discount type, if product has variation then showing variant discount type, otherwise showing product discount type
+
+    final regularPrice = hasVariation
+        ? variant.regularPrice
+        : state
+            .regularPrice; //' regular price, if product has variation then showing variant regular price, otherwise showing product regular price
+
+    final discount = hasVariation
+        ? variant.discount
+        : state
+            .discount; //' discount, if product has variation then showing variant discount, otherwise showing product discount
+
+    final discountPrice = regularPrice -
+        (discountType == "amount"
+            ? discount
+            : (regularPrice * discount) / 100); //' discount price
 
     return Column(
       children: [

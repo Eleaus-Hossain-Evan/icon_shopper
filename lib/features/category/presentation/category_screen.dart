@@ -11,7 +11,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
 import '../../home/application/home_provider.dart';
-import '../../product/presentation/category_wise_product.dart';
+import '../../product/presentation/product_list_screen.dart';
 
 class CategoryScreen extends HookConsumerWidget {
   static const route = '/category';
@@ -96,7 +96,7 @@ class CategoryScreen extends HookConsumerWidget {
                             return ListTile(
                                 onTap: () {
                                   context.push(
-                                    "${CategoryWiseProductScreen.route}/${subItem.slug}",
+                                    "${ProductListScreen.route}?slug=${subItem.slug}",
                                   );
                                 },
                                 title: subItem.name.text.make(),

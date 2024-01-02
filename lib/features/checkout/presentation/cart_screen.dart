@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,11 +31,16 @@ class CartScreen extends HookConsumerWidget {
       if (state.isEmpty) {
         return 0.0;
       }
-      final value = state
-          .map((element) =>
-              element.product.selectedVariant.salePrice * element.quantity)
-          .toList();
-      return value.reduce((value, element) => value + element).toDouble();
+      return state
+          .map((element) {
+            final hasVariation = element.product.productVariationStatus == 1;
+            final discountPrice = hasVariation
+                ? element.product.selectedVariant.salePrice
+                : element.product.salePrice;
+            return discountPrice * element.quantity;
+          })
+          .reduce((value, element) => value + element)
+          .toDouble();
     }, [state]);
 
     final discount = useState(0.0);
@@ -122,6 +129,7 @@ class CartScreen extends HookConsumerWidget {
                     ? null
                     : () {
                         // if (ref.watch(loggedInProvider).loggedIn) {
+                        log("subtotal: $subtotal");
                         context.push(CheckoutScreen.route);
                         // } else {
                         //   context.pushNamed(SignInScreen.route);

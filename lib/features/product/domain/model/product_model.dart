@@ -5,13 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'brand_model.dart';
 import 'color_list.dart';
 import 'product_variant_model.dart';
+import 'stock_products_model.dart';
 
 class ProductModel extends Equatable {
-  final int id;
+  final int? id;
   final int productVariationStatus;
   final String productName;
-  final String? productCode;
-  final String variantCode;
+  final String productCode;
+  final String? variantCode;
   final List<int> categoryId;
   final List<int> brandId;
   final int unitId;
@@ -20,23 +21,23 @@ class ProductModel extends Equatable {
   final int unitPrice;
   final int discount;
   final String discountType;
-  final String? shippingType;
+  final String shippingType;
   final int qty;
   final String sku;
   final String tags;
-  final String? refundable;
+  final String refundable;
   final List<String> image;
-  final List<String>? colors;
-  final List<int> attributes;
+  final List<String> colors;
+  final List<int>? attributes;
   final String description;
   final String sizeChart;
   final String guideline;
-  final String? pdfFile;
-  final String? metaTag;
-  final String? metaDescription;
-  final String? metaImage;
-  final String? freeShipping;
-  final String? flatRate;
+  final String pdfFile;
+  final String metaTag;
+  final String metaDescription;
+  final String metaImage;
+  final String freeShipping;
+  final String flatRate;
   final int shippingCost;
   final int lowStockQuantity;
   final int stockVisibilityState;
@@ -45,7 +46,7 @@ class ProductModel extends Equatable {
   final int featuredStatus;
   final int hotProductStatus;
   final int landingProduct;
-  final String? estimateShippingTime;
+  final String estimateShippingTime;
   final int taxId;
   final int taxMethod;
   final List<int> showroomId;
@@ -58,13 +59,15 @@ class ProductModel extends Equatable {
   final int regularPrice;
   final int salePrice;
   final int wholeSalePrice;
+  final List<String> categories;
   final List<BrandModel> brands;
   final List<Color_list> colorList;
   final List<AvailableAttribute> availableAttributes;
   final List<AttributesType> attributesTypes;
-  final List<ProductVariantModel> productVariants;
+  final List<ProductVariantModel>? productVariants;
   final ProductVariantModel selectedVariant;
   final String slug;
+  final List<StockProductsModel> stockProducts;
 
   const ProductModel({
     required this.id,
@@ -118,6 +121,7 @@ class ProductModel extends Equatable {
     required this.regularPrice,
     required this.salePrice,
     required this.wholeSalePrice,
+    required this.categories,
     required this.brands,
     required this.colorList,
     required this.availableAttributes,
@@ -125,10 +129,11 @@ class ProductModel extends Equatable {
     required this.productVariants,
     required this.selectedVariant,
     required this.slug,
+    required this.stockProducts,
   });
 
   factory ProductModel.init() => ProductModel(
-        id: 0,
+        id: null,
         productVariationStatus: 0,
         productName: '',
         productCode: '',
@@ -179,6 +184,7 @@ class ProductModel extends Equatable {
         regularPrice: 0,
         salePrice: 0,
         wholeSalePrice: 0,
+        categories: const [],
         brands: const [],
         colorList: const [],
         availableAttributes: const [],
@@ -186,6 +192,7 @@ class ProductModel extends Equatable {
         productVariants: const [],
         selectedVariant: ProductVariantModel.init(),
         slug: '',
+        stockProducts: const [],
       );
 
   ProductModel copyWith({
@@ -248,6 +255,7 @@ class ProductModel extends Equatable {
     List<ProductVariantModel>? productVariants,
     ProductVariantModel? selectedVariant,
     String? slug,
+    List<StockProductsModel>? stockProducts,
   }) {
     return ProductModel(
       id: id ?? this.id,
@@ -303,6 +311,7 @@ class ProductModel extends Equatable {
       regularPrice: regularPrice ?? this.regularPrice,
       salePrice: salePrice ?? this.salePrice,
       wholeSalePrice: wholeSalePrice ?? this.wholeSalePrice,
+      categories: categories ?? this.categories,
       brands: brands ?? this.brands,
       colorList: colorList ?? this.colorList,
       availableAttributes: availableAttributes ?? this.availableAttributes,
@@ -310,6 +319,7 @@ class ProductModel extends Equatable {
       productVariants: productVariants ?? this.productVariants,
       selectedVariant: selectedVariant ?? this.selectedVariant,
       slug: slug ?? this.slug,
+      stockProducts: stockProducts ?? this.stockProducts,
     );
   }
 
@@ -366,13 +376,15 @@ class ProductModel extends Equatable {
       'regularPrice': regularPrice,
       'salePrice': salePrice,
       'wholeSalePrice': wholeSalePrice,
+      'categories': categories,
       'brands': brands.map((x) => x.toMap()).toList(),
       'colorList': colorList.map((x) => x.toMap()).toList(),
       'availableAttributes': availableAttributes.map((x) => x.toMap()).toList(),
       'attributesTypes': attributesTypes.map((x) => x.toMap()).toList(),
-      'productVariants': productVariants.map((x) => x.toMap()).toList(),
+      'productVariants': productVariants?.map((x) => x.toMap()).toList(),
       'selectedVariant': selectedVariant.toMap(),
       'slug': slug,
+      'stockProducts': stockProducts..map((x) => x.toMap()).toList(),
     };
   }
 
@@ -429,6 +441,7 @@ class ProductModel extends Equatable {
       regularPrice: map['regular_price']?.toInt() ?? 0,
       salePrice: map['sale_price']?.toInt() ?? 0,
       wholeSalePrice: map['whole_sale_price']?.toInt() ?? 0,
+      categories: List<String>.from(map['categories'] ?? const []),
       brands: List<BrandModel>.from(
           map['brands']?.map((x) => BrandModel.fromMap(x)) ?? const []),
       colorList: List<Color_list>.from(
@@ -445,6 +458,9 @@ class ProductModel extends Equatable {
               const []),
       selectedVariant: ProductVariantModel.init(),
       slug: map['slug'] ?? '',
+      stockProducts: List<StockProductsModel>.from(
+          map['stock_products']?.map((x) => StockProductsModel.fromMap(x)) ??
+              const []),
     );
   }
 
@@ -507,6 +523,7 @@ class ProductModel extends Equatable {
       regularPrice,
       salePrice,
       wholeSalePrice,
+      categories,
       brands,
       colorList,
       availableAttributes,
@@ -519,7 +536,7 @@ class ProductModel extends Equatable {
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, productName: $productName, selectedVariant: $selectedVariant, slug: $slug, productVariationStatus: $productVariationStatus, productCode: $productCode, variantCode: $variantCode, categoryId: $categoryId, brandId: $brandId, unitId: $unitId, minimumPurchaseQty: $minimumPurchaseQty, barcodeSymbol: $barcodeSymbol, unitPrice: $unitPrice, discount: $discount, discountType: $discountType, shippingType: $shippingType, qty: $qty, sku: $sku, tags: $tags, refundable: $refundable, image: $image, colors: $colors, attributes: $attributes, pdfFile: $pdfFile, metaTag: $metaTag, metaDescription: $metaDescription, metaImage: $metaImage, freeShipping: $freeShipping, flatRate: $flatRate, shippingCost: $shippingCost, lowStockQuantity: $lowStockQuantity, stockVisibilityState: $stockVisibilityState, cashOnDelivery: $cashOnDelivery, newArrivalStatus: $newArrivalStatus, featuredStatus: $featuredStatus, hotProductStatus: $hotProductStatus, landingProduct: $landingProduct, estimateShippingTime: $estimateShippingTime, taxId: $taxId, taxMethod: $taxMethod, showroomId: $showroomId, wholeSellProductStatus: $wholeSellProductStatus, status: $status, createdBy: $createdBy, modifiedBy: $modifiedBy, createdAt: $createdAt, updatedAt: $updatedAt, regularPrice: $regularPrice, salePrice: $salePrice, wholeSalePrice: $wholeSalePrice, brands: $brands, colorList: $colorList, availableAttributes: $availableAttributes, attributesTypes: $attributesTypes, productVariants: $productVariants)';
+    return 'ProductModel(id: $id, productName: $productName, selectedVariant: $selectedVariant, slug: $slug, productVariationStatus: $productVariationStatus, productCode: $productCode, variantCode: $variantCode, categoryId: $categoryId, brandId: $brandId, unitId: $unitId, minimumPurchaseQty: $minimumPurchaseQty, barcodeSymbol: $barcodeSymbol, unitPrice: $unitPrice, discount: $discount, discountType: $discountType, shippingType: $shippingType, qty: $qty, sku: $sku, tags: $tags, refundable: $refundable, image: $image, colors: $colors, attributes: $attributes, pdfFile: $pdfFile, metaTag: $metaTag, metaDescription: $metaDescription, metaImage: $metaImage, freeShipping: $freeShipping, flatRate: $flatRate, shippingCost: $shippingCost, lowStockQuantity: $lowStockQuantity, stockVisibilityState: $stockVisibilityState, cashOnDelivery: $cashOnDelivery, newArrivalStatus: $newArrivalStatus, featuredStatus: $featuredStatus, hotProductStatus: $hotProductStatus, landingProduct: $landingProduct, estimateShippingTime: $estimateShippingTime, taxId: $taxId, taxMethod: $taxMethod, showroomId: $showroomId, wholeSellProductStatus: $wholeSellProductStatus, status: $status, createdBy: $createdBy, modifiedBy: $modifiedBy, createdAt: $createdAt, updatedAt: $updatedAt, regularPrice: $regularPrice, salePrice: $salePrice, wholeSalePrice: $wholeSalePrice, categories: $categories, brands: $brands, colorList: $colorList, availableAttributes: $availableAttributes, attributesTypes: $attributesTypes, productVariants: $productVariants)';
   }
 }
 

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/features/auth/application/auth_provider.dart';
-import 'package:icon_shopper/features/checkout/domain/promo_data_model.dart';
-import 'package:icon_shopper/features/checkout/presentation/widgets/customer_info_section.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
+import '../../../features/auth/application/auth_provider.dart';
+import '../../../features/checkout/domain/promo_data_model.dart';
+import '../../../features/checkout/presentation/widgets/customer_info_section.dart';
 import '../../profile/presentation/widgets/contact_info_widget.dart';
 import '../application/checkout_provider.dart';
 import '../domain/delivery_charge_response.dart';
+import 'order_success_screen.dart';
 import 'widgets/area_section.dart';
 import 'widgets/cart_product_tile.dart';
 import 'widgets/coupon_section.dart';
@@ -39,24 +42,23 @@ class CheckoutScreen extends HookConsumerWidget {
       if (state.isEmpty) {
         return 0.0;
       }
-      final value = state
-          .map((element) =>
-              element.product.selectedVariant.salePrice * element.quantity)
-          .toList();
-      return value.reduce((value, element) => value + element).toDouble();
+      return state
+          .map((element) {
+            final hasVariation = element.product.productVariationStatus == 1;
+            final discountPrice = hasVariation
+                ? element.product.selectedVariant.salePrice
+                : element.product.salePrice;
+            return discountPrice * element.quantity;
+          })
+          .reduce((value, element) => value + element)
+          .toDouble();
     }, [state]);
-
-    final discount = useState(appliedPromo.value?.value ?? 0.0);
 
     final total = useMemoized(
         () =>
-            (subtotal + (selectedShipping.value?.value ?? 0)) - discount.value,
-        [
-          subtotal,
-          discount.value,
-          (selectedShipping.value?.value ?? 0),
-          selectedShipping.value
-        ]);
+            (subtotal - (appliedPromo.value?.value ?? 0)) +
+            (selectedShipping.value?.value ?? 0),
+        [subtotal, appliedPromo.value?.value, selectedShipping.value?.value]);
 
     return Scaffold(
       backgroundColor: AppColors.bg200,
@@ -109,9 +111,15 @@ class CheckoutScreen extends HookConsumerWidget {
                     title: AppStrings.subTotal,
                     price: subtotal,
                   ),
+                  // PriceTile(
+                  //   title: AppStrings.discount,
+                  //   price: discount,
+                  //   isPercentage: true,
+                  // ),
                   PriceTile(
-                    title: AppStrings.discount,
-                    price: appliedPromo.value?.value ?? 0,
+                    title: AppStrings.couponDiscount,
+                    price: (appliedPromo.value?.value ?? 0),
+                    isPercentage: appliedPromo.value?.type == 1,
                   ),
                   PriceTile(
                     title: AppStrings.deliveryCharge,
@@ -185,7 +193,9 @@ class CheckoutScreen extends HookConsumerWidget {
                   showErrorToast('Please enter your address');
                   return;
                 }
-                ref.read(checkoutProvider.notifier).placeOrder(
+                ref
+                    .read(checkoutProvider.notifier)
+                    .placeOrder(
                       cart: state,
                       coupon: appliedPromo.value,
                       shippingCost:
@@ -193,8 +203,17 @@ class CheckoutScreen extends HookConsumerWidget {
                       name: name.value,
                       phone: phone.value,
                       information: address.value,
-                      customerId: auth.user.id,
-                    );
+                    )
+                    .then((value) {
+                  final (isSuccess, invoiceId) = value;
+                  if (isSuccess) {
+                    context.pushReplacement(
+                        '${OrderSuccessScreen.route}/$invoiceId?method=${selectedPayment.value.name}&&totalPrice=$total&&address=${address.value}');
+                  }
+                });
+                // Logger.i(GoRouter.of(context).routerDelegate);
+                // context.pushReplacement(
+                //     '${OrderSuccessScreen.route}/123?method=${selectedPayment.value.name}&&totalPrice=$total&&address=${address.value}');
               },
               text: 'Place Order',
             ).px32(),

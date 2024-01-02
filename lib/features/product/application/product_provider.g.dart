@@ -177,6 +177,134 @@ class _CategoryWiseProductProviderElement
   String get slug => (origin as CategoryWiseProductProvider).slug;
 }
 
+String _$allProductHash() => r'bdcd29a3ab3f2cc70aecef031174a42d6cee2593';
+
+/// See also [allProduct].
+@ProviderFor(allProduct)
+const allProductProvider = AllProductFamily();
+
+/// See also [allProduct].
+class AllProductFamily extends Family<AsyncValue<List>> {
+  /// See also [allProduct].
+  const AllProductFamily();
+
+  /// See also [allProduct].
+  AllProductProvider call({
+    int page = 1,
+  }) {
+    return AllProductProvider(
+      page: page,
+    );
+  }
+
+  @override
+  AllProductProvider getProviderOverride(
+    covariant AllProductProvider provider,
+  ) {
+    return call(
+      page: provider.page,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'allProductProvider';
+}
+
+/// See also [allProduct].
+class AllProductProvider extends AutoDisposeFutureProvider<List> {
+  /// See also [allProduct].
+  AllProductProvider({
+    int page = 1,
+  }) : this._internal(
+          (ref) => allProduct(
+            ref as AllProductRef,
+            page: page,
+          ),
+          from: allProductProvider,
+          name: r'allProductProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$allProductHash,
+          dependencies: AllProductFamily._dependencies,
+          allTransitiveDependencies:
+              AllProductFamily._allTransitiveDependencies,
+          page: page,
+        );
+
+  AllProductProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.page,
+  }) : super.internal();
+
+  final int page;
+
+  @override
+  Override overrideWith(
+    FutureOr<List> Function(AllProductRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: AllProductProvider._internal(
+        (ref) => create(ref as AllProductRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        page: page,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List> createElement() {
+    return _AllProductProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AllProductProvider && other.page == page;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, page.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin AllProductRef on AutoDisposeFutureProviderRef<List> {
+  /// The parameter `page` of this provider.
+  int get page;
+}
+
+class _AllProductProviderElement extends AutoDisposeFutureProviderElement<List>
+    with AllProductRef {
+  _AllProductProviderElement(super.provider);
+
+  @override
+  int get page => (origin as AllProductProvider).page;
+}
+
 String _$productNotifierHash() => r'd3c5fd7d1a7e4842e5c1f02dc48f9e85bafbaf5b';
 
 /// See also [ProductNotifier].

@@ -6,8 +6,8 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../core/core.dart';
 import '../../../product/presentation/product_detail/product_detail_screen.dart';
-import '../../domain/cart_product_model.dart';
 import '../../application/checkout_provider.dart';
+import '../../domain/cart_product_model.dart';
 
 class CartProductTile extends HookConsumerWidget {
   const CartProductTile({
@@ -23,7 +23,14 @@ class CartProductTile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final salePrice = cartProduct.product.selectedVariant.salePrice;
+    final hasVariation = cartProduct.product.productVariationStatus ==
+        1; //' product has variation or not
+
+    //' discount price
+    final discountPrice = hasVariation
+        ? cartProduct.product.selectedVariant.salePrice
+        : cartProduct.product.salePrice;
+
     return SizedBox(
       // height: 100.h,
       // decoration: BoxDecoration(
@@ -120,19 +127,17 @@ class CartProductTile extends HookConsumerWidget {
                               .make(),
                         ],
                       ),
+
+                      //' product amount X price; only showing in checkout page..
                       Row(
                         mainAxisSize: mainMin,
                         children: [
-                          // product amount X price; only showing in checkout page..
                           Row(
                             mainAxisSize: mainMin,
                             children: [
                               cartProduct.quantity.toString().text.make(),
                               " x ".text.make(),
-                              cartProduct.product.salePrice
-                                  .toString()
-                                  .text
-                                  .make(),
+                              discountPrice.toString().text.make(),
                             ],
                           ).hide(isVisible: !isCart),
 
@@ -141,7 +146,7 @@ class CartProductTile extends HookConsumerWidget {
                             TextSpan(
                               children: [
                                 "Price: ".textSpan.make(),
-                                "${salePrice * cartProduct.quantity}"
+                                "${discountPrice * cartProduct.quantity}"
                                     .textSpan
                                     .color(context.colors.primary)
                                     .make(),

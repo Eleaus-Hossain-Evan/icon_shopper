@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/core/core.dart';
-import 'package:icon_shopper/features/product/domain/model/product_variant_model.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../../../../core/core.dart';
+import '../../../../../features/product/domain/model/product_variant_model.dart';
 import '../../../application/product_provider.dart';
 
 class ProductVariationSection extends HookConsumerWidget {
@@ -31,15 +31,58 @@ class ProductVariationSection extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
-          "$attrib1stName :".text.xl.make(),
-          gap8,
-          ProductVariantList(
-            currentVariant: variant,
-            onTap: (item) => ref
-                .read(productVariantProvider.notifier)
-                .update((state) => item),
+          Visibility(
+            visible: state.stockProducts.isNotEmpty &&
+                state.stockProducts.first.total <= 0,
+            replacement: Column(
+              crossAxisAlignment: crossStart,
+              children: [
+                "$attrib1stName :".text.xl.make(),
+                gap8,
+                ProductVariantList(
+                  currentVariant: variant,
+                  onTap: (item) => ref
+                      .read(productVariantProvider.notifier)
+                      .update((state) => item),
+                ),
+              ],
+            ),
+            child: Center(
+              child: "Out of Stock"
+                  .text
+                  .lg
+                  .bold
+                  .white
+                  .make()
+                  .pSymmetric(h: 8, v: 4)
+                  .box
+                  .color(AppColors.black.withOpacity(.3))
+                  .make(),
+            ),
           ),
-          gap24,
+          gap16,
+          AnimatedSize(
+            duration: 300.milliseconds,
+            reverseDuration: 300.milliseconds,
+            child: AnimatedSwitcher(
+              duration: 300.milliseconds,
+              child: (state.stockProducts.isNotEmpty &&
+                          state.stockProducts.first.total > 0) &&
+                      ref.watch(productVariantProvider).qty <= 0
+                  ? "This Variation Out of Stock"
+                      .text
+                      .lg
+                      .color(AppColors.error)
+                      .bold
+                      .make()
+                      .pSymmetric(h: 8, v: 4)
+                      .box
+                      .color(AppColors.error.withOpacity(.2))
+                      .make()
+                  : const SizedBox.shrink(),
+            ),
+          ),
+          gap12,
           "Product color may slightly vary, depending on your devices screen resolution"
               .text
               .center
@@ -89,6 +132,8 @@ class ProductVariationSection extends HookConsumerWidget {
   }
 }
 
+mixin currentContext {}
+
 class ProductVariantList extends HookConsumerWidget {
   const ProductVariantList({
     super.key,
@@ -117,10 +162,10 @@ class ProductVariantList extends HookConsumerWidget {
     return Wrap(
       runSpacing: runSpacing ?? 16.h,
       spacing: spacing ?? 16.w,
-      children: List.generate(state.productVariants.length, (index) {
-        final item = state.productVariants[index];
+      children: List.generate(state.productVariants?.length ?? 0, (index) {
+        final item = state.productVariants?[index];
 
-        final isSelected = (currentVariant?.id ?? 0) == item.id;
+        final isSelected = (currentVariant?.id ?? 0) == item?.id;
         return OutlinedButton(
           style: OutlinedButton.styleFrom(
             padding: EdgeInsets.zero,
@@ -141,7 +186,7 @@ class ProductVariantList extends HookConsumerWidget {
           ),
           onPressed: () => onTap(item),
           child: Text(
-            item.productVariantName,
+            item!.productVariantName,
             style: TextStyle(
               fontWeight: fontWeight ?? FontWeight.bold,
               fontSize: fontSize ?? 14.sp,

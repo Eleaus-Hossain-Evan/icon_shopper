@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easylogger/flutter_logger.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -13,53 +15,51 @@ class ProductCartSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final product = ref.watch(productNotifierProvider);
-    // final cartList = ref.watch(cartProductProvider);
-    // final variant = ref.watch(productVariantProvider);
+    final state = ref.watch(productNotifierProvider);
+    final variant = ref.watch(productVariantProvider);
 
-    // final currentCart = useMemoized(() {
-    //   return cartList
-    //       .where((element) =>
-    //           element.product.id == product.id &&
-    //           element.product.selectedVariant.id == variant.id)
-    //       .firstOrElse(() => CartProductModel(product: product, quantity: 0));
-    // }, [cartList, product.id, variant]);
+    final isAvailable = useMemoized<bool>(() {
+      return (state.stockProducts.isNotEmpty &&
+              state.stockProducts.first.total <= 0) ||
+          variant.qty <= 0;
+    }, [state.stockProducts, variant.qty]);
 
-    // final isProductInCart = useMemoized(() {
-    //   final value = cartList.indexWhere((element) =>
-    //       element.product.id == product.id &&
-    //       element.product.selectedVariant.id == variant.id);
-    //   return value >= 0;
-    // }, [cartList, product.id, variant]);
+    Logger.d('isAvailable $isAvailable');
 
-    return Column(
-      mainAxisSize: mainMin,
-      children: [
-        const KDivider(),
-        Row(
-          children: [
-            KGradientButton(
-              onPressed: () {},
-              colors: const [
-                Color(0xFF38bdf8),
-                Color(0xFF0385c8),
-              ],
-              text: 'Buy Now',
-            ).expand(),
-            gap16,
-            KGradientButton(
-              onPressed: () {
-                ref.read(cartProductProvider.notifier).addProduct(
-                      product.copyWith(
-                        selectedVariant: ref.watch(productVariantProvider),
-                      ),
-                    );
-              },
-              text: 'Add to cart',
-            ).expand(),
-          ],
-        ).pSymmetric(h: 16, v: 8),
-      ],
+    return Visibility(
+      visible: state.id.isNotNull,
+      child: Column(
+        mainAxisSize: mainMin,
+        children: [
+          const KDivider(),
+          Row(
+            children: [
+              KGradientButton(
+                onPressed: isAvailable ? null : () {},
+                colors: const [
+                  Color(0xFF38bdf8),
+                  Color(0xFF0385c8),
+                ],
+                text: 'Buy Now',
+              ).expand(),
+              gap16,
+              KGradientButton(
+                onPressed: isAvailable
+                    ? null
+                    : () {
+                        ref.read(cartProductProvider.notifier).addProduct(
+                              state.copyWith(
+                                selectedVariant:
+                                    ref.watch(productVariantProvider),
+                              ),
+                            );
+                      },
+                text: 'Add to cart',
+              ).expand(),
+            ],
+          ).pSymmetric(h: 16, v: 8),
+        ],
+      ),
     );
   }
 }

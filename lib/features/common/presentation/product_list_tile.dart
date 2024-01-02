@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -23,9 +21,26 @@ class ProductListTile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final hasVariation =
+        data.productVariationStatus == 1; //' product has variation or not
+
+    //' regular price, if product has variation then showing variant regular price,
+    //' otherwise showing product regular price
+    final regularPrice = hasVariation
+        ? data.productVariants?.first.regularPrice ?? 0
+        : data.regularPrice;
+
+    //' discount
+    final discount = hasVariation
+        ? data.productVariants?.first.discount ?? 0
+        : data.discount;
+
+    //' discount price
+    final discountPrice = hasVariation
+        ? data.productVariants?.first.salePrice ?? 0
+        : data.salePrice;
     return KInkWell(
       onTap: () {
-        log("message");
         ref.read(slugProvider.notifier).update((state) => data.slug);
         context.push("${ProductDetailScreen.route}/${data.slug}");
       },
@@ -65,21 +80,56 @@ class ProductListTile extends HookConsumerWidget {
               ],
             ),
           ),
-          gap26,
+          gap6,
           data.productName.text.letterSpacing(1.6).size(16.sp).make(),
-          gap10,
-          Text.rich(
-            TextSpan(
-              children: [
-                '৳ '.textSpan.semiBold.size(16.sp).make(),
-                data.productVariants.first.regularPrice
-                    .toString()
-                    .textSpan
-                    .semiBold
-                    .size(16.sp)
-                    .make()
-              ],
-            ),
+          gap6,
+          Row(
+            mainAxisAlignment: mainCenter,
+            children: [
+              Text.rich(
+                TextSpan(
+                  children: [
+                    '৳ '
+                        .textSpan
+                        .semiBold
+                        .size((14 - 4).sp)
+                        .lineThrough
+                        .color(AppColors.black600)
+                        .make(),
+                    regularPrice
+                        .toString()
+                        .textSpan
+                        .semiBold
+                        .color(AppColors.black600)
+                        .size(12.sp)
+                        .lineThrough
+                        .make(),
+                  ],
+                ),
+              ).hide(isVisible: discount > 0),
+              SizedBox(
+                width: 4.w,
+              ).hide(isVisible: discount > 0),
+              Text.rich(
+                TextSpan(
+                  children: [
+                    '৳ '
+                        .textSpan
+                        .semiBold
+                        .size(14.sp)
+                        .color(AppColors.primary200)
+                        .make(),
+                    discountPrice
+                        .toString()
+                        .textSpan
+                        .semiBold
+                        .size(14.sp)
+                        .color(AppColors.primary200)
+                        .make()
+                  ],
+                ),
+              ),
+            ],
           ),
           // product.toString().text.make(),
 

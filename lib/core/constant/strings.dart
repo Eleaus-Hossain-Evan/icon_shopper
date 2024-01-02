@@ -63,6 +63,7 @@ class AppStrings {
   static const String toIconShopper = "to Icon Shopper";
   static const String signUpBelowText =
       "Enter the credentials and press the Register button for create a new account";
+  static const String asReseller = "as Re-seller";
   static const String rememberMe = "Remember Me";
   static const String forgotPassword = "Forgot Password";
   static const String forgotBelowText1 =
@@ -92,6 +93,8 @@ class AppStrings {
   static var subTotal = "Sub Total";
 
   static var discount = "Discount";
+
+  static var couponDiscount = "Coupon Discount";
 
   static var deliveryCharge = "Delivery Charge";
 

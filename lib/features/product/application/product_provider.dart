@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/core/core.dart';
-import 'package:icon_shopper/features/product/domain/model/product_model.dart';
-import 'package:icon_shopper/features/product/domain/model/product_variant_model.dart';
-import 'package:icon_shopper/features/product/domain/product_response.dart';
-import 'package:icon_shopper/features/product/infrastructure/product_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/core.dart';
+import '../../../features/product/domain/model/product_model.dart';
+import '../../../features/product/domain/model/product_variant_model.dart';
+import '../../../features/product/domain/product_response.dart';
+import '../../../features/product/infrastructure/product_repo.dart';
 import '../domain/model/product_stock_model.dart';
 
 part 'product_provider.g.dart';
@@ -17,6 +17,7 @@ final productTitleOverflow = StateProvider<bool>((ref) {
   return false;
 }, name: 'productTitleOverflow');
 
+//' Category wise product by Slug
 @riverpod
 Future<List<ProductModel>> categoryWiseProduct(
   CategoryWiseProductRef ref, {
@@ -36,22 +37,25 @@ Future<List<ProductModel>> categoryWiseProduct(
   );
 }
 
+//' All product
+@riverpod
+FutureOr<List> allProduct(AllProductRef ref, {int page = 1}) async {
+  final data = await ProductRepo().getAllProduct(page: page);
+  return data.fold(
+    (l) {
+      showErrorToast(l.error.message);
+      return [];
+    },
+    (r) => r.new_arrival.data,
+  );
+}
+
+//' Product's slug
 final slugProvider = StateProvider<String>((ref) {
   return '';
-});
+}, name: 'slugProvider');
 
-// @riverpod
-// class GetProductDetails extends _$GetProductDetails {
-//   @override
-//   FutureOr<ProductResponse> build(String slug) async {
-//     final result = await ProductRepo().getProductDetails(slug);
-//     return result.fold((l) {
-//       showErrorToast(l.error.message);
-//       return ProductResponse.init();
-//     }, (r) => r);
-//   }
-// }
-
+//' Product's details
 final getProductDetailsProvider = FutureProvider<ProductResponse>((ref) async {
   final slug = ref.watch(slugProvider);
   final result = await ProductRepo().getProductDetails(slug);
@@ -61,50 +65,18 @@ final getProductDetailsProvider = FutureProvider<ProductResponse>((ref) async {
   }, (r) => r);
 }, name: 'getProductDetailsProvider');
 
-// @Riverpod(keepAlive: true)
-// class CurrentProduct extends _$CurrentProduct {
-//   @override
-//   ProductModel build() {
-//     return ProductModel.init();
-//   }
-
-//   void setState(ProductModel model) async {
-//     state = model;
-//     ref.read(productVariantProvider.notifier).update((v) {
-//       if (model.productVariationStatus == 1) {
-//         return model.productVariants.first;
-//       }
-//       return v;
-//     });
-//   }
-
-//   void setVariant(ProductVariantModel item) {
-//     final model = state.copyWith(selectedVariant: item);
-
-//     Logger.i(model);
-//     state = model;
-//   }
-
-//   // void setVariation(ProductVariantModel model) {
-//   //   ref.read(productVariantProvider.notifier).update((v) => model);
-//   // }
-// }
-
+//' Product's selected variant
 final productVariantProvider =
     StateProvider.autoDispose<ProductVariantModel>((ref) {
   final state = ref.watch(productNotifierProvider);
 
-  final variant = state.productVariants.isNotEmpty
-      ? state.productVariants[0]
-      : ProductVariantModel.init();
+  final variant =
+      state.productVariants != null && state.productVariants!.isNotEmpty
+          ? state.productVariants![0]
+          : ProductVariantModel.init();
 
   return variant;
 }, name: 'productVariantProvider');
-
-// final productNotifierProvider = NotifierProvider<ProductNotifier, ProductModel>(
-//   ProductNotifier.new,
-//   name: 'productNotifierProvider',
-// );
 
 @riverpod
 class ProductNotifier extends _$ProductNotifier {
@@ -127,16 +99,21 @@ class ProductNotifier extends _$ProductNotifier {
   }
 }
 
+//' Similar Products of a product
 final similarProductProvider =
     FutureProvider.autoDispose<List<ProductModel>>((ref) async {
   final state = ref.watch(productNotifierProvider);
-  final result = await ref.read(productRepoProvider).similarProduct(state.id);
+
+  if (state.id == null) return [];
+
+  final result = await ref.read(productRepoProvider).similarProduct(state.id!);
   return result.fold((l) {
     showErrorToast(l.error.message);
     return [];
   }, (r) => r.data);
 }, name: 'similarProductProvider');
 
+//' Product's stock
 @riverpod
 class ProductStock extends _$ProductStock {
   @override

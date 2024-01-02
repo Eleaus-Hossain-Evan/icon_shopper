@@ -5,6 +5,7 @@ import 'package:icon_shopper/features/checkout/domain/delivery_charge_response.d
 import 'package:random_x/random_x.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../auth/application/auth_provider.dart';
 import '../../product/domain/model/product_model.dart';
 import '../domain/cart_product_model.dart';
 import '../domain/place_order_body.dart';
@@ -117,39 +118,48 @@ class Checkout extends _$Checkout {
             }));
   }
 
-  Future<bool> placeOrder({
+  Future<(bool, String)> placeOrder({
     PromoDataModel? coupon,
     required double shippingCost,
     required String name,
     required String phone,
     required String information,
-    required int customerId,
     required IList<CartProductModel> cart,
   }) async {
     state = const AsyncLoading();
 
+    final user = ref.watch(authProvider).user;
+    final invoiceId = "ECOM-${RndX.guid(length: 6)}";
+
     final product = cart.map((e) {
+      final hasVariation = e.product.productVariationStatus == 1;
+
+      final regularPrice = hasVariation
+          ? e.product.selectedVariant.regularPrice
+          : e.product.regularPrice;
+      final discount = hasVariation
+          ? e.product.selectedVariant.discount
+          : e.product.discount;
+
+      final discountPrice = hasVariation
+          ? e.product.selectedVariant.salePrice
+          : e.product.salePrice;
       return SProduct(
         variant_id: e.product.selectedVariant.id,
-        product_id: e.product.id,
+        product_id: e.product.id!,
         qty: e.quantity,
         sale_unit_id: e.product.unitId,
-        net_unit_price: e.product.selectedVariant.salePrice,
-        regular_price: e.product.selectedVariant.regularPrice,
-        discount_type:
-            e.product.selectedVariant.discountType == "amount" ? 1 : 2,
-        discount: e.product.selectedVariant.discount,
-        discount_rate: e.product.selectedVariant.discountType == "amount"
-            ? e.product.selectedVariant.discount
-            : (e.product.selectedVariant.regularPrice *
-                    e.product.selectedVariant.discount) /
-                100,
-        total: e.product.selectedVariant.salePrice * e.quantity,
+        net_unit_price: discountPrice,
+        regular_price: regularPrice,
+        discount_type: 2,
+        discount: discount,
+        discount_rate: ((regularPrice * discount) / 100) * e.quantity,
+        total: discountPrice * e.quantity,
       );
     }).toList();
 
-    final total = cart
-        .map((e) => e.product.selectedVariant.salePrice * e.quantity)
+    final total = product
+        .map((e) => e.total)
         .toList()
         .reduce((value, element) => value + element)
         .toDouble();
@@ -163,7 +173,7 @@ class Checkout extends _$Checkout {
               ? coupon?.value
               : ((total * (coupon?.value ?? 0)) / 100)
           : null,
-      invoice_no: "ECOM-${RndX.guid(length: 6)}",
+      invoice_no: invoiceId,
       item: cart.length,
       total_qty: cart
           .map((element) => element.quantity)
@@ -181,7 +191,7 @@ class Checkout extends _$Checkout {
                   : total + shippingCost
           : total + shippingCost,
       sale_date: DateTime.now().toFormatDate('yyyy-MM-dd'),
-      customer_id: customerId,
+      customer_id: user.id,
       name: name,
       phone: phone,
       information: information,
@@ -192,18 +202,19 @@ class Checkout extends _$Checkout {
       (l) {
         showErrorToast(l.error.message);
         state = AsyncError(l.error, StackTrace.current);
-        return false;
+        return (false, '');
       },
       (r) {
         ref.read(routerProvider).pop();
         ref.read(cartProductProvider.notifier).clearCart();
         state = const AsyncData(null);
         showToast(r.message);
-        return r.success;
+        return (r.success, invoiceId);
       },
     );
+
     // Logger.d(body);
-    // return false;
+    // return (false, '');
   }
 }
 
