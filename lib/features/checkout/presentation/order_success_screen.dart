@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/main_mav/main_nav.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/core.dart';
@@ -98,6 +99,8 @@ class OrderSuccessScreen extends HookConsumerWidget {
             KFilledButton(
               onPressed: () {
                 context.pop();
+                (MainNav.bottomNavigatorKey.currentWidget as NavigationBar)
+                    .onDestinationSelected!(0);
               },
               text: 'Return to Home',
             ).px32()

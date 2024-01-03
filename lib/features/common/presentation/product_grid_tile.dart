@@ -58,7 +58,8 @@ class ProductGridTile extends HookConsumerWidget {
                   ),
                 ),
                 Visibility(
-                  visible: data.stockProducts.first.total <= 0,
+                  visible: data.stockProducts.isNotEmpty &&
+                      data.stockProducts.first.total <= 0,
                   child: Center(
                     child: "Out of Stock"
                         .text

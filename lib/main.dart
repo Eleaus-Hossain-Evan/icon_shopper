@@ -9,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/core.dart';
 import 'features/auth/application/auth_provider.dart';
+import 'features/auth/domain/model/user_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,15 +40,21 @@ Future<void> main() async {
   container.read(themeProvider);
 
   final String token = box.get(AppStrings.token, defaultValue: '');
+  final String user =
+      box.get(AppStrings.user, defaultValue: UserModel.init().toJson());
 
   NetworkHandler.instance
     ..setup(baseUrl: APIRouteEndpoint.BASE_URL, showLogs: false)
     ..setToken(token);
 
+  container.read(loggedInProvider.notifier)
+    ..setToken(token)
+    ..setUser(UserModel.fromJson(user));
+
   Logger.d('token: $token');
   runApp(
-    UncontrolledProviderScope(
-      container: container,
+    ProviderScope(
+      parent: container,
       child: const MyApp(),
     ),
   );

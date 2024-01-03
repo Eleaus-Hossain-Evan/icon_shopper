@@ -50,8 +50,8 @@ class HomeCategoryWidget extends HookConsumerWidget {
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.25),
                       ),
-                      child: item
-                          .name.text.bold.underline.heightLoose.white.wide
+                      child: item.name.text.bold.underline.heightLoose.white
+                          .wide.center
                           .size(14.sp)
                           .textStyle(
                               const TextStyle(decorationColor: Colors.white))

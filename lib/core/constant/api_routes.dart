@@ -12,6 +12,7 @@ class APIRouteEndpoint {
   static const String API_V1 = "api/";
   static const String IMAGE_SUBSTRING = "storage/";
   static const String PRODUCT_IMAGE = "${IMAGE_SUBSTRING}product/";
+  static const String CAMPAIGN_IMAGE = "${IMAGE_SUBSTRING}campaign/";
 
   //#<<---------------- AUTH ------------------>>
   static const String SIGN_UP = "${API_V1}registration";
@@ -38,6 +39,10 @@ class APIRouteEndpoint {
   static const String GET_ALL_PRODUCT = "${API_V1}get-all-product";
   static const String SIMILAR_PRODUCT = "${API_V1}similar-products/";
   static const String PRODUCT_STOCK = "${API_V1}product/showrooms-stock/";
+
+  //#<<---------------- Campaign ------------------>>
+  static const String GET_CAMPAIGN = "${API_V1}get-campaign";
+  static const String CAMPAIGN_DETAIL = "${API_V1}get-campaign-details/";
 
   //#<<---------------- Order ------------------>>
   static const PLACE_ORDER = "${API_V1}checkout";

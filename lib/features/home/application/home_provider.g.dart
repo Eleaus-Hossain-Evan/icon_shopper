@@ -6,7 +6,22 @@ part of 'home_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchProductHash() => r'2a43d5e25556f2b5b6861fd4d336b7d9235ebad6';
+String _$getCampaignHash() => r'fb19f06997d12b9473cf33c75730158345c30d25';
+
+/// See also [getCampaign].
+@ProviderFor(getCampaign)
+final getCampaignProvider =
+    AutoDisposeFutureProvider<IList<CampaignModel>>.internal(
+  getCampaign,
+  name: r'getCampaignProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getCampaignHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetCampaignRef = AutoDisposeFutureProviderRef<IList<CampaignModel>>;
+String _$campaignDetailHash() => r'31e207896c68ecf2d6abb9e2c290947040e2c329';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -28,6 +43,136 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [campaignDetail].
+@ProviderFor(campaignDetail)
+const campaignDetailProvider = CampaignDetailFamily();
+
+/// See also [campaignDetail].
+class CampaignDetailFamily extends Family<AsyncValue<CampaignListResponse>> {
+  /// See also [campaignDetail].
+  const CampaignDetailFamily();
+
+  /// See also [campaignDetail].
+  CampaignDetailProvider call({
+    required String slug,
+  }) {
+    return CampaignDetailProvider(
+      slug: slug,
+    );
+  }
+
+  @override
+  CampaignDetailProvider getProviderOverride(
+    covariant CampaignDetailProvider provider,
+  ) {
+    return call(
+      slug: provider.slug,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'campaignDetailProvider';
+}
+
+/// See also [campaignDetail].
+class CampaignDetailProvider
+    extends AutoDisposeFutureProvider<CampaignListResponse> {
+  /// See also [campaignDetail].
+  CampaignDetailProvider({
+    required String slug,
+  }) : this._internal(
+          (ref) => campaignDetail(
+            ref as CampaignDetailRef,
+            slug: slug,
+          ),
+          from: campaignDetailProvider,
+          name: r'campaignDetailProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$campaignDetailHash,
+          dependencies: CampaignDetailFamily._dependencies,
+          allTransitiveDependencies:
+              CampaignDetailFamily._allTransitiveDependencies,
+          slug: slug,
+        );
+
+  CampaignDetailProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.slug,
+  }) : super.internal();
+
+  final String slug;
+
+  @override
+  Override overrideWith(
+    FutureOr<CampaignListResponse> Function(CampaignDetailRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: CampaignDetailProvider._internal(
+        (ref) => create(ref as CampaignDetailRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        slug: slug,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<CampaignListResponse> createElement() {
+    return _CampaignDetailProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CampaignDetailProvider && other.slug == slug;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, slug.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin CampaignDetailRef on AutoDisposeFutureProviderRef<CampaignListResponse> {
+  /// The parameter `slug` of this provider.
+  String get slug;
+}
+
+class _CampaignDetailProviderElement
+    extends AutoDisposeFutureProviderElement<CampaignListResponse>
+    with CampaignDetailRef {
+  _CampaignDetailProviderElement(super.provider);
+
+  @override
+  String get slug => (origin as CampaignDetailProvider).slug;
+}
+
+String _$searchProductHash() => r'2a43d5e25556f2b5b6861fd4d336b7d9235ebad6';
 
 abstract class _$SearchProduct
     extends BuildlessAutoDisposeAsyncNotifier<PaginatedProductResponse> {

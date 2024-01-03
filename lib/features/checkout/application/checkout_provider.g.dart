@@ -38,7 +38,7 @@ final cartProductProvider =
 );
 
 typedef _$CartProduct = Notifier<IList<CartProductModel>>;
-String _$checkoutHash() => r'0ff12083c8591c0c7fecda913f3237644ade017a';
+String _$checkoutHash() => r'685ebe8e363f9b3f45a4c9cee2d7eeb9e5e78818';
 
 /// See also [Checkout].
 @ProviderFor(Checkout)

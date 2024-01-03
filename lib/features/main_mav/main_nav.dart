@@ -14,10 +14,9 @@ import '../checkout/presentation/cart_screen.dart';
 import '../home/presentation/home_screen.dart';
 import '../profile/application/profile_provider.dart';
 
-final bottomNavigatorKey = GlobalKey();
-
 class MainNav extends HookConsumerWidget {
   static const route = '/main-nav';
+  static final bottomNavigatorKey = GlobalKey();
 
   const MainNav({super.key});
   @override

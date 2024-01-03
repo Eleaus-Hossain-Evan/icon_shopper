@@ -10,8 +10,8 @@ import 'package:icon_shopper/features/auth/infastructure/auth_repo.dart';
 import 'package:mime/mime.dart';
 
 import '../../profile/domain/change_password_body.dart';
-import '../domain/model/user_model.dart';
 import '../../profile/domain/profile_update_body.dart';
+import '../domain/model/user_model.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier(ref, AuthRepo());
@@ -44,14 +44,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> logout() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+
     showToast('${state.user.name} logging out');
-    state = state.copyWith(user: UserModel.init());
 
     ref.read(loggedInProvider.notifier).deleteAuthCache();
-    NetworkHandler.instance.setToken("");
+    // ref.read(loggedInProvider.notifier).deleteAuthCache();
     // ref.read(routerProvider).go(LoginScreen.route);
 
     // ref.read(loggedInProvider.notifier).isLoggedIn();
+    state = state.copyWith(user: UserModel.init());
+    NetworkHandler.instance.setToken("");
   }
 
   Future<bool> register(SignUpBody body) async {
