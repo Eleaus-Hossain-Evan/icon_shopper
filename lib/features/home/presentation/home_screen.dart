@@ -26,9 +26,10 @@ class HomeScreen extends HookConsumerWidget {
       appBar: const HomeAppBar(),
       body: SmartRefresher(
         controller: refreshController,
-        onRefresh: () => ref
-            .refresh(homeDataProvider.future)
-            .then((value) => refreshController.refreshCompleted()),
+        onRefresh: () => Future.wait([
+          ref.refresh(homeDataProvider.future),
+          ref.refresh(getCampaignProvider.future)
+        ]).then((value) => refreshController.refreshCompleted()),
         child: SingleChildScrollView(
           padding: padding0,
           child: Column(

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icon_shopper/core/core.dart';
 import 'package:icon_shopper/features/home/presentation/campaign_product_category_screen.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import '../../application/home_provider.dart';
 
@@ -21,21 +22,19 @@ class HomeCampaignWidget extends HookConsumerWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               final campaign = data[index];
-              return KInkWell(
-                onTap: () {
-                  context.push(
-                      "${CampaignProductCategoryScreen.route}/${campaign.slug}");
-                },
-                child: Column(
-                  children: [
-                    KCachedNetworkImageNoBase(
-                      imageUrl:
-                          "${APIRouteEndpoint.BASE_URL}${APIRouteEndpoint.CAMPAIGN_IMAGE}${campaign.image}",
-                      fit: BoxFit.fitWidth,
-                      height: 200.h,
-                    ),
-                    Text(campaign.name),
-                  ],
+              return Visibility(
+                visible: campaign.end_date.toDate()!.isAfter(DateTime.now()),
+                child: KInkWell(
+                  onTap: () {
+                    context.push(
+                        "${CampaignProductCategoryScreen.route}/${campaign.slug}");
+                  },
+                  child: KCachedNetworkImageNoBase(
+                    imageUrl:
+                        "${APIRouteEndpoint.BASE_URL}${APIRouteEndpoint.CAMPAIGN_IMAGE}${campaign.image}",
+                    fit: BoxFit.fitWidth,
+                    height: 200.h,
+                  ),
                 ),
               );
             },
