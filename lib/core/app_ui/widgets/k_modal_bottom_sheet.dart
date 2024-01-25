@@ -1,9 +1,10 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:icon_shopper/core/core.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../../../core/core.dart';
 
 kShowBottomSheet({
   required BuildContext context,

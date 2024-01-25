@@ -4,24 +4,24 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/features/auth/presentation/forgot_password/forgot_password_screen.dart';
-import 'package:icon_shopper/features/auth/presentation/login_screen.dart';
-import 'package:icon_shopper/features/auth/presentation/register_screen.dart';
-import 'package:icon_shopper/features/checkout/presentation/checkout_screen.dart';
-import 'package:icon_shopper/features/home/presentation/home_screen.dart';
-import 'package:icon_shopper/features/profile/presentation/page/order_detail_screen.dart';
-import 'package:icon_shopper/features/profile/presentation/page/order_list_screen.dart';
-import 'package:icon_shopper/features/profile/presentation/profile_detail_screen.dart';
-import 'package:icon_shopper/features/splash/splash_screen.dart';
 
+import '../../features/auth/presentation/forgot_password/forgot_password_screen.dart';
+import '../../features/auth/presentation/login_screen.dart';
+import '../../features/auth/presentation/register_screen.dart';
+import '../../features/checkout/presentation/checkout_screen.dart';
 import '../../features/checkout/presentation/order_success_screen.dart';
 import '../../features/common/presentation/html_text_screen.dart';
 import '../../features/home/presentation/campaign_product_category_screen.dart';
+import '../../features/home/presentation/home_screen.dart';
 import '../../features/main_mav/main_nav.dart';
 import '../../features/product/presentation/product_detail/product_detail_screen.dart';
 import '../../features/product/presentation/product_list_screen.dart';
 import '../../features/profile/domain/model/order_model.dart';
 import '../../features/profile/presentation/change_password_screen.dart';
+import '../../features/profile/presentation/page/order_detail_screen.dart';
+import '../../features/profile/presentation/page/order_list_screen.dart';
+import '../../features/profile/presentation/profile_detail_screen.dart';
+import '../../features/splash/splash_screen.dart';
 import '../core.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
