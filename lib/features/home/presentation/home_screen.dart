@@ -39,7 +39,6 @@ class HomeScreen extends HookConsumerWidget {
               const HomeCategoryWidget(),
               gap36,
               const HomeCampaignWidget(),
-              gap36,
               const HomeLatestProductWidget(),
               Images.home.assetImage(),
             ],

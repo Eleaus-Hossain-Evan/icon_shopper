@@ -53,8 +53,8 @@ class AreaSection extends HookConsumerWidget {
                   ];
                 },
                 loading: () => [
-                  VxSkeleton(height: 22.h, width: .4.sw),
-                  VxSkeleton(height: 22.h, width: .4.sw)
+                  VxSkeleton(height: 38.h, width: .35.sw),
+                  VxSkeleton(height: 38.h, width: .35.sw)
                 ],
               ),
         ),

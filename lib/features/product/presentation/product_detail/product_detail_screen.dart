@@ -45,7 +45,7 @@ class ProductDetailScreen extends HookConsumerWidget {
 
     return Scaffold(
       key: scaffoldKey,
-      endDrawer: const Drawer(child: CartScreen(fromProductDetail: true)),
+      endDrawer: const Drawer(child: CartScreen()),
       appBar: KAppBar(
         // titleText: slug,
         actions: [

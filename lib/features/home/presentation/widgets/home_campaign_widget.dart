@@ -16,28 +16,41 @@ class HomeCampaignWidget extends HookConsumerWidget {
     final state = ref.watch(getCampaignProvider);
 
     return state.whenOrNull(
-          data: (data) => ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final campaign = data[index];
-              return Visibility(
-                visible: campaign.end_date.toDate()!.isAfter(DateTime.now()),
-                child: KInkWell(
-                  onTap: () {
-                    context.push(
-                        "${CampaignProductCategoryScreen.route}/${campaign.slug}");
-                  },
-                  child: KCachedNetworkImageNoBase(
-                    imageUrl:
-                        "${APIRouteEndpoint.BASE_URL}${APIRouteEndpoint.CAMPAIGN_IMAGE}${campaign.image}",
-                    fit: BoxFit.fitWidth,
-                    height: 200.h,
-                  ),
-                ),
-              );
-            },
+          data: (data) => Flex(
+            direction: Axis.vertical,
+            children: [
+              KDivider(
+                thickness: 2.h,
+                color: Colors.grey.shade300,
+                padding: paddingH16,
+              ),
+              "Running Campaign".text.xl4.make().pOnly(left: 16.w),
+              gap16,
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final campaign = data[index];
+                  return Visibility(
+                    visible:
+                        campaign.end_date.toDate()!.isAfter(DateTime.now()),
+                    child: KInkWell(
+                      onTap: () {
+                        context.push(
+                            "${CampaignProductCategoryScreen.route}/${campaign.slug}");
+                      },
+                      child: KCachedNetworkImageNoBase(
+                        imageUrl:
+                            "${APIRouteEndpoint.BASE_URL}${APIRouteEndpoint.CAMPAIGN_IMAGE}${campaign.image}",
+                        fit: BoxFit.fitWidth,
+                        height: 200.h,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ) ??
         const SizedBox.shrink();

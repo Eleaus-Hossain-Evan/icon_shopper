@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../../core/core.dart';
 import '../../../../checkout/application/checkout_provider.dart';
+import '../../../../checkout/presentation/checkout_screen.dart';
 import '../../../application/product_provider.dart';
 
 class ProductCartSection extends HookConsumerWidget {
@@ -35,12 +37,21 @@ class ProductCartSection extends HookConsumerWidget {
           Row(
             children: [
               KGradientButton(
-                onPressed: isAvailable ? null : () {},
+                onPressed: isAvailable
+                    ? null
+                    : () {
+                        ref.read(cartProductProvider.notifier).addProduct(
+                              state.copyWith(
+                                selectedVariant:
+                                    ref.watch(productVariantProvider),
+                              ),
+                            );
+                      },
                 colors: const [
                   Color(0xFF38bdf8),
                   Color(0xFF0385c8),
                 ],
-                text: 'Buy Now',
+                text: 'Add to cart',
               ).expand(),
               gap16,
               KGradientButton(
@@ -53,8 +64,9 @@ class ProductCartSection extends HookConsumerWidget {
                                     ref.watch(productVariantProvider),
                               ),
                             );
+                        context.push(CheckoutScreen.route);
                       },
-                text: 'Add to cart',
+                text: 'Buy Now',
               ).expand(),
             ],
           ).pSymmetric(h: 16, v: 8),
