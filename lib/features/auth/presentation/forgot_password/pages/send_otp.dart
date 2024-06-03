@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../../core/core.dart';
 
@@ -69,7 +70,6 @@ class SendOTP extends HookConsumerWidget {
                 //         : null);
                 showOTPDialog(
                   context: context,
-                  controller: controller,
                   onFinishedTimer: () => Navigator.pop(context),
                   onTapOtpCheck: (otp) async {
                     //  ref

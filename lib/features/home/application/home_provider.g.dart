@@ -21,7 +21,7 @@ final getCampaignProvider =
 );
 
 typedef GetCampaignRef = AutoDisposeFutureProviderRef<IList<CampaignModel>>;
-String _$campaignDetailHash() => r'31e207896c68ecf2d6abb9e2c290947040e2c329';
+String _$campaignDetailHash() => r'87abfa3e6c36125a029a7706a29a62dec0609b51';
 
 /// Copied from Dart SDK
 class _SystemHash {

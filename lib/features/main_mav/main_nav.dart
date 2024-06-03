@@ -12,6 +12,7 @@ import '../../../core/core.dart';
 import '../auth/application/auth_provider.dart';
 import '../checkout/presentation/cart_screen.dart';
 import '../home/presentation/home_screen.dart';
+import '../profile/application/profile_provider.dart';
 import '../profile/presentation/profile_screen.dart';
 
 final bottomNavigatorKey = GlobalKey();

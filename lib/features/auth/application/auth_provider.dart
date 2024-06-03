@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../core/core.dart';
 import '../../profile/domain/change_password_body.dart';
 import '../../profile/domain/profile_update_body.dart';
+import '../domain/model/user_model.dart';
 import '../domain/signup_body.dart';
 import '../infastructure/auth_repo.dart';
 import 'auth_state.dart';
