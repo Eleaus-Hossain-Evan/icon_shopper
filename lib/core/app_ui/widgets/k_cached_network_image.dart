@@ -1,13 +1,14 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core.dart';
 
-
 class KCachedNetworkImageNoBase extends StatelessWidget {
   const KCachedNetworkImageNoBase(
-      {Key? key,
+      {super.key,
       required this.imageUrl,
       this.borderRadius = const BorderRadius.all(Radius.zero),
       this.height = 200,
@@ -17,8 +18,7 @@ class KCachedNetworkImageNoBase extends StatelessWidget {
       this.child,
       this.padding,
       this.margin,
-      this.borderColor})
-      : super(key: key);
+      this.borderColor});
 
   final String imageUrl;
   final BorderRadius borderRadius;
@@ -66,7 +66,10 @@ class KCachedNetworkImageNoBase extends StatelessWidget {
           ),
         ),
       ),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+      errorWidget: (context, url, error) {
+        log(url.toString(), error: error);
+        return const Icon(Icons.error);
+      },
       // placeholder: (context, url) => const Icon(Icons.error),
     );
   }
@@ -74,99 +77,125 @@ class KCachedNetworkImageNoBase extends StatelessWidget {
 
 class KCachedNetworkImageWdLoading extends StatelessWidget {
   const KCachedNetworkImageWdLoading({
-    Key? key,
+    super.key,
     required this.imageUrl,
-    this.borderRadius = const BorderRadius.all(Radius.zero),
-    this.height = 200,
-    this.width = double.infinity,
+    this.borderRadius,
+    this.height,
+    this.width,
     this.borderWidth,
     this.fit = BoxFit.cover,
     this.child,
     this.padding,
     this.margin,
     this.borderColor,
-  }) : super(key: key);
+    this.isBox = false,
+    this.isHero = true,
+  });
 
   final String imageUrl;
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
   final BoxFit? fit;
   final double? height, width, borderWidth;
   final Widget? child;
   final EdgeInsetsGeometry? padding, margin;
   final Color? borderColor;
+  final bool isBox, isHero;
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: APIRoute.BASE_URL + imageUrl,
-      fit: fit,
-      imageBuilder: (context, imageProvider) {
-        return Hero(
-          tag: imageUrl,
-          child: Container(
-            width: width ?? double.infinity,
-            height: height ?? double.infinity,
-            padding: padding,
-            margin: margin,
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              borderRadius: borderRadius,
-              border: Border.all(
-                color: borderColor ?? Colors.transparent,
-                width: borderWidth ?? 1.w,
-              ),
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
+    var isContainer = isBox
+        ? (borderWidth != null && borderColor != null && borderRadius != null)
+        : false;
+    return Hero(
+      tag: isHero ? ValueKey(imageUrl) : UniqueKey(),
+      child: CachedNetworkImage(
+        imageUrl: APIRouteEndpoint.IMAGE_BASE_URL +
+            APIRouteEndpoint.PRODUCT_IMAGE +
+            imageUrl,
+        fit: fit,
+        imageBuilder: isContainer
+            ? (context, imageProvider) {
+                return Container(
+                  width: width,
+                  height: height,
+                  padding: padding,
+                  margin: margin,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius,
+                    border: Border.all(
+                      color: borderColor ?? Colors.transparent,
+                      width: borderWidth ?? 1.w,
+                    ),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: child,
+                );
+              }
+            : null,
+        height: height,
+        width: width,
+        progressIndicatorBuilder: (context, url, progress) => Center(
+          child: Padding(
+            padding: EdgeInsets.all(10.w),
+            child: SizedBox(
+              height: 30.h,
+              width: 30.h,
+              child: CircularProgressIndicator(
+                value: progress.progress,
+                strokeWidth: .8.w,
               ),
             ),
-            child: child,
-          ),
-        );
-      },
-      height: height,
-      width: width,
-      progressIndicatorBuilder: (context, url, progress) => Center(
-        child: SizedBox(
-          height: 30.h,
-          width: 30.h,
-          child: CircularProgressIndicator(
-            value: progress.progress,
-            strokeWidth: .8.w,
           ),
         ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+        // placeholder: (context, url) => const Icon(Icons.error),
       ),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
-      // placeholder: (context, url) => const Icon(Icons.error),
     );
   }
 }
 
 class KCachedNetworkImage extends StatelessWidget {
   const KCachedNetworkImage({
-    Key? key,
+    super.key,
     required this.imageUrl,
-    this.height = 200,
-    this.width = double.infinity,
+    this.height,
+    this.width,
     this.fit = BoxFit.cover,
-  }) : super(key: key);
+  });
 
   final String imageUrl;
-
   final BoxFit? fit;
   final double? height, width;
 
   @override
   Widget build(BuildContext context) {
-    return imageUrl.isEmpty
-        ? const SizedBox.expand()
-        : CachedNetworkImage(
-            imageUrl: "${APIRoute.BASE_URL}$imageUrl",
-            fit: fit,
-            height: height,
-            width: width,
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-            // placeholder: (context, url) => const Icon(Icons.error),
-          );
+    return Hero(
+      tag: ValueKey(imageUrl),
+      child: CachedNetworkImage(
+        imageUrl:
+            "${APIRouteEndpoint.IMAGE_BASE_URL}${APIRouteEndpoint.PRODUCT_IMAGE}$imageUrl",
+        fit: fit,
+        height: height,
+        width: width,
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+        progressIndicatorBuilder: (context, url, progress) => Center(
+          child: Padding(
+            padding: EdgeInsets.all(10.w),
+            child: SizedBox(
+              height: 30.h,
+              width: 30.h,
+              child: CircularProgressIndicator(
+                value: progress.progress,
+                strokeWidth: .8.w,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

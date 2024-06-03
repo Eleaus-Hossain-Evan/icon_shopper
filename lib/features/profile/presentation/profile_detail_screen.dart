@@ -50,7 +50,7 @@ class ProfileDetailScreen extends HookConsumerWidget {
           child: Column(
             children: [
               //. Login Form
-              ContainerBGWhiteSlideFromTop(
+              ContainerBGWhiteScaleFromMiddle(
                 bgColor: AppColors.bg200,
                 child: Form(
                   key: formKey,

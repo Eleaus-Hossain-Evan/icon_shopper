@@ -4,12 +4,12 @@ import 'package:equatable/equatable.dart';
 
 import 'model/category_model.dart';
 import 'model/slider_model.dart';
-import 'new_arrival_response.dart';
+import 'paginated_product_response.dart';
 
 class HomeResponse extends Equatable {
   final bool success;
   final List<CategoryModel> categories;
-  final NewArrivalResponse newArrival;
+  final PaginatedProductResponse newArrival;
   final List<SliderModel> slider;
   final String alternativeSlider;
 
@@ -21,10 +21,20 @@ class HomeResponse extends Equatable {
     required this.alternativeSlider,
   });
 
+  factory HomeResponse.init() {
+    return HomeResponse(
+      success: false,
+      categories: const [],
+      newArrival: PaginatedProductResponse.init(),
+      slider: const [],
+      alternativeSlider: '',
+    );
+  }
+
   HomeResponse copyWith({
     bool? success,
     List<CategoryModel>? data,
-    NewArrivalResponse? newArrival,
+    PaginatedProductResponse? newArrival,
     List<SliderModel>? slider,
     String? alternativeSlider,
   }) {
@@ -52,7 +62,9 @@ class HomeResponse extends Equatable {
       success: map['success'] ?? false,
       categories: List<CategoryModel>.from(
           map['data']?.map((x) => CategoryModel.fromMap(x)) ?? const []),
-      newArrival: NewArrivalResponse.fromMap(map['new_arrival']),
+      newArrival: map['new_arrival'] != null
+          ? PaginatedProductResponse.fromMap(map['new_arrival'])
+          : PaginatedProductResponse.init(),
       slider: List<SliderModel>.from(
           map['slider']?.map((x) => SliderModel.fromMap(x)) ?? const []),
       alternativeSlider: map['alternative_slider'] ?? '',

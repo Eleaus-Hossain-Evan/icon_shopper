@@ -2,24 +2,33 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'model/product_model.dart';
+import '../../product/domain/model/product_model.dart';
 
-class NewArrivalResponse extends Equatable {
+class PaginatedProductResponse extends Equatable {
   final int currentPage;
   final List<ProductModel> data;
   final int total;
-  const NewArrivalResponse({
+
+  const PaginatedProductResponse({
     required this.currentPage,
     required this.data,
     required this.total,
   });
 
-  NewArrivalResponse copyWith({
+  factory PaginatedProductResponse.init() {
+    return const PaginatedProductResponse(
+      currentPage: 0,
+      data: [],
+      total: 0,
+    );
+  }
+
+  PaginatedProductResponse copyWith({
     int? currentPage,
     List<ProductModel>? data,
     int? total,
   }) {
-    return NewArrivalResponse(
+    return PaginatedProductResponse(
       currentPage: currentPage ?? this.currentPage,
       data: data ?? this.data,
       total: total ?? this.total,
@@ -34,8 +43,8 @@ class NewArrivalResponse extends Equatable {
     };
   }
 
-  factory NewArrivalResponse.fromMap(Map<String, dynamic> map) {
-    return NewArrivalResponse(
+  factory PaginatedProductResponse.fromMap(Map<String, dynamic> map) {
+    return PaginatedProductResponse(
       currentPage: map['current_page']?.toInt() ?? 0,
       data: List<ProductModel>.from(
           map['data']?.map((x) => ProductModel.fromMap(x)) ?? const []),
@@ -45,8 +54,8 @@ class NewArrivalResponse extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory NewArrivalResponse.fromJson(String source) =>
-      NewArrivalResponse.fromMap(json.decode(source));
+  factory PaginatedProductResponse.fromJson(String source) =>
+      PaginatedProductResponse.fromMap(json.decode(source));
 
   @override
   String toString() =>

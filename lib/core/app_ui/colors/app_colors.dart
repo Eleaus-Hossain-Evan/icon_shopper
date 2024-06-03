@@ -41,9 +41,6 @@ abstract class AppColors {
   static const Color kAmbientShadowOpacity = Color(0x1F000000); // alpha = 0.12
   /// The secondary color of application.
 
-  /// Black
-  static const Color black = Color(0xFF000000);
-
   static const Color black100 = Color(0xFFF5F5F5);
   static const Color black200 = Color(0xFFEBEBEB);
   static const Color black300 = Color(0xFFD7D7D8);
@@ -57,6 +54,9 @@ abstract class AppColors {
 
   /// Light black
   static const Color lightBlack = Colors.black54;
+
+  /// Black
+  static const Color black = Color(0xFF000000);
 
   /// White
   static const Color white = Color(0xFFFFFFFF);
@@ -132,9 +132,6 @@ abstract class AppColors {
 
   /// The on-background color.
   static const Color onBackground = Color(0xFF1A1A1A);
-
-  /// The primary container color.
-  static const Color primaryContainer = Color(0xFFB1EBFF);
 
   /// The dark text 1 color.
   static const Color darkText1 = Color(0xFFFCFCFC);

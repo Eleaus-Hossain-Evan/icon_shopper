@@ -1,30 +1,36 @@
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:icon_shopper/features/auth/presentation/forgot_password/forgot_password_screen.dart';
-import 'package:icon_shopper/features/auth/presentation/login_screen.dart';
-import 'package:icon_shopper/features/auth/presentation/register_screen.dart';
-import 'package:icon_shopper/features/home/presentation/home_screen.dart';
-import 'package:icon_shopper/features/profile/presentation/profile_detail_screen.dart';
-import 'package:icon_shopper/features/splash/splash_screen.dart';
 
+import '../../features/auth/presentation/forgot_password/forgot_password_screen.dart';
+import '../../features/auth/presentation/login_screen.dart';
+import '../../features/auth/presentation/register_screen.dart';
+import '../../features/checkout/presentation/checkout_screen.dart';
+import '../../features/checkout/presentation/order_success_screen.dart';
+import '../../features/home/presentation/campaign_product_category_screen.dart';
+import '../../features/home/presentation/home_screen.dart';
 import '../../features/main_mav/main_nav.dart';
+import '../../features/product/presentation/product_detail/product_detail_screen.dart';
+import '../../features/product/presentation/product_list_screen.dart';
+import '../../features/profile/domain/model/order_model.dart';
 import '../../features/profile/presentation/change_password_screen.dart';
+import '../../features/profile/presentation/page/order_detail_screen.dart';
+import '../../features/profile/presentation/page/order_list_screen.dart';
+import '../../features/profile/presentation/profile_detail_screen.dart';
+import '../../features/splash/splash_screen.dart';
 import '../core.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final router = RouterNotifier(ref);
 
-  final listenable = ValueNotifier<bool>(true);
+  // final listenable = ValueNotifier<bool>(true);
 
   return GoRouter(
       debugLogDiagnostics: true,
-      refreshListenable: listenable,
+      refreshListenable: router,
       redirect: router._redirectLogic,
       routes: router._routes,
       initialLocation: SplashScreen.route,
@@ -37,29 +43,24 @@ final routerProvider = Provider<GoRouter>((ref) {
 class RouterNotifier extends Listenable {
   final Ref _ref;
 
-  RouterNotifier(this._ref) {
-    // _ref.listen<bool>(
-    // loggedInProvider.select((value) => value.loggedIn),
-    // (_, __) => notifyListeners(),
-    // );
-    // _ref.listen<bool>(
-    //   loggedInProvider.select((value) => value.onboarding),
-    //   (_, __) => notifyListeners(),
-    // );
-  }
+  RouterNotifier(this._ref);
 
   String? _redirectLogic(BuildContext context, GoRouterState state) {
     final token = _ref.watch(loggedInProvider.notifier).token;
     final user = _ref.watch(loggedInProvider.notifier).user;
 
     final isLoggedIn = _ref.watch(loggedInProvider).loggedIn; //bool
+
     // final isOnboarding = _ref.watch(loggedInProvider).onboarding; //bool
 
-    Logger.i('RouterNotifier: isLoggedIn - $isLoggedIn');
+    log('RouterNotifier: isLoggedIn - $isLoggedIn');
     log('RouterNotifier:  $token, $user');
+    log('matchedLocation:  ${state.matchedLocation}');
 
     final areWeLoggingIn = state.matchedLocation == LoginScreen.route;
     final areWeRegistering = state.matchedLocation == RegisterScreen.route;
+    log('areWeLoggingIn:  $areWeLoggingIn');
+    log('areWeRegistering:  $areWeRegistering');
 
     if (!isLoggedIn && areWeLoggingIn) {
       return areWeLoggingIn ? null : LoginScreen.route;
@@ -123,6 +124,69 @@ class RouterNotifier extends Listenable {
             child: const ChangePasswordScreen(),
           ),
         ),
+        GoRoute(
+          path: ProductListScreen.route,
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            key: state.pageKey,
+            child: ProductListScreen(
+              slug: state.uri.queryParameters['slug'],
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '${ProductDetailScreen.route}/:slug',
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            key: state.pageKey,
+            child: ProductDetailScreen(
+              slug: state.pathParameters['slug'] ?? '',
+            ),
+          ),
+        ),
+        GoRoute(
+          path: CheckoutScreen.route,
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            key: state.pageKey,
+            child: const CheckoutScreen(),
+          ),
+        ),
+        GoRoute(
+          path: OrderListScreen.route,
+          pageBuilder: (context, state) => SlideRightToLeftTransitionPage(
+            key: state.pageKey,
+            child: const OrderListScreen(),
+          ),
+        ),
+        GoRoute(
+          path: OrderDetailScreen.route,
+          pageBuilder: (context, state) => SlideBottomToTopTransitionPage(
+            key: state.pageKey,
+            child: OrderDetailScreen(
+              model: state.extra as OrderModel,
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '${OrderSuccessScreen.route}/:invoiceId',
+          pageBuilder: (context, state) => SlideBottomToTopTransitionPage(
+            key: state.pageKey,
+            child: OrderSuccessScreen(
+              invoiceId: state.pathParameters['invoiceId'] ?? '',
+              paymentMethod: PaymentMethod.values
+                  .byName(state.uri.queryParameters['method'] ?? ''),
+              totalPrice: state.uri.queryParameters['totalPrice'] ?? '',
+              address: state.uri.queryParameters['address'] ?? '',
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '${CampaignProductCategoryScreen.route}/:slug',
+          pageBuilder: (context, state) => SlideBottomToTopTransitionPage(
+            key: state.pageKey,
+            child: CampaignProductCategoryScreen(
+              slug: state.pathParameters['slug'] ?? '',
+            ),
+          ),
+        ),
       ];
 
   Page<void> _errorPageBuilder(BuildContext context, GoRouterState state) =>
@@ -138,23 +202,27 @@ class RouterNotifier extends Listenable {
 
   @override
   void addListener(VoidCallback listener) {
-    // TODO: implement addListener
+    _ref.listen<bool>(
+      loggedInProvider.select((value) => value.loggedIn),
+      (_, __) => listener,
+    );
   }
 
   @override
   void removeListener(VoidCallback listener) {
-    // TODO: implement removeListener
+    _ref.listen<bool>(
+      loggedInProvider.select((value) => value.loggedIn),
+      (_, __) => listener,
+    );
   }
 }
 
 class SlideRightToLeftTransitionPage extends CustomTransitionPage {
   SlideRightToLeftTransitionPage({
-    LocalKey? key,
-    required Widget child,
-    bool fullscreenDialog = true,
+    super.key,
+    required super.child,
+    super.fullscreenDialog = true,
   }) : super(
-          key: key,
-          fullscreenDialog: fullscreenDialog,
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,
@@ -172,18 +240,15 @@ class SlideRightToLeftTransitionPage extends CustomTransitionPage {
               ),
               child: child,
             );
-          },
-          child:
-              child, // Here you may also wrap this child with some common designed widget
+          }, // Here you may also wrap this child with some common designed widget
         );
 }
 
 class SlideBottomToTopTransitionPage extends CustomTransitionPage {
   SlideBottomToTopTransitionPage({
-    LocalKey? key,
-    required Widget child,
+    super.key,
+    required super.child,
   }) : super(
-          key: key,
           fullscreenDialog: true,
           transitionsBuilder: (
             BuildContext context,
@@ -202,18 +267,15 @@ class SlideBottomToTopTransitionPage extends CustomTransitionPage {
               ),
               child: child,
             );
-          },
-          child:
-              child, // Here you may also wrap this child with some common designed widget
+          }, // Here you may also wrap this child with some common designed widget
         );
 }
 
 class NoTransitionPage extends CustomTransitionPage {
   NoTransitionPage({
-    LocalKey? key,
-    required Widget child,
+    super.key,
+    required super.child,
   }) : super(
-          key: key,
           fullscreenDialog: true,
           transitionsBuilder: (
             BuildContext context,
@@ -223,6 +285,5 @@ class NoTransitionPage extends CustomTransitionPage {
           ) {
             return child;
           },
-          child: child,
         );
 }

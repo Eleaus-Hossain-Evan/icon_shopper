@@ -1,17 +1,15 @@
-import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:velocity_x/velocity_x.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../core.dart';
-import 'k_inkwell.dart';
 
 class KTextFormField extends HookConsumerWidget {
   const KTextFormField({
-    Key? key,
+    super.key,
     this.hintText,
     this.labelText,
     required TextEditingController controller,
@@ -35,8 +33,7 @@ class KTextFormField extends HookConsumerWidget {
     this.hintStyle,
     this.labelStyle,
     this.contentPadding,
-  })  : _controller = controller,
-        super(key: key);
+  }) : _controller = controller;
 
   final String? hintText;
   final String? labelText;
@@ -155,7 +152,7 @@ class KTextFormField extends HookConsumerWidget {
 
 class KTextFormField2 extends HookConsumerWidget {
   const KTextFormField2({
-    Key? key,
+    super.key,
     this.controller,
     this.hintText,
     this.textAlign = TextAlign.start,
@@ -180,7 +177,7 @@ class KTextFormField2 extends HookConsumerWidget {
     this.borderColor = AppColors.secondary200,
     this.hintTextStyle,
     this.autofocus = false,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final String? hintText;
@@ -270,7 +267,7 @@ class KTextFormField2 extends HookConsumerWidget {
 
 class KTextFormField3 extends HookConsumerWidget {
   const KTextFormField3({
-    Key? key,
+    super.key,
     this.controller,
     this.validator,
     this.focusNode,
@@ -279,7 +276,7 @@ class KTextFormField3 extends HookConsumerWidget {
     this.onChanged,
     this.onFieldSubmitted,
     this.textInputAction,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final String? Function(String?)? validator;

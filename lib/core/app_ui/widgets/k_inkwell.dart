@@ -14,7 +14,7 @@ class KInkWell extends StatelessWidget {
     this.backgroundColor = Colors.transparent,
   }) : super(key: key);
 
-  final VoidCallback? onTap;
+  final void Function()? onTap;
   final Widget child;
   final BorderRadius? borderRadius;
   final double? radius;
@@ -24,7 +24,7 @@ class KInkWell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: backgroundColor,
+      color: backgroundColor ?? Colors.transparent,
       borderRadius: borderRadius ?? BorderRadius.circular(4.r),
       child: InkWell(
         onTap: onTap,
@@ -33,9 +33,9 @@ class KInkWell extends StatelessWidget {
         ),
         // borderRadius: borderRadius ?? BorderRadius.zero,
         radius: radius,
-        highlightColor: context.colors.secondary.withOpacity(.12),
+        highlightColor: context.colors.onSecondary.withOpacity(.12),
         splashColor: rippleColor?.withOpacity(.12) ??
-            context.colors.secondary.withOpacity(.12),
+            context.colors.onSecondary.withOpacity(.12),
         // overlayColor: MaterialStateProperty.resolveWith((states) {
         //   if (states.contains(MaterialState.hovered)) {
         //     return rippleColor?.withOpacity(.12) ??
@@ -55,8 +55,11 @@ class KInkWell extends StatelessWidget {
         //   }
         //   return null;
         // }),
-        child: Padding(
+        child: Ink(
           padding: padding ?? EdgeInsets.zero,
+          decoration: BoxDecoration(
+            borderRadius: borderRadius ?? BorderRadius.circular(4.r),
+          ),
           child: child,
         ),
       ),

@@ -17,7 +17,8 @@ class AuthRepo {
     final data = await api.post(
       body: {"phone": phone, "password": password},
       fromData: (json) => AuthResponse.fromMap(json),
-      endPoint: APIRoute.LOGIN,
+      endPoint: APIRouteEndpoint.LOGIN,
+      withToken: false,
     );
 
     return data;
@@ -27,7 +28,8 @@ class AuthRepo {
     final data = await api.post(
       body: body.toMap(),
       fromData: (json) => SimpleResponse.fromMap(json),
-      endPoint: APIRoute.SIGN_UP,
+      endPoint: APIRouteEndpoint.SIGN_UP,
+      withToken: false,
     );
 
     return data;
@@ -37,7 +39,8 @@ class AuthRepo {
     final data = await api.post(
       body: {"otp": otp},
       fromData: (json) => SimpleResponse.fromMap(json),
-      endPoint: APIRoute.VERIFY_OTP,
+      endPoint: APIRouteEndpoint.VERIFY_OTP,
+      withToken: false,
     );
 
     return data;
@@ -46,7 +49,7 @@ class AuthRepo {
   Future<Either<CleanFailure, AuthResponse>> profileView() async {
     final data = await api.get(
       fromData: (json) => AuthResponse.fromMap(json),
-      endPoint: APIRoute.PROFILE_VIEW,
+      endPoint: APIRouteEndpoint.PROFILE_VIEW,
       withToken: true,
     );
 
@@ -59,7 +62,7 @@ class AuthRepo {
      await api.post(
       body: body.toMap(),
       fromData: (json) => SimpleResponse.fromMap(json),
-      endPoint: APIRoute.PROFILE_UPDATE,
+      endPoint: APIRouteEndpoint.PROFILE_UPDATE,
       withToken: true,
     );
 
@@ -72,7 +75,7 @@ class AuthRepo {
     final data = await api.post(
       body: body.toMap(),
       fromData: (json) => SimpleResponse.fromMap(json),
-      endPoint: APIRoute.PASSWORD_CHANGE,
+      endPoint: APIRouteEndpoint.PASSWORD_CHANGE,
       withToken: true,
     );
 

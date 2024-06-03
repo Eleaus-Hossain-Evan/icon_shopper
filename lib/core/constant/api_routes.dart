@@ -1,13 +1,18 @@
 // ignore_for_file: constant_identifier_names
 
-class APIRoute {
+class APIRouteEndpoint {
   static const String DUMMY_PERSON = 'https://i.pravatar.cc/300';
   static const String WEB_URL = "";
 
+  // static const String BASE_URL = "http://192.168.0.249:8000/";
+  // static const String BASE_URL = "https://apilife.iconshopper.com.bd/";
   static const String BASE_URL = "https://iconshopper.demoff.xyz/";
-  // static const String BASE_URL = "https://api.senaiyah.com/";
-  // static const String BASE_URL_LOCAL = "http://192.168.68.118:3697/";
+  static const String IMAGE_BASE_URL = "https://life.iconshopper.com.bd/";
+  // static const String IMAGE_BASE_URL = "https://iconshopper.demoff.xyz/";
   static const String API_V1 = "api/";
+  static const String IMAGE_SUBSTRING = "storage/";
+  static const String PRODUCT_IMAGE = "${IMAGE_SUBSTRING}product/";
+  static const String CAMPAIGN_IMAGE = "${IMAGE_SUBSTRING}campaign/";
 
   //#<<---------------- AUTH ------------------>>
   static const String SIGN_UP = "${API_V1}registration";
@@ -26,4 +31,22 @@ class APIRoute {
   static const String RETURN_POLICY = "${API_V1}return-policy";
 
   static const String HOME = "${API_V1}get-categories";
+  static const String SEARCH = "${API_V1}search/";
+
+  //#<<---------------- Product ------------------>>
+  static const String PRODUCT_DETAILS = "${API_V1}get-product-details/";
+  static const String CATEGORY_WISE_PRODUCT = "${API_V1}category-wise-product/";
+  static const String GET_ALL_PRODUCT = "${API_V1}get-all-product";
+  static const String SIMILAR_PRODUCT = "${API_V1}similar-products/";
+  static const String PRODUCT_STOCK = "${API_V1}product/showrooms-stock/";
+
+  //#<<---------------- Campaign ------------------>>
+  static const String GET_CAMPAIGN = "${API_V1}get-campaign";
+  static const String CAMPAIGN_DETAIL = "${API_V1}get-campaign-details/";
+
+  //#<<---------------- Order ------------------>>
+  static const PLACE_ORDER = "${API_V1}checkout";
+  static const COUPON_CHECK = "${API_V1}coupon-code-check";
+  static const DELIVERY_CHARGE = "${API_V1}delivery-charge";
+  static const ORDER_LIST = "${API_V1}ecom-order-list?page=";
 }

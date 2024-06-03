@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class SubCategoryModel extends Equatable {
+import 'sub_sub_category_model.dart';
+
+class SubCategory extends Equatable {
   final int id;
   final int parentId;
   final int level;
@@ -11,8 +13,8 @@ class SubCategoryModel extends Equatable {
   final String name;
   final String image;
   final int type;
-  final List<SubCategoryModel> subSubCategory;
-  const SubCategoryModel({
+  final List<SubSubCategory> subSubCategory;
+  const SubCategory({
     required this.id,
     required this.parentId,
     required this.level,
@@ -24,7 +26,7 @@ class SubCategoryModel extends Equatable {
     required this.subSubCategory,
   });
 
-  SubCategoryModel copyWith({
+  SubCategory copyWith({
     int? id,
     int? parentId,
     int? level,
@@ -33,9 +35,9 @@ class SubCategoryModel extends Equatable {
     String? name,
     String? image,
     int? type,
-    List<SubCategoryModel>? subSubCategory,
+    List<SubSubCategory>? subSubCategory,
   }) {
-    return SubCategoryModel(
+    return SubCategory(
       id: id ?? this.id,
       parentId: parentId ?? this.parentId,
       level: level ?? this.level,
@@ -58,12 +60,12 @@ class SubCategoryModel extends Equatable {
       'name': name,
       'image': image,
       'type': type,
-      'subsubcategory': subSubCategory,
+      'subsubcategory': subSubCategory.map((x) => x.toMap()).toList(),
     };
   }
 
-  factory SubCategoryModel.fromMap(Map<String, dynamic> map) {
-    return SubCategoryModel(
+  factory SubCategory.fromMap(Map<String, dynamic> map) {
+    return SubCategory(
       id: map['id']?.toInt() ?? 0,
       parentId: map['parent_id']?.toInt() ?? 0,
       level: map['level']?.toInt() ?? 0,
@@ -72,15 +74,16 @@ class SubCategoryModel extends Equatable {
       name: map['name'] ?? '',
       image: map['image'] ?? '',
       type: map['type']?.toInt() ?? 0,
-      subSubCategory:
-          List<SubCategoryModel>.from(map['subsubcategory'] ?? const []),
+      subSubCategory: List<SubSubCategory>.from(
+          map['subsubcategory']?.map((x) => SubSubCategory.fromMap(x)) ??
+              const []),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SubCategoryModel.fromJson(String source) =>
-      SubCategoryModel.fromMap(json.decode(source));
+  factory SubCategory.fromJson(String source) =>
+      SubCategory.fromMap(json.decode(source));
 
   @override
   String toString() {

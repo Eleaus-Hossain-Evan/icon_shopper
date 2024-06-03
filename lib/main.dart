@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
@@ -6,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/core.dart';
+import 'features/auth/application/auth_provider.dart';
+import 'features/auth/domain/model/user_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,37 +40,44 @@ Future<void> main() async {
   container.read(themeProvider);
 
   final String token = box.get(AppStrings.token, defaultValue: '');
+  final String user =
+      box.get(AppStrings.user, defaultValue: UserModel.init().toJson());
 
   NetworkHandler.instance
-    ..setup(baseUrl: APIRoute.BASE_URL, showLogs: false)
+    ..setup(baseUrl: APIRouteEndpoint.BASE_URL, showLogs: false)
     ..setToken(token);
+
+  container.read(loggedInProvider.notifier)
+    ..setToken(token)
+    ..setUser(UserModel.fromJson(user));
 
   Logger.d('token: $token');
   runApp(
     ProviderScope(
       parent: container,
-      observers: [ProviderLog()],
       child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends HookConsumerWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final appTheme = ref.watch(themeProvider);
-    // final user = ref.watch(loggedInProvider.notifier).user.copyWith();
+    final user = ref.watch(loggedInProvider.notifier).user.copyWith();
 
     useEffect(() {
       Future.wait([
-        // Future.microtask(() => ref.read(authProvider.notifier).setUser(user)),
+        Future.microtask(() => ref.read(authProvider.notifier).setUser(user)),
       ]);
 
       return null;
     }, []);
+
+    log(user.toString());
 
     return ScreenUtilInit(
       // designSize: const Size(375, 812),

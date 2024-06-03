@@ -21,7 +21,7 @@ class SendOTP extends HookConsumerWidget {
     // Controller
 
     return SingleChildScrollView(
-      child: ContainerBGWhiteSlideFromTop(
+      child: ContainerBGWhiteScaleFromMiddle(
         margin: EdgeInsets.symmetric(horizontal: 32.w),
         bgColor: AppColors.bg200,
         child: Column(
@@ -67,6 +67,28 @@ class SendOTP extends HookConsumerWidget {
                 //             ),
                 //           )
                 //         : null);
+                showOTPDialog(
+                  context: context,
+                  controller: controller,
+                  onFinishedTimer: () => Navigator.pop(context),
+                  onTapOtpCheck: (otp) async {
+                    //  ref
+                    //     .read(authProvider.notifier)
+                    //     .verifyOtp(otp)
+                    //     .then((value) {
+                    //   if (value.isNotBlank) {
+                    //     token.value = value;
+                    //     Navigator.pop(context);
+                    //     pageController.nextPage(
+                    //         duration: 500.milliseconds,
+                    //         curve: Curves.easeIn);
+                    //   }
+                    // });
+                    Navigator.pop(context);
+                    pageController.nextPage(
+                        duration: 500.milliseconds, curve: Curves.easeIn);
+                  },
+                );
               },
               text: AppStrings.sendOtp,
             ),

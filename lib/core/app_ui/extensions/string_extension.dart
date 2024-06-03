@@ -142,4 +142,33 @@ extension StringWidgetsExtension on String {
         colorBlendMode: colorBlendMode,
         cacheColorFilter: cacheColorFilter,
       );
+
+  KCachedNetworkImageNoBase networkImage({
+    BoxFit fit = BoxFit.cover,
+    double? height,
+    double? width,
+  }) =>
+      KCachedNetworkImageNoBase(
+        imageUrl: this,
+        fit: fit,
+        height: height,
+        width: width,
+      );
+  KCachedNetworkImageWdLoading networkImageBaseUrl({
+    BoxFit fit = BoxFit.cover,
+    double? height,
+    double? width,
+    bool isHero = true,
+    bool isBox = false,
+    BorderRadius? borderRadius,
+  }) =>
+      KCachedNetworkImageWdLoading(
+        imageUrl: this,
+        fit: fit,
+        height: height,
+        width: width,
+        isHero: isHero,
+        isBox: isBox,
+        borderRadius: borderRadius ?? BorderRadius.zero,
+      );
 }

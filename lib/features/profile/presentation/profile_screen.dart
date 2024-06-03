@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:icon_shopper/features/profile/presentation/page/order_list_screen.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -10,7 +11,9 @@ import 'package:velocity_x/velocity_x.dart';
 import '../../../core/core.dart';
 import '../../auth/application/auth_provider.dart';
 import 'change_password_screen.dart';
-import 'widgets/picture_widget.dart';
+import 'widgets/contact_info_widget.dart';
+import 'widgets/picture_pic_widget.dart';
+import 'widgets/profile_option_item.dart';
 
 class ProfileScreen extends HookConsumerWidget {
   static const route = '/profile';
@@ -23,27 +26,35 @@ class ProfileScreen extends HookConsumerWidget {
     // final isLoggedIn = ref.watch(loggedInProvider).loggedIn;
 
     //. -- Refresh Controller --
-    final refreshController = useMemoized(
-        () => RefreshController(initialLoadStatus: LoadStatus.canLoading));
+    final refreshController =
+        useRef(RefreshController(initialLoadStatus: LoadStatus.canLoading));
 
     return Scaffold(
       appBar: const KAppBar(titleText: AppStrings.profile),
       body: SmartRefresher(
-        controller: refreshController,
+        controller: refreshController.value,
         onRefresh: () => ref
             .refresh(authProvider.notifier)
             .profileView()
-            .then((_) => refreshController.refreshCompleted()),
+            .then((_) => refreshController.value.refreshCompleted()),
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              gap18,
-
               //.  --- profile detail section ---
               const ProfilePicWidget(),
-              gap40,
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Padding(
+              //     padding: paddingLeft10,
+              //     child: Text(
+              //       AppStrings.account,
+              //       style: CustomTextStyles.s16w600Black900,
+              //     ),
+              //   ),
+              // ),
+              gap12,
               Container(
                 padding: padding20,
                 decoration: BoxDecoration(
@@ -66,23 +77,33 @@ class ProfileScreen extends HookConsumerWidget {
 
                     //.  --- logout section ---
                     ProfileOptionsItem(
-                        leading: EvaIcons.log_out,
-                        title: AppStrings.logout,
-                        onTap: () {}),
+                      leading: EvaIcons.log_out,
+                      title: AppStrings.logout,
+                      onTap: () => kShowFloatBottomSheet(
+                        context: context,
+                        child: _LogoutDialog(
+                          onYesPressed: () async {
+                            await ref.read(authProvider.notifier).logout();
+                            // context.go(LoginScreen.route);
+                          },
+                          onNoPressed: () {},
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
               gap18,
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: paddingLeft10,
-                  child: Text(
-                    AppStrings.support,
-                    style: CustomTextStyles.s16w600Black900,
-                  ),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Padding(
+              //     padding: paddingLeft10,
+              //     child: Text(
+              //       AppStrings.support,
+              //       style: CustomTextStyles.s16w600Black900,
+              //     ),
+              //   ),
+              // ),
               gap12,
               Container(
                 padding: padding20,
@@ -96,36 +117,49 @@ class ProfileScreen extends HookConsumerWidget {
                 ),
                 child: Column(
                   children: [
+                    //.  --- Order ---
+
+                    ProfileOptionsItem(
+                      leading: Bootstrap.card_checklist,
+                      title: AppStrings.order,
+                      onTap: () => context.push(OrderListScreen.route),
+                    ),
+                    KDivider(height: 36.h),
+
                     //.  --- term and condition ---
 
                     ProfileOptionsItem(
                       leading: Icons.privacy_tip_outlined,
                       title: AppStrings.termCondition,
-                      onTap: () {},
+                      onTap: () => context.push(
+                          "${HtmlTextScreen.route}?title=${AppStrings.termCondition}&url=${APIRouteEndpoint.TERMS_CONDITION}"),
                     ),
                     KDivider(height: 36.h),
 
                     //.  --- privacy policy section ---
                     ProfileOptionsItem(
-                      leading: Icons.privacy_tip_outlined,
+                      leading: BoxIcons.bx_fingerprint,
                       title: AppStrings.privacyPolicy,
-                      onTap: () {},
+                      onTap: () => context.push(
+                          "${HtmlTextScreen.route}?title=${AppStrings.privacyPolicy}&url=${APIRouteEndpoint.PRIVACY_POLICY}"),
                     ),
                     KDivider(height: 36.h),
 
                     //.  --- refund-policy ---
                     ProfileOptionsItem(
-                      leading: Icons.privacy_tip_outlined,
+                      leading: FontAwesome.money_bill_transfer,
                       title: AppStrings.refundPolicy,
-                      onTap: () {},
+                      onTap: () => context.push(
+                          "${HtmlTextScreen.route}?title=${AppStrings.refundPolicy}&url=${APIRouteEndpoint.REFUND_POLICY}"),
                     ),
                     KDivider(height: 36.h),
 
                     //.  --- return-policy ---
                     ProfileOptionsItem(
-                      leading: Icons.privacy_tip_outlined,
+                      leading: EvaIcons.undo_outline,
                       title: AppStrings.returnPolicy,
-                      onTap: () {},
+                      onTap: () => context.push(
+                          "${HtmlTextScreen.route}?title=${AppStrings.returnPolicy}&url=${APIRouteEndpoint.RETURN_POLICY}"),
                     ),
                   ],
                 ),
@@ -134,69 +168,6 @@ class ProfileScreen extends HookConsumerWidget {
               gap28,
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileOptionsItem extends HookConsumerWidget {
-  const ProfileOptionsItem({
-    super.key,
-    required this.leading,
-    required this.title,
-    this.visible = true,
-    this.trailingText,
-    this.onTap,
-    this.trailing,
-    this.secondaryTrailing,
-  });
-
-  final IconData leading;
-  final String title;
-  final bool visible;
-  final String? trailingText;
-  final VoidCallback? onTap;
-  final Widget? trailing;
-  final Widget? secondaryTrailing;
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Visibility(
-      visible: visible,
-      child: KInkWell(
-        onTap: onTap,
-        borderRadius: radius10,
-        child: Row(
-          children: [
-            Icon(
-              leading,
-              size: 20.sp,
-              color: AppColors.secondary,
-            ),
-            gap16,
-            Expanded(
-              child: Text(
-                title,
-                style: CustomTextStyles.s14w,
-              ),
-            ),
-            trailing ??
-                (secondaryTrailing ??
-                    (trailingText == null
-                        ? const SizedBox.shrink()
-                        : Text(
-                            trailingText ?? "",
-                            style: CustomTextStyles.s14w500Red,
-                          ))),
-            gap12,
-            trailing == null
-                ? Icon(
-                    Icons.chevron_right_rounded,
-                    size: 28.sp,
-                    color: AppColors.black,
-                  )
-                : const SizedBox.shrink(),
-          ],
         ),
       ),
     );

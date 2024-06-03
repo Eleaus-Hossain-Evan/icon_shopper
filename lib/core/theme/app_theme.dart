@@ -28,6 +28,7 @@ abstract class AppTheme {
       defaultRadius: 8.r,
       adaptiveRadius: const FlexAdaptive.all(),
       defaultRadiusAdaptive: 8.r,
+      appBarBackgroundSchemeColor: SchemeColor.secondary,
       bottomSheetModalBackgroundColor: SchemeColor.surface,
       bottomSheetBackgroundColor: SchemeColor.surface,
       dialogBackgroundSchemeColor: SchemeColor.onTertiary,
@@ -74,7 +75,7 @@ abstract class AppTheme {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     swapLegacyOnMaterial3: true,
     // To use the playground font, add GoogleFonts package and uncomment
-    fontFamily: GoogleFonts.jost().fontFamily,
+    fontFamily: GoogleFonts.raleway().fontFamily,
   );
   static final darkTheme = FlexThemeData.dark(
     colors: const FlexSchemeColor(

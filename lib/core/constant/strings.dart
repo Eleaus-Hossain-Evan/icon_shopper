@@ -1,4 +1,8 @@
 class AppStrings {
+  static String locale = 'local';
+
+  static String themeData = 'themeData';
+
   AppStrings._();
 
   static const String appName = 'Courier Delivery App';
@@ -37,6 +41,8 @@ class AppStrings {
   static const String hubDetail = "Hub Detail";
   static const String phone = "Phone Number";
   static const String support = "Support";
+  static const String account = "Account";
+  static const String order = "Order";
   static const String termCondition = "Terms & Condition";
   static const String privacyPolicy = "Privacy & Policy";
   static const String refundPolicy = "Refund Policy";
@@ -57,6 +63,7 @@ class AppStrings {
   static const String toIconShopper = "to Icon Shopper";
   static const String signUpBelowText =
       "Enter the credentials and press the Register button for create a new account";
+  static const String asReseller = "as Re-seller";
   static const String rememberMe = "Remember Me";
   static const String forgotPassword = "Forgot Password";
   static const String forgotBelowText1 =
@@ -73,4 +80,23 @@ class AppStrings {
 
   //#----------------  Profile ----------------
   static const String updateProfile = "Update Profile";
+
+  //#----------------  Checkout ----------------
+
+  static var enterCoupon = "Enter Coupon";
+  static var promoCodeEnter = "Please enter the coupon code if you have any";
+
+  static var apply = "Apply";
+
+  static var checkout = "Checkout";
+
+  static var subTotal = "Sub Total";
+
+  static var discount = "Discount";
+
+  static var couponDiscount = "Coupon Discount";
+
+  static var deliveryCharge = "Delivery Charge";
+
+  static var total = "Total";
 }

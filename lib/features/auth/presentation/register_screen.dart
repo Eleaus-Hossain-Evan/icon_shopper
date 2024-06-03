@@ -43,7 +43,6 @@ class RegisterScreen extends HookConsumerWidget {
     // Controller
 
     return Scaffold(
-      appBar: const KAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),

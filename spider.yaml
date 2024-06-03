@@ -31,7 +31,7 @@ package: core/utils/assets
 
 groups:
   - class_name: Images
-    types: [.png, .jpg, .jpeg, .webp, .webm, .bmp, .svg, jpeg, json,]
+    types: [.png, .jpg, .jpeg, .webp, .webm, .bmp, .svg, jpeg, json, gif]
     sub_groups:
       - paths:
           - assets/images

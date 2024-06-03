@@ -6,8 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pinput/pinput.dart';
-import 'package:timer_count_down/timer_controller.dart';
-import 'package:timer_count_down/timer_count_down.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core.dart';
@@ -17,14 +15,12 @@ class OtpCheckWidget extends HookConsumerWidget {
   const OtpCheckWidget({
     super.key,
     required this.onTapOtpCheck,
-    this.controller,
     this.onFinishedTimer,
     this.length = 4,
     this.duration = 5,
   });
 
   final void Function(String) onTapOtpCheck;
-  final CountdownController? controller;
   final Function? onFinishedTimer;
   final int length;
   final int duration;
@@ -32,9 +28,7 @@ class OtpCheckWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final otpController = useTextEditingController();
-    final countController =
-        controller ?? useMemoized(() => CountdownController(autoStart: true));
-
+   
     final formKey = useMemoized(GlobalKey<FormState>.new);
 
     final defaultPinTheme = PinTheme(
@@ -132,24 +126,8 @@ class OtpCheckWidget extends HookConsumerWidget {
             ),
             onCompleted: (pin) => debugPrint(pin),
           ),
-          gap16,
-          Countdown(
-            controller: countController,
-            seconds: duration,
-            build: (_, double time) =>
-                formattedTime(timeInSecond: time.toInt()).text.bold.make(),
-            onFinished: () {
-              onFinishedTimer?.call();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Time is over!',
-                    style: TextStyle(fontWeight: AppFontWeight.medium),
-                  ),
-                ),
-              );
-            },
-          ),
+          
+          
           gap16,
           KFilledButton(
             onPressed: () {

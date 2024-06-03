@@ -1,28 +1,58 @@
 part of 'extensions.dart';
 
+extension PaddingExt on num {
+  EdgeInsetsGeometry get padding => EdgeInsetsDirectional.all(toDouble());
+  EdgeInsetsGeometry get paddingHorizontal =>
+      EdgeInsetsDirectional.symmetric(horizontal: toDouble());
+  EdgeInsetsGeometry get paddingVertical =>
+      EdgeInsetsDirectional.symmetric(vertical: toDouble());
+  EdgeInsetsGeometry get paddingStart =>
+      EdgeInsetsDirectional.only(start: toDouble());
+  EdgeInsetsGeometry get paddingEnd =>
+      EdgeInsetsDirectional.only(end: toDouble());
+  EdgeInsetsGeometry get paddingTop =>
+      EdgeInsetsDirectional.only(top: toDouble());
+  EdgeInsetsGeometry get paddingBottom =>
+      EdgeInsetsDirectional.only(bottom: toDouble());
+
+  BorderRadiusGeometry get borderRadius =>
+      BorderRadiusDirectional.circular(toDouble());
+  BorderRadiusGeometry get borderRadiusHorizontal =>
+      BorderRadiusDirectional.horizontal(
+        end: Radius.circular(toDouble()),
+        start: Radius.circular(toDouble()),
+      );
+  BorderRadiusGeometry get borderRadiusVertical =>
+      BorderRadiusDirectional.vertical(
+        bottom: Radius.circular(toDouble()),
+        top: Radius.circular(toDouble()),
+      );
+}
+
+extension PaddingTupleExt on (num, num) {
+  EdgeInsetsGeometry get padding => EdgeInsetsDirectional.symmetric(
+        horizontal: $1.toDouble(),
+        vertical: $2.toDouble(),
+      );
+}
+
+extension PaddingQuadTupleExt on (num, num, num, num) {
+  EdgeInsetsGeometry get padding => EdgeInsetsDirectional.fromSTEB(
+        $1.toDouble(),
+        $2.toDouble(),
+        $3.toDouble(),
+        $4.toDouble(),
+      );
+
+  BorderRadiusGeometry get borderRadius => BorderRadiusDirectional.only(
+        topStart: Radius.circular($1.toDouble()),
+        topEnd: Radius.circular($2.toDouble()),
+        bottomEnd: Radius.circular($3.toDouble()),
+        bottomStart: Radius.circular($4.toDouble()),
+      );
+}
+
 extension NumberConverter on num {
-  static const Map<String, String> arabicDigits = <String, String>{
-    '0': '\u0660',
-    '1': '\u0661',
-    '2': '\u0662',
-    '3': '\u0663',
-    '4': '\u0664',
-    '5': '\u0665',
-    '6': '\u0666',
-    '7': '\u0667',
-    '8': '\u0668',
-    '9': '\u0669',
-  };
-
-  String toArabicDigits() {
-    final String number = toString();
-    StringBuffer sb = StringBuffer();
-    for (int i = 0; i < number.length; i++) {
-      sb.write(arabicDigits[number[i]] ?? number[i]);
-    }
-    return sb.toString();
-  }
-
   String toWeightString() {
     if (this < 1) {
       return '${(this * 1000).toStringAsFixed(0)} gm';

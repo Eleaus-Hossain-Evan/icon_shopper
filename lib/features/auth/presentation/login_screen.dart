@@ -33,6 +33,12 @@ class LoginScreen extends HookConsumerWidget {
       },
     );
 
+    useEffect(() {
+      return () {
+        BotToast.closeAllLoading();
+      };
+    }, const []);
+
     return Scaffold(
       body: Form(
         key: formKey,
@@ -48,7 +54,7 @@ class LoginScreen extends HookConsumerWidget {
               Gap(60.h),
 
               //. Login Form
-              ContainerBGWhiteSlideFromTop(
+              ContainerBGWhiteScaleFromMiddle(
                 bgColor: AppColors.bg200,
                 child: Column(
                   children: [
@@ -134,7 +140,7 @@ class LoginScreen extends HookConsumerWidget {
                       context.push(RegisterScreen.route);
                     },
                     text: AppStrings.register,
-                  ),
+                  ).w(80),
                 ],
               ),
             ],

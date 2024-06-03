@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../core/core.dart';
 import '../../profile/domain/change_password_body.dart';
-import '../domain/model/user_model.dart';
 import '../../profile/domain/profile_update_body.dart';
 import '../domain/signup_body.dart';
 import '../infastructure/auth_repo.dart';
@@ -35,18 +34,23 @@ class AuthNotifier extends StateNotifier<AuthState> {
           .read(loggedInProvider.notifier)
           .updateAuthCache(token: r.token, user: r.user);
       NetworkHandler.instance.setToken(r.token);
+      // ref.read(routerProvider).go(MainNav.route);
       return state.copyWith(loading: false, user: r.user);
     });
   }
 
   Future<void> logout() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+
     showToast('${state.user.name} logging out');
-    state = state.copyWith(user: UserModel.init());
 
     ref.read(loggedInProvider.notifier).deleteAuthCache();
-    NetworkHandler.instance.setToken("");
+    // ref.read(loggedInProvider.notifier).deleteAuthCache();
+    // ref.read(routerProvider).go(LoginScreen.route);
 
-    // _ref.read(loggedInProvider.notifier).isLoggedIn();
+    // ref.read(loggedInProvider.notifier).isLoggedIn();
+    state = state.copyWith(user: UserModel.init());
+    NetworkHandler.instance.setToken("");
   }
 
   Future<bool> register(SignUpBody body) async {
@@ -96,7 +100,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
       showErrorToast(l.error.message);
       return state.copyWith(loading: false);
     }, (r) {
-      return state.copyWith(loading: false, user: r.user);
+      final user = state.user.copyWith(
+        name: r.user.name,
+        email: r.user.email,
+        phone: r.user.phone,
+        information: r.user.information,
+        avatar: r.user.avatar,
+        gender: r.user.gender,
+      );
+      return state.copyWith(loading: false, user: user);
     });
   }
 
@@ -134,6 +146,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       showToast("Profile Updated Successfully");
       return state.copyWith(loading: false);
     });
+    await profileView();
 
     return success;
   }
@@ -150,9 +163,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }, (r) {
       showToast(r.message);
       success = r.success;
+      ref.read(routerProvider).pop();
       return state.copyWith(loading: false);
     });
 
     return success;
+  }
+
+  setUser(UserModel user) {
+    state = state.copyWith(user: user);
   }
 }
